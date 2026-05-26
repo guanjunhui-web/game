@@ -2,7 +2,7 @@ const STORAGE_KEY = "angel_vn_save_v1";
 const READ_KEY = "angel_vn_read_v1";
 const TEXT_OVERRIDES_KEY = "angel_vn_text_overrides_v1";
 const ASSET_ROOT = "./assets";
-const ASSET_VERSION = "vn34";
+const ASSET_VERSION = "vn35";
 
 const els = {
   screen: document.querySelector("#screen"),

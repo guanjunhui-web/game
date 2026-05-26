@@ -238,7 +238,7 @@ function testNode(nodeId) {
   saveOverrides();
   const lateStory = /^(gate_select|xingyu_|trial_|ending_|birthday_)/.test(nodeId);
   const params = new URLSearchParams({
-    v: "vn34",
+    v: "vn35",
     testNode: nodeId,
     dust: "1"
   });

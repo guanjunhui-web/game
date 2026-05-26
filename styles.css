@@ -2188,6 +2188,104 @@ button:focus-visible {
   touch-action: none;
 }
 
+.dino-memory-panel {
+  width: min(100%, 392px);
+}
+
+.dino-egg-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: 24px 18px 25px 17px;
+  border: 2px solid rgba(92, 95, 67, 0.28);
+  background:
+    radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.68), transparent 20%),
+    radial-gradient(circle at 86% 82%, rgba(181, 213, 148, 0.3), transparent 24%),
+    linear-gradient(180deg, rgba(246, 238, 194, 0.78), rgba(205, 226, 185, 0.7));
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.22);
+}
+
+.dino-egg {
+  position: relative;
+  aspect-ratio: 0.78;
+  min-height: 78px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.egg-shell,
+.dino-baby {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 54% 46% 48% 52% / 58% 58% 42% 42%;
+  transition: transform 0.22s ease, opacity 0.18s ease, filter 0.18s ease;
+}
+
+.egg-shell {
+  background:
+    radial-gradient(circle at 32% 22%, rgba(255, 255, 255, 0.9), transparent 18%),
+    radial-gradient(circle at 65% 54%, rgba(151, 169, 112, 0.18) 0 5px, transparent 6px),
+    radial-gradient(circle at 35% 68%, rgba(151, 169, 112, 0.16) 0 4px, transparent 5px),
+    linear-gradient(145deg, #fff5d4, #d9e6b7);
+  border: 2px solid rgba(94, 98, 69, 0.36);
+  box-shadow: 0 10px 20px rgba(65, 70, 52, 0.14);
+}
+
+.dino-baby {
+  opacity: 0;
+  transform: scale(0.78) rotate(-4deg);
+  padding: 8px 4px;
+  background:
+    radial-gradient(circle at 35% 24%, rgba(255, 255, 255, 0.86), transparent 18%),
+    linear-gradient(145deg, #b9ddb3, #87bd96);
+  border: 2px solid rgba(67, 91, 69, 0.34);
+  color: #4f5f44;
+  box-shadow: 0 0 22px rgba(185, 221, 179, 0.55), 0 10px 20px rgba(65, 70, 52, 0.14);
+}
+
+.dino-baby strong {
+  font-size: 17px;
+  line-height: 1;
+}
+
+.dino-baby em {
+  margin-top: 4px;
+  font-size: 11px;
+  font-style: normal;
+  line-height: 1.15;
+}
+
+.dino-egg.open .egg-shell,
+.dino-egg.matched .egg-shell {
+  opacity: 0;
+  transform: scale(0.88) rotate(8deg);
+}
+
+.dino-egg.open .dino-baby,
+.dino-egg.matched .dino-baby {
+  opacity: 1;
+  transform: scale(1) rotate(0);
+}
+
+.dino-egg.matched .dino-baby {
+  filter: brightness(1.08);
+  box-shadow: 0 0 26px rgba(246, 211, 127, 0.62), 0 10px 20px rgba(65, 70, 52, 0.12);
+}
+
+.dino-egg:not(:disabled):hover .egg-shell,
+.dino-egg:not(:disabled):focus-visible .egg-shell {
+  transform: translateY(-3px) rotate(-2deg);
+  filter: brightness(1.05);
+}
+
 .poop-dodge-panel {
   width: min(100%, 372px);
 }
@@ -2499,11 +2597,6 @@ button:focus-visible {
 
 @keyframes rotate {
   to { transform: rotate(360deg); }
-}
-
-@keyframes richHallScroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-16%); }
 }
 
 @keyframes poopSky {
