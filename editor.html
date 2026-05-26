@@ -1,0 +1,38 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>文字编辑器 - 星星选中了你们</title>
+    <link rel="stylesheet" href="./editor.css?v=5" />
+  </head>
+  <body>
+    <main class="editor-shell">
+      <header class="editor-header">
+        <div>
+          <span>STORY TEXT EDITOR</span>
+          <h1>文字编辑器</h1>
+          <p>修改后点保存，或直接点“测试这一段”查看效果。</p>
+        </div>
+        <a href="./index.html?v=vn34" target="_blank">打开游戏</a>
+      </header>
+
+      <section class="editor-tools">
+        <label>
+          搜索文字或章节
+          <input id="searchInput" type="search" placeholder="例如：小天使、生日、心愿之门" />
+        </label>
+        <div class="tool-buttons">
+          <button id="saveBtn" type="button">保存修改</button>
+          <button id="resetBtn" type="button">清空所有修改</button>
+          <button id="exportBtn" type="button">导出备份</button>
+        </div>
+      </section>
+
+      <section id="status" class="status">正在读取剧情文字...</section>
+      <section id="fields" class="fields"></section>
+    </main>
+
+    <script src="./editor.js?v=9"></script>
+  </body>
+</html>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920">
+  <defs>
+    <linearGradient id="paper" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#fff8ea"/>
+      <stop offset=".52" stop-color="#f6dde0"/>
+      <stop offset="1" stop-color="#d9eced"/>
+    </linearGradient>
+    <radialGradient id="starGlow" cx=".5" cy=".39" r=".38">
+      <stop stop-color="#fffdf2"/>
+      <stop offset=".52" stop-color="#f2c86b" stop-opacity=".34"/>
+      <stop offset="1" stop-color="#f2c86b" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="wobble">
+      <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="3" seed="7"/>
+      <feDisplacementMap in="SourceGraphic" scale="6"/>
+    </filter>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#paper)"/>
+  <rect width="1080" height="1920" fill="#fffdf7" opacity=".22" filter="url(#wobble)"/>
+  <circle cx="540" cy="710" r="480" fill="url(#starGlow)"/>
+  <g filter="url(#wobble)" opacity=".56" fill="#fffaf2">
+    <ellipse cx="250" cy="430" rx="250" ry="72"/>
+    <ellipse cx="830" cy="1220" rx="310" ry="88"/>
+    <ellipse cx="500" cy="1575" rx="390" ry="96"/>
+  </g>
+  <path d="M536 430l46 139 145 1-117 84 43 140-117-84-118 84 43-140-117-84 145-1z" fill="#efc66e" opacity=".82" stroke="#8b7563" stroke-width="6" stroke-linejoin="round" filter="url(#wobble)"/>
+  <g fill="none" stroke="#8b7563" stroke-width="4" stroke-linecap="round" opacity=".54">
+    <path d="M188 1035c85 55 155 55 234 0s152-54 222 2 152 52 230-5"/>
+    <path d="M240 1115c63 39 118 39 174-2 56-42 118-38 176 2"/>
+  </g>
+  <g fill="#f1c766" opacity=".82">
+    <circle cx="165" cy="205" r="5"/><circle cx="875" cy="315" r="6"/><circle cx="760" cy="610" r="4"/>
+    <circle cx="255" cy="1080" r="5"/><circle cx="930" cy="940" r="4"/><circle cx="415" cy="325" r="3"/>
+  </g>
+  <path d="M0 1546c180-92 338-91 506-7 192 96 373 84 574-34v415H0z" fill="#fffaf1" opacity=".55"/>
+</svg>

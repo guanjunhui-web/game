@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920">
+  <defs>
+    <linearGradient id="gateBg" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#e6f0ee"/><stop offset=".48" stop-color="#fff1d7"/><stop offset="1" stop-color="#efd9e2"/>
+    </linearGradient>
+    <radialGradient id="light" cx=".5" cy=".48" r=".5">
+      <stop stop-color="#fffef7"/><stop offset=".42" stop-color="#ead178" stop-opacity=".48"/><stop offset="1" stop-color="#ead178" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency=".011" numOctaves="3" seed="21"/><feDisplacementMap in="SourceGraphic" scale="5"/></filter>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#gateBg)"/>
+  <circle cx="540" cy="870" r="620" fill="url(#light)"/>
+  <g filter="url(#wobble)" stroke="#8d7768" stroke-width="8" stroke-linejoin="round">
+    <path d="M335 1410V735c0-175 95-320 205-320s205 145 205 320v675z" fill="#fff8dc" opacity=".78"/>
+    <path d="M395 1350V760c0-120 65-225 145-225s145 105 145 225v590z" fill="#edd486" opacity=".44"/>
+    <path d="M540 422v930" fill="none" opacity=".38"/>
+  </g>
+  <g fill="#fffaf1" stroke="#8d7768" stroke-width="4" opacity=".56" filter="url(#wobble)">
+    <ellipse cx="250" cy="1510" rx="310" ry="98"/>
+    <ellipse cx="770" cy="1510" rx="360" ry="105"/>
+  </g>
+  <g fill="#e9c66c" opacity=".8">
+    <circle cx="220" cy="430" r="5"/><circle cx="820" cy="355" r="7"/><circle cx="920" cy="780" r="5"/><circle cx="170" cy="900" r="5"/>
+  </g>
+</svg>

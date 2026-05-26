@@ -1,0 +1,10 @@
+{
+  "name": "星星选中了你们",
+  "short_name": "星星礼物",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#fff4dc",
+  "theme_color": "#fff4dc",
+  "orientation": "portrait",
+  "icons": []
+}

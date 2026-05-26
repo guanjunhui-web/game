@@ -1,0 +1,372 @@
+{
+  "voice_bubbles": {
+    "title": "笑声里的名字",
+    "subtitle": "在热闹的声音里，找出真正关心孩子的那几句话。",
+    "type": "voice_bubbles",
+    "rounds": [
+      {
+        "need": 1,
+        "bubbles": [
+          {
+            "text": "快来看！",
+            "kind": "noise"
+          },
+          {
+            "text": "一起玩！",
+            "kind": "noise"
+          },
+          {
+            "text": "别跑太快，小心摔倒。",
+            "kind": "care"
+          }
+        ]
+      },
+      {
+        "need": 1,
+        "bubbles": [
+          {
+            "text": "今天好热闹！",
+            "kind": "noise"
+          },
+          {
+            "text": "这个玩具给我！",
+            "kind": "noise"
+          },
+          {
+            "text": "等一下，我听你说。",
+            "kind": "care"
+          },
+          {
+            "text": "再跑一圈！",
+            "kind": "noise"
+          }
+        ]
+      },
+      {
+        "need": 1,
+        "bubbles": [
+          {
+            "text": "生日快乐！",
+            "kind": "noise"
+          },
+          {
+            "text": "你刚才是不是有点害怕？",
+            "kind": "care"
+          },
+          {
+            "text": "快拍照！",
+            "kind": "noise"
+          },
+          {
+            "text": "再大声一点！",
+            "kind": "noise"
+          }
+        ]
+      }
+    ],
+    "reward": {
+      "stardust": 4
+    },
+    "perfectReward": {
+      "stardust": 6
+    }
+  },
+  "poop_dodge": {
+    "title": "便便流星雨",
+    "subtitle": "便便之家突然下起奇怪的流星雨。用方向键控制小天使前后左右移动，躲开掉下来的便便，坚持到星光重新变干净。",
+    "type": "poop_dodge",
+    "duration": 15,
+    "maxHits": 5,
+    "spawnEvery": 560,
+    "reward": {
+      "stardust": 6
+    },
+    "successText": "小天使灵巧地穿过便便流星雨，翅膀上一点脏东西都没有沾到。",
+    "hitText": "小心，便便越来越密了！继续躲，坚持到最后。"
+  },
+  "moon_pages": {
+    "title": "月光书页",
+    "subtitle": "把打乱的睡前故事页按顺序排好。",
+    "type": "select_cards",
+    "mode": "order",
+    "items": [
+      {
+        "id": "moon",
+        "text": "月亮把窗户点亮"
+      },
+      {
+        "id": "lost",
+        "text": "小星星迷路了"
+      },
+      {
+        "id": "sleep",
+        "text": "小星星睡在云朵里"
+      },
+      {
+        "id": "comfort",
+        "text": "有人轻轻说：别怕"
+      }
+    ],
+    "answer": [
+      "lost",
+      "moon",
+      "comfort",
+      "sleep"
+    ],
+    "successText": "月光照亮了书页，故事完整地合上了。",
+    "hintText": "故事还没睡着。想想小星星先发生了什么。",
+    "reward": {
+      "stardust": 5
+    }
+  },
+  "rule_stopwatch": {
+    "title": "十秒钟的规矩",
+    "subtitle": "老师之家把时间看得很认真。秒表会从 0.00 走到 20.00，请在 10.00 到 10.20 之间按下暂停。",
+    "type": "rule_stopwatch",
+    "targetMin": 10,
+    "targetMax": 10.2,
+    "duration": 20,
+    "successText": "秒表停在了规矩允许的小小窗口里。屋子里的钟轻轻亮了一下，像是在说：你很认真。",
+    "earlyText": "停得太早了。老师之家里的钟轻轻摇头：还没到规定的时间。",
+    "lateText": "停得太晚了。桌上的尺子发出很轻的声音：规矩已经走过去了。",
+    "failText": "没有停在 10.00 到 10.20 之间。再试一次，老师之家只接受刚刚好的时间。",
+    "reward": {
+      "stardust": 5
+    }
+  },
+  "dino_eggs": {
+    "title": "恐龙蛋记忆课",
+    "subtitle": "恐龙之家说：如果选这里，小天使出生以后可能不是先学走路，而是先学会“嗷呜”。翻开两颗蛋，记住里面的小恐龙，找出 5 组一样的恐龙。",
+    "type": "dino_memory",
+    "introText": "这颗星球的家很热闹，地板会轻轻震，晚饭桌旁可能坐着一只爱吃青菜的小三角龙。小天使认真想了想：如果我出生在这里，会不会一打喷嚏就把生日蜡烛全吹灭？",
+    "successText": "十颗恐龙蛋都配对成功了。小天使松了一口气：还好只是观察，如果真的出生在这里，买鞋可能要买很大很大一双。",
+    "mismatchText": "这两只不一样。小恐龙们“嗷”了一声，又钻回蛋里了。",
+    "reward": {
+      "stardust": 5
+    },
+    "pairs": [
+      { "id": "trex", "name": "小霸王龙", "icon": "霸王" },
+      { "id": "trike", "name": "小三角龙", "icon": "三角" },
+      { "id": "stego", "name": "小剑龙", "icon": "剑背" },
+      { "id": "ptero", "name": "小翼龙", "icon": "飞飞" },
+      { "id": "bronto", "name": "小腕龙", "icon": "长脖" }
+    ]
+  },
+  "busy_home": {
+    "title": "穿过忙碌的长廊",
+    "subtitle": "富有之家的走廊很长，礼物很多，电话和会议提醒也很多。左右移动、跳跃或低头，躲开忙碌提醒，坚持 15 秒。",
+    "type": "rich_runner",
+    "hitText": "忙碌的提醒擦过翅膀，陪伴时间被挤散了一点。",
+    "successText": "小天使穿过明亮却忙碌的长廊，终于把几段真正的陪伴时间收进掌心。",
+    "failText": "被忙碌提醒撞到 3 次了。礼物盒堆得很高，可真正的陪伴还是被挤散了。",
+    "maxHits": 3,
+    "reward": {
+      "stardust": 6
+    },
+    "rounds": [
+      {
+        "narration": "第一段走廊里，玩具柜亮晶晶的，爸爸的电脑却一直响。小天使要找到能坐下来陪孩子搭积木的时间。",
+        "duration": 15,
+        "goal": 4,
+        "speed": 0.82
+      }
+    ]
+  },
+  "warm_clues": {
+    "title": "那盏没有熄的灯",
+    "subtitle": "在昏暗房间里，找出等待她的线索。",
+    "type": "select_cards",
+    "mode": "set",
+    "items": [
+      {
+        "id": "lamp",
+        "text": "小夜灯"
+      },
+      {
+        "id": "name",
+        "text": "未写完的名字"
+      },
+      {
+        "id": "clothes",
+        "text": "叠得歪歪的小衣服"
+      },
+      {
+        "id": "frame",
+        "text": "模糊相框"
+      },
+      {
+        "id": "cup",
+        "text": "桌上的水杯"
+      },
+      {
+        "id": "curtain",
+        "text": "窗帘影子"
+      }
+    ],
+    "answer": [
+      "lamp",
+      "name",
+      "clothes",
+      "frame"
+    ],
+    "successText": "房间一点一点亮起来。普通的东西里，藏着提前到达的爱。",
+    "hintText": "有些爱藏得很轻。再找找和未来孩子有关的东西。",
+    "reward": {
+      "stardust": 7
+    }
+  },
+  "trial_waiting": {
+    "title": "第一轮：听见等待",
+    "subtitle": "从几句低语里，听出真正碰到小星星的那一句。",
+    "type": "select_cards",
+    "mode": "single",
+    "items": [
+      {
+        "id": "waiting",
+        "text": "希望她来到这个世界的时候，知道有人在等她。"
+      },
+      {
+        "id": "lively",
+        "text": "希望家里永远热闹。"
+      },
+      {
+        "id": "no_fear",
+        "text": "希望她永远不用害怕。"
+      },
+      {
+        "id": "treasure",
+        "text": "希望她成为我们最珍贵的孩子。"
+      }
+    ],
+    "answer": [
+      "waiting"
+    ],
+    "successText": "那句话不是最响，却像把小星星轻轻抱住了。",
+    "hintText": "这句话很好，但还不是那盏灯真正想说的话。",
+    "reward": {
+      "stardust": 6
+    }
+  },
+  "trial_details": {
+    "title": "第二轮：记住细节",
+    "subtitle": "选出她在那间普通房间里真正记住的四个细节。",
+    "type": "select_cards",
+    "mode": "set",
+    "items": [
+      {
+        "id": "lamp",
+        "text": "小夜灯"
+      },
+      {
+        "id": "name",
+        "text": "未写完的名字"
+      },
+      {
+        "id": "clothes",
+        "text": "小衣服"
+      },
+      {
+        "id": "frame",
+        "text": "模糊相框"
+      },
+      {
+        "id": "castle",
+        "text": "大玩具城堡"
+      },
+      {
+        "id": "map",
+        "text": "海边地图"
+      },
+      {
+        "id": "book",
+        "text": "月光书页"
+      }
+    ],
+    "answer": [
+      "lamp",
+      "name",
+      "clothes",
+      "frame"
+    ],
+    "successText": "那些细节一件件亮起。它们不是漂亮装饰，而是她一直记住的等待。",
+    "hintText": "这张记忆很好，但不属于那盏灯前的房间。",
+    "reward": {
+      "stardust": 6
+    }
+  },
+  "stardust_practice": {
+    "title": "星尘练习",
+    "subtitle": "分辨真正温柔稳定的光。每次完成都会随机获得一把星尘。",
+    "type": "stardust_sort",
+    "rounds": [
+      {
+        "prompt": "第一片云里，有三颗光在晃。哪一颗像真正的星尘？",
+        "hint": "太刺眼的光会很快散掉，真正的星尘更安静。",
+        "options": [
+          {
+            "icon": "✦",
+            "text": "刺眼的闪光",
+            "kind": "false"
+          },
+          {
+            "icon": "✧",
+            "text": "安静的暖光",
+            "kind": "true"
+          },
+          {
+            "icon": "•",
+            "text": "灰灰的小点",
+            "kind": "false"
+          }
+        ]
+      },
+      {
+        "prompt": "风把光吹散了。选择那颗还愿意留下来的星尘。",
+        "hint": "会跟着风乱跑的光，还不能点亮观察窗。",
+        "options": [
+          {
+            "icon": "☼",
+            "text": "跑得最快的光",
+            "kind": "false"
+          },
+          {
+            "icon": "✧",
+            "text": "停在掌心的光",
+            "kind": "true"
+          },
+          {
+            "icon": "○",
+            "text": "空空的光圈",
+            "kind": "false"
+          }
+        ]
+      },
+      {
+        "prompt": "最后一颗星尘藏在声音里。哪一句听起来最认真？",
+        "hint": "真正的星尘常常藏在愿意等待的声音里。",
+        "options": [
+          {
+            "icon": "♪",
+            "text": "快一点，别磨蹭",
+            "kind": "false"
+          },
+          {
+            "icon": "✧",
+            "text": "我会等你慢慢来",
+            "kind": "true"
+          },
+          {
+            "icon": "!",
+            "text": "大家都看着呢",
+            "kind": "false"
+          }
+        ]
+      }
+    ],
+    "randomReward": {
+      "resource": "stardust",
+      "min": 5,
+      "max": 9
+    }
+  }
+}

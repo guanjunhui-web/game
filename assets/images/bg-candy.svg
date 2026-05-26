@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920">
+  <defs>
+    <linearGradient id="party" x1=".1" x2=".9" y1="0" y2="1">
+      <stop stop-color="#f5dce0"/><stop offset=".55" stop-color="#fff0d2"/><stop offset="1" stop-color="#dbece6"/>
+    </linearGradient>
+    <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="3" seed="42"/><feDisplacementMap in="SourceGraphic" scale="5"/></filter>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#party)"/>
+  <g opacity=".72" filter="url(#wobble)">
+    <circle cx="230" cy="300" r="112" fill="#efe0a0"/>
+    <circle cx="850" cy="430" r="138" fill="#cce6ec"/>
+    <circle cx="570" cy="270" r="88" fill="#e9bd92"/>
+  </g>
+  <g filter="url(#wobble)" stroke="#8d7969" stroke-width="6" stroke-linejoin="round">
+    <path d="M135 860c260-34 540-34 810 2v555c-270 36-540 36-810 1z" fill="#fff8ed" opacity=".74"/>
+    <path d="M260 1030h560v310H260z" fill="#f3cc9b" opacity=".86"/>
+    <path d="M220 1025c55-115 175-115 225 0 70-110 190-110 250 0 55-112 180-112 235 0z" fill="#f1e2ae"/>
+  </g>
+  <g fill="#d99aa6" opacity=".74">
+    <circle cx="350" cy="1130" r="22"/><circle cx="520" cy="1185" r="18"/><circle cx="710" cy="1125" r="24"/>
+  </g>
+  <g stroke="#8d7969" stroke-width="4" stroke-linecap="round" fill="none" opacity=".42">
+    <path d="M210 1600c150 34 300 32 450-2 126-28 245-28 360 2"/>
+    <path d="M230 760c115 36 220 32 316-12"/>
+  </g>
+</svg>

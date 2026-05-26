@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920">
+  <defs>
+    <linearGradient id="night" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#dbe7ee"/><stop offset=".58" stop-color="#eadfe8"/><stop offset="1" stop-color="#fff2d7"/>
+    </linearGradient>
+    <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="3" seed="30"/><feDisplacementMap in="SourceGraphic" scale="5"/></filter>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#night)"/>
+  <g filter="url(#wobble)">
+    <circle cx="760" cy="300" r="118" fill="#efe0a0" opacity=".86"/>
+    <circle cx="815" cy="260" r="118" fill="#dbe7ee"/>
+    <path d="M125 775c245-40 535-42 830 0v675c-282 42-560 38-830-2z" fill="#fff9ef" opacity=".72" stroke="#8f7a6c" stroke-width="6"/>
+  </g>
+  <g fill="#8c7594" stroke="#8f7a6c" stroke-width="4" opacity=".34" filter="url(#wobble)">
+    <rect x="210" y="910" width="110" height="410" rx="12"/>
+    <rect x="345" y="850" width="95" height="470" rx="12"/>
+    <rect x="470" y="950" width="120" height="370" rx="12"/>
+    <rect x="625" y="830" width="105" height="490" rx="12"/>
+    <rect x="760" y="900" width="90" height="420" rx="12"/>
+  </g>
+  <path d="M165 1460c245 28 496 28 750-1" stroke="#8f7a6c" stroke-width="6" stroke-linecap="round" fill="none" opacity=".38"/>
+  <g fill="#e8ce80" opacity=".72">
+    <circle cx="230" cy="220" r="5"/><circle cx="410" cy="360" r="4"/><circle cx="920" cy="610" r="5"/>
+  </g>
+</svg>

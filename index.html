@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>星星选中了你们</title>
+    <meta name="theme-color" content="#17121f" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="stylesheet" href="./styles.css?v=vn34" />
+  </head>
+  <body>
+    <main id="app" class="vn-app">
+      <section id="screen" class="vn-screen">
+        <div id="background" class="background"></div>
+        <div id="vignette" class="vignette"></div>
+
+        <header class="hud">
+          <button id="menuBtn" class="hud-btn" type="button">菜单</button>
+          <div id="resourceBar" class="resource-bar"></div>
+          <button id="musicBtn" class="hud-btn" type="button">音乐</button>
+        </header>
+
+        <div id="chapterCard" class="chapter-card hidden"></div>
+        <div id="stage" class="stage"></div>
+
+        <section id="dialogueBox" class="dialogue-box">
+          <div class="dialogue-top">
+            <div id="speakerName" class="speaker-name"></div>
+            <div class="dialogue-actions">
+              <button id="historyBtn" type="button">回想</button>
+              <button id="autoBtn" type="button">自动</button>
+              <button id="skipBtn" type="button">快进</button>
+            </div>
+          </div>
+          <p id="dialogueText"></p>
+          <div id="choiceLayer" class="choice-layer"></div>
+          <button id="advanceBtn" class="advance-btn" type="button">继续</button>
+        </section>
+
+        <section id="titleMenu" class="title-menu hidden"></section>
+        <section id="modal" class="modal hidden"></section>
+      </section>
+    </main>
+
+    <script src="./app.js?v=vn34"></script>
+  </body>
+</html>

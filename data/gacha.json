@@ -1,0 +1,29 @@
+{
+  "archive_intro_pool": {
+    "title": "第一次星愿礼物",
+    "cost": 0,
+    "cards": [
+      { "id": "first_stardust_small", "name": "一小把星尘", "rarity": "星尘", "resource": "stardust", "amount": 3, "weight": 55 },
+      { "id": "first_stardust_mid", "name": "温暖的星尘", "rarity": "星尘", "resource": "stardust", "amount": 5, "weight": 35 },
+      { "id": "first_stardust_big", "name": "发光的星尘", "rarity": "星尘", "resource": "stardust", "amount": 7, "weight": 10 }
+    ]
+  },
+  "family_pool": {
+    "title": "观察窗里的礼物",
+    "cost": 0,
+    "cards": [
+      { "id": "stardust_small", "name": "轻轻落下的星尘", "rarity": "星尘", "resource": "stardust", "amount": 3, "weight": 50 },
+      { "id": "stardust_mid", "name": "温暖发亮的星尘", "rarity": "星尘", "resource": "stardust", "amount": 5, "weight": 38 },
+      { "id": "stardust_big", "name": "被认真记住的星尘", "rarity": "星尘", "resource": "stardust", "amount": 8, "weight": 12 }
+    ]
+  },
+  "warm_pool": {
+    "title": "那盏灯送来的礼物",
+    "cost": 0,
+    "cards": [
+      { "id": "warm_small", "name": "灯下星尘", "rarity": "星尘", "resource": "stardust", "amount": 5, "weight": 45 },
+      { "id": "warm_mid", "name": "写着名字的星尘", "rarity": "星尘", "resource": "stardust", "amount": 8, "weight": 40 },
+      { "id": "warm_big", "name": "一直等待的星尘", "rarity": "星尘", "resource": "stardust", "amount": 12, "weight": 15 }
+    ]
+  }
+}

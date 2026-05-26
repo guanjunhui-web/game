@@ -1,0 +1,38 @@
+{
+  "player": {
+    "name": "你",
+    "displayName": "你",
+    "role": "8岁生日夜，从星星里传来的声音"
+  },
+  "star": {
+    "name": "星星",
+    "displayName": "星星",
+    "role": "连接生日夜和云端档案馆的媒介"
+  },
+  "little_angel": {
+    "name": "小天使",
+    "displayName": "小天使",
+    "role": "出生前的她",
+    "sprite": "angel.svg",
+    "expressions": ["normal", "smile", "confused", "serious", "worried", "touched"]
+  },
+  "guardian": {
+    "name": "守护天使",
+    "displayName": "守护天使",
+    "role": "星星档案馆的引导者",
+    "sprite": "guardian.svg",
+    "expressions": ["normal", "smile", "explain"]
+  },
+  "xingyu": {
+    "name": "星羽",
+    "displayName": "星羽",
+    "role": "另一个也在寻找家的小天使",
+    "sprite": "xingyu.svg",
+    "expressions": ["normal", "quiet", "sad", "smile"]
+  },
+  "narrator": {
+    "name": "旁白",
+    "displayName": "旁白",
+    "role": "叙述"
+  }
+}

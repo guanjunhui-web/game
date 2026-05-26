@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920">
+  <defs>
+    <linearGradient id="sky" x1=".12" x2=".9" y1="0" y2="1">
+      <stop stop-color="#2f283d"/>
+      <stop offset=".44" stop-color="#6f6872"/>
+      <stop offset=".78" stop-color="#cabca3"/>
+      <stop offset="1" stop-color="#edf0df"/>
+    </linearGradient>
+    <radialGradient id="mist" cx=".45" cy=".42" r=".72">
+      <stop stop-color="#fff5d0" stop-opacity=".34"/>
+      <stop offset=".5" stop-color="#d4dced" stop-opacity=".2"/>
+      <stop offset="1" stop-color="#1a1425" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="paper">
+      <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="3" seed="61"/>
+      <feDisplacementMap in="SourceGraphic" scale="4"/>
+    </filter>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#sky)"/>
+  <circle cx="500" cy="805" r="820" fill="url(#mist)"/>
+  <g filter="url(#paper)" opacity=".38" fill="none" stroke="#fff1ca" stroke-width="4">
+    <path d="M120 470c170-100 352-130 548-88 126 28 228 16 318-40"/>
+    <path d="M88 795c246-120 492-130 740-32 100 40 170 43 226 15"/>
+    <path d="M70 1135c204-98 386-114 545-48 150 62 290 58 422-18"/>
+  </g>
+  <g fill="#f6d98c" opacity=".72">
+    <circle cx="128" cy="265" r="5"/><circle cx="346" cy="188" r="4"/><circle cx="842" cy="300" r="6"/>
+    <circle cx="940" cy="610" r="4"/><circle cx="234" cy="745" r="5"/><circle cx="708" cy="920" r="4"/>
+    <circle cx="190" cy="1240" r="5"/><circle cx="890" cy="1320" r="5"/><circle cx="520" cy="1485" r="4"/>
+  </g>
+  <g fill="#fffaf1" opacity=".35" filter="url(#paper)">
+    <ellipse cx="250" cy="1545" rx="420" ry="100"/>
+    <ellipse cx="840" cy="1660" rx="360" ry="92"/>
+  </g>
+</svg>
