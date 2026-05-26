@@ -2,7 +2,7 @@ const STORAGE_KEY = "angel_vn_save_v1";
 const READ_KEY = "angel_vn_read_v1";
 const TEXT_OVERRIDES_KEY = "angel_vn_text_overrides_v1";
 const ASSET_ROOT = "./assets";
-const ASSET_VERSION = "vn35";
+const ASSET_VERSION = "vn39";
 
 const els = {
   screen: document.querySelector("#screen"),
@@ -511,6 +511,7 @@ function renderHomeStar(home, index) {
         <span class="star-spark spark-c"></span>
       </span>
       <span class="star-status" aria-hidden="true">${marker}</span>
+      <span class="star-label" aria-hidden="true">${home.title}</span>
     </button>
   `;
 }
@@ -1937,7 +1938,7 @@ function getNodeLabel(id, node) {
 function applyTestState({ unlockHomes = false, stardust = 120 } = {}) {
   game.inventory.stardust = Math.max(game.inventory.stardust || 0, stardust);
   if (unlockHomes) {
-    ["family01_done", "family02_done", "family03_done", "family04_done", "warm_done"].forEach((key) => {
+    ["family01_done", "family03_done", "family04_done", "dino_done", "warm_done"].forEach((key) => {
       game.vars[key] = 1;
     });
   }

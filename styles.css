@@ -1175,6 +1175,25 @@ button:focus-visible {
   box-shadow: 0 5px 12px rgba(48, 34, 45, 0.14);
 }
 
+.star-label {
+  position: absolute;
+  left: 50%;
+  bottom: -2px;
+  z-index: 6;
+  max-width: 92px;
+  transform: translateX(-50%);
+  padding: 3px 8px 4px;
+  border: 2px solid rgba(91, 73, 70, 0.36);
+  border-radius: 999px;
+  background: rgba(255, 251, 239, 0.82);
+  color: #5b4050;
+  font-size: 12px;
+  line-height: 1.1;
+  font-weight: 800;
+  white-space: nowrap;
+  box-shadow: 0 8px 18px rgba(47, 34, 48, 0.14);
+}
+
 .star-node.selected .star-core,
 .star-node:not(:disabled):hover .star-core,
 .star-node:not(:disabled):focus-visible .star-core {
@@ -1239,6 +1258,11 @@ button:focus-visible {
   top: 48%;
 }
 
+.star-dino {
+  left: 48%;
+  top: 62%;
+}
+
 .star-warm {
   left: 28%;
   top: 70%;
@@ -1260,16 +1284,23 @@ button:focus-visible {
 .star-family03 .star-core {
   background:
     radial-gradient(circle at 30% 22%, rgba(255,255,255,.9), transparent 18%),
-    radial-gradient(circle at 70% 38%, rgba(240, 220, 154, 0.56), transparent 23%),
-    linear-gradient(145deg, #c5e0da, #dec693);
+    radial-gradient(circle at 70% 38%, rgba(174, 203, 218, 0.48), transparent 23%),
+    linear-gradient(145deg, #eef7ee, #c7d9ed);
   border-radius: 48% 52% 42% 58% / 54% 45% 55% 46%;
+}
+
+.star-family03 .star-window {
+  border-radius: 50%;
+  background:
+    conic-gradient(from -90deg, transparent 0 25%, rgba(96, 76, 80, 0.38) 25% 27%, transparent 27% 100%),
+    radial-gradient(circle, #fff7c9, #dbe9ef);
 }
 
 .star-family04 .star-core {
   background:
     radial-gradient(circle at 30% 22%, rgba(255,255,255,.94), transparent 18%),
     radial-gradient(circle at 74% 32%, rgba(255, 247, 203, 0.64), transparent 20%),
-    conic-gradient(from 20deg, #f3c2c8, #f0d27d, #dfeef2, #f3c2c8);
+    linear-gradient(145deg, #fff2bd, #e7b75f 44%, #f2a8b5);
   border-radius: 45% 55% 48% 52% / 52% 43% 57% 48%;
 }
 
@@ -1278,6 +1309,25 @@ button:focus-visible {
     linear-gradient(90deg, transparent 45%, rgba(96, 76, 80, 0.24) 46% 54%, transparent 55%),
     linear-gradient(180deg, #fff6c7, #e2a849);
   box-shadow: 0 0 18px rgba(255, 218, 111, 0.72);
+}
+
+.star-dino .star-core {
+  background:
+    radial-gradient(circle at 30% 22%, rgba(255,255,255,.94), transparent 18%),
+    radial-gradient(circle at 70% 68%, rgba(166, 206, 127, 0.58), transparent 24%),
+    linear-gradient(145deg, #dcebb0, #8fc28b 48%, #f1d28a);
+  border-radius: 54% 46% 48% 52% / 58% 58% 42% 42%;
+}
+
+.star-dino .star-window {
+  width: 24px;
+  height: 19px;
+  left: 23px;
+  top: 27px;
+  border-radius: 54% 46% 48% 52% / 58% 58% 42% 42%;
+  background:
+    radial-gradient(circle at 68% 58%, rgba(112, 142, 82, 0.3) 0 4px, transparent 5px),
+    linear-gradient(180deg, #fff4c7, #c8df9c);
 }
 
 .star-warm .star-core {

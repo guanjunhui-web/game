@@ -84,41 +84,6 @@
     "successText": "小天使灵巧地穿过便便流星雨，翅膀上一点脏东西都没有沾到。",
     "hitText": "小心，便便越来越密了！继续躲，坚持到最后。"
   },
-  "moon_pages": {
-    "title": "月光书页",
-    "subtitle": "把打乱的睡前故事页按顺序排好。",
-    "type": "select_cards",
-    "mode": "order",
-    "items": [
-      {
-        "id": "moon",
-        "text": "月亮把窗户点亮"
-      },
-      {
-        "id": "lost",
-        "text": "小星星迷路了"
-      },
-      {
-        "id": "sleep",
-        "text": "小星星睡在云朵里"
-      },
-      {
-        "id": "comfort",
-        "text": "有人轻轻说：别怕"
-      }
-    ],
-    "answer": [
-      "lost",
-      "moon",
-      "comfort",
-      "sleep"
-    ],
-    "successText": "月光照亮了书页，故事完整地合上了。",
-    "hintText": "故事还没睡着。想想小星星先发生了什么。",
-    "reward": {
-      "stardust": 5
-    }
-  },
   "rule_stopwatch": {
     "title": "十秒钟的规矩",
     "subtitle": "老师之家把时间看得很认真。秒表会从 0.00 走到 20.00，请在 10.00 到 10.20 之间按下暂停。",
@@ -145,11 +110,31 @@
       "stardust": 5
     },
     "pairs": [
-      { "id": "trex", "name": "小霸王龙", "icon": "霸王" },
-      { "id": "trike", "name": "小三角龙", "icon": "三角" },
-      { "id": "stego", "name": "小剑龙", "icon": "剑背" },
-      { "id": "ptero", "name": "小翼龙", "icon": "飞飞" },
-      { "id": "bronto", "name": "小腕龙", "icon": "长脖" }
+      {
+        "id": "trex",
+        "name": "小霸王龙",
+        "icon": "霸王"
+      },
+      {
+        "id": "trike",
+        "name": "小三角龙",
+        "icon": "三角"
+      },
+      {
+        "id": "stego",
+        "name": "小剑龙",
+        "icon": "剑背"
+      },
+      {
+        "id": "ptero",
+        "name": "小翼龙",
+        "icon": "飞飞"
+      },
+      {
+        "id": "bronto",
+        "name": "小腕龙",
+        "icon": "长脖"
+      }
     ]
   },
   "busy_home": {
@@ -279,7 +264,7 @@
       },
       {
         "id": "book",
-        "text": "月光书页"
+        "text": "?????"
       }
     ],
     "answer": [
