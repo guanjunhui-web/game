@@ -105,14 +105,14 @@
     "archive_001": {
       "type": "dialogue",
       "chapter": "第一章 星星档案馆",
-      "background": "bg-archive.svg",
+      "background": "bg-starmap.svg",
       "speaker": "narrator",
       "text": "云阶尽头，是一座没有屋顶的图书馆。无数颗星星像书一样排在空中，每一颗星星里，都藏着一个家的故事。",
       "next": "archive_002"
     },
     "archive_002": {
       "type": "dialogue",
-      "background": "bg-archive.svg",
+      "background": "bg-starmap.svg",
       "speaker": "guardian",
       "sprite": {
         "character": "guardian",
@@ -124,7 +124,7 @@
     },
     "archive_003": {
       "type": "dialogue",
-      "background": "bg-archive.svg",
+      "background": "bg-starmap.svg",
       "speaker": "little_angel",
       "sprite": {
         "character": "little_angel",
@@ -136,7 +136,7 @@
     },
     "archive_004": {
       "type": "dialogue",
-      "background": "bg-archive.svg",
+      "background": "bg-starmap.svg",
       "speaker": "guardian",
       "sprite": {
         "character": "guardian",
@@ -148,7 +148,7 @@
     },
     "archive_reward": {
       "type": "reward",
-      "background": "bg-archive.svg",
+      "background": "bg-starmap.svg",
       "speaker": "guardian",
       "text": "这是第一点星尘。拿着它去星图前吧。星尘不够的时候，你可以随时练习收集，不必急着作决定。",
       "gain": {
@@ -158,7 +158,7 @@
     },
     "archive_gift": {
       "type": "gacha",
-      "background": "bg-archive.svg",
+      "background": "bg-starmap.svg",
       "pool": "archive_intro_pool",
       "next": "home_map"
     },
@@ -180,8 +180,8 @@
         },
         {
           "id": "family03",
-          "title": "富有之家",
-          "description": "房间明亮，礼物很多，可餐桌旁总有空着的椅子。",
+          "title": "老师之家",
+          "description": "屋子很整洁，时钟走得很准，每件事都有自己的位置。",
           "background": "bg-teacher.svg",
           "node": "family03_001",
           "cost": 12,
@@ -189,8 +189,8 @@
         },
         {
           "id": "family04",
-          "title": "老师之家",
-          "description": "屋子很整洁，时钟走得很准，每件事都有自己的位置。",
+          "title": "富有之家",
+          "description": "房间明亮，礼物很多，可餐桌旁总有空着的椅子。",
           "background": "bg-candy.svg",
           "node": "family04_001",
           "cost": 16,
@@ -201,14 +201,14 @@
           "title": "恐龙之家",
           "description": "地板会轻轻震，蛋壳里可能藏着五组小恐龙。",
           "background": "bg-dino.svg",
-          "node": "dino_home_preview",
+          "node": "dino_001",
           "cost": 18,
           "doneVar": "dino_done"
         },
         {
           "id": "warm",
-          "title": "没有熄的灯",
-          "description": "普通夜晚里，有一盏灯一直在等。",
+          "title": "普通之家",
+          "description": "看起来只是普通房间，雾里有两张分开的童年照片。",
           "background": "bg-warm.svg",
           "node": "warm_001",
           "cost": 24,
@@ -249,17 +249,17 @@
         },
         {
           "id": "family03",
-          "title": "富有之家",
-          "description": "这颗星有明亮的房间、漂亮的衣服和很多礼物，可门口的脚步声常常很晚才回来。",
-          "resultTitle": "安静的大房子",
-          "resultText": "小天使走进了那座很大的房子。她拥有很多玩具、很多漂亮衣服，也有一个很大的房间。可是夜里灯亮着的时候，爸爸妈妈还在忙电话和工作。她慢慢明白：礼物可以把房间填满，陪伴才会把心填满。"
-        },
-        {
-          "id": "family04",
           "title": "老师之家",
           "description": "这颗星很安静、很干净，桌上的尺子、书本和钟表都排得整整齐齐。",
           "resultTitle": "整齐的星",
           "resultText": "小天使走进了老师之家。那里有干净的桌面、准时响起的钟声，也有人认真教她把事情做好。可是每当她想多玩一会儿、慢一点说话、把积木摆成奇怪的样子时，规矩就像一条细细的线，把她轻轻拉回原处。她明白：整齐很好，但她还想找一个能抱住她小小任性的家。"
+        },
+        {
+          "id": "family04",
+          "title": "富有之家",
+          "description": "这颗星有明亮的房间、漂亮的衣服和很多礼物，可门口的脚步声常常很晚才回来。",
+          "resultTitle": "安静的大房子",
+          "resultText": "小天使走进了那座很大的房子。她拥有很多玩具、很多漂亮衣服，也有一个很大的房间。可是夜里灯亮着的时候，爸爸妈妈还在忙电话和工作。她慢慢明白：礼物可以把房间填满，陪伴才会把心填满。"
         },
         {
           "id": "dino",
@@ -270,8 +270,8 @@
         },
         {
           "id": "warm",
-          "title": "没有熄的灯",
-          "description": "这颗星看起来最普通，却有小夜灯、名字纸条、小衣服和一直等待她的人。",
+          "title": "普通之家",
+          "description": "这颗星看起来最普通，却藏着爸爸小时候和妈妈小时候的两张照片，还有他们一起等待未来孩子的痕迹。",
           "correct": true,
           "next": "xingyu_001"
         }
@@ -538,11 +538,125 @@
       },
       "next": "home_map"
     },
+    "dino_001": {
+      "type": "dialogue",
+      "chapter": "恐龙之家 嗷呜观察窗",
+      "background": "bg-dino.svg",
+      "speaker": "narrator",
+      "text": "下一颗星星一亮，星图边缘先传来“咚、咚、咚”的脚步声。云朵被震得抖了三下，像一碗差点洒出来的棉花糖。",
+      "next": "dino_002"
+    },
+    "dino_002": {
+      "type": "dialogue",
+      "background": "bg-dino.svg",
+      "speaker": "little_angel",
+      "sprite": {
+        "character": "little_angel",
+        "expression": "confused",
+        "position": "left"
+      },
+      "text": "这个家……是不是有一点点大声？刚才是门铃，还是谁的脚踩到了地球？",
+      "next": "dino_003"
+    },
+    "dino_003": {
+      "type": "dialogue",
+      "background": "bg-dino.svg",
+      "speaker": "guardian",
+      "sprite": {
+        "character": "guardian",
+        "expression": "explain",
+        "position": "right"
+      },
+      "text": "这是恐龙之家。如果小天使选择这里，出生以后不一定会先哭，也可能先很礼貌地“嗷呜”一声。",
+      "next": "dino_004"
+    },
+    "dino_004": {
+      "type": "dialogue",
+      "background": "bg-dino.svg",
+      "speaker": "little_angel",
+      "sprite": {
+        "character": "little_angel",
+        "expression": "confused",
+        "position": "left"
+      },
+      "text": "那我会变成恐龙吗？圆脸小恐龙可以穿小裙子吗？如果尾巴太长，坐小板凳会不会很尴尬？",
+      "next": "dino_005"
+    },
+    "dino_005": {
+      "type": "dialogue",
+      "background": "bg-dino.svg",
+      "speaker": "narrator",
+      "text": "观察窗里，一个恐龙爸爸正在给小恐龙系围兜。围兜很认真，恐龙也很努力，结果围兜刚系好，小恐龙一低头，整张餐桌都往前挪了半厘米。",
+      "next": "dino_006"
+    },
+    "dino_006": {
+      "type": "dialogue",
+      "background": "bg-dino.svg",
+      "speaker": "guardian",
+      "sprite": {
+        "character": "guardian",
+        "expression": "smile",
+        "position": "right"
+      },
+      "text": "这里的爱很直接。饿了就给一大盆青菜，开心了就把尾巴摇成扫帚，难过了就用很大的脑袋轻轻蹭一蹭。缺点是，轻轻蹭一蹭也可能把枕头蹭到隔壁房间。",
+      "next": "dino_007"
+    },
+    "dino_007": {
+      "type": "dialogue",
+      "background": "bg-dino.svg",
+      "speaker": "little_angel",
+      "sprite": {
+        "character": "little_angel",
+        "expression": "smile",
+        "position": "left"
+      },
+      "text": "听起来好像很热闹。可是如果我生气跺脚，大家会不会以为发生了小地震？",
+      "next": "dino_home_preview"
+    },
     "dino_home_preview": {
       "type": "minigame",
       "background": "bg-dino.svg",
       "game": "dino_eggs",
-      "successNext": "dino_gift"
+      "successNext": "dino_008"
+    },
+    "dino_008": {
+      "type": "dialogue",
+      "background": "bg-dino.svg",
+      "speaker": "little_angel",
+      "sprite": {
+        "character": "little_angel",
+        "expression": "touched",
+        "position": "left"
+      },
+      "text": "这些小恐龙好可爱。它们连躲回蛋里的样子都很认真，好像在说：请尊重我的蛋壳隐私。",
+      "next": "dino_009"
+    },
+    "dino_009": {
+      "type": "choice",
+      "background": "bg-dino.svg",
+      "speaker": "little_angel",
+      "sprite": {
+        "character": "little_angel",
+        "expression": "serious",
+        "position": "left"
+      },
+      "text": "恐龙之家很好玩。可是如果我真的出生在这里，可能每天都要先学会不要用尾巴扫掉杯子。",
+      "choices": [
+        {
+          "text": "变成小恐龙听起来也不错。",
+          "set": {
+            "dino_fun": 1
+          },
+          "next": "dino_gift"
+        },
+        {
+          "text": "我还是想当可以被抱在怀里的小女孩。",
+          "set": {
+            "human_wish": 1
+          },
+          "next": "dino_gift"
+        }
+      ]
     },
     "dino_gift": {
       "type": "gacha",
@@ -555,10 +669,10 @@
     },
     "warm_001": {
       "type": "dialogue",
-      "chapter": "第六章 最后一扇观察窗",
+      "chapter": "第六章 普通之家",
       "background": "bg-warm.svg",
       "speaker": "narrator",
-      "text": "最后一扇观察窗亮得很慢。窗后只是一个普通的夜晚。一盏小灯亮在桌边，桌上有几张纸，一支笔，一件叠得不太整齐的小衣服。",
+      "text": "最后一扇观察窗亮得很慢。窗后没有城堡，也没有会唱歌的云，只是一间普通房间。桌边亮着一盏小灯，灯光里放着两只小相框，一左一右，像两颗还没完全醒来的星星。",
       "next": "warm_002"
     },
     "warm_002": {
@@ -570,7 +684,7 @@
         "expression": "confused",
         "position": "left"
       },
-      "text": "这里……好普通。可是我靠近的时候，心里突然安静了。像是有人把声音放轻了，怕吵到我。",
+      "text": "这里……好普通。可是我靠近的时候，心里突然安静了。好像有人把世界的声音放轻了，只留下这两张照片在等我看清。",
       "next": "warm_003"
     },
     "warm_003": {
@@ -582,14 +696,46 @@
         "expression": "explain",
         "position": "right"
       },
-      "text": "那就仔细看。真正的等待，常常藏在最普通的地方。",
-      "next": "warm_game"
+      "text": "那就仔细看。真正的提示，常常藏在最普通的地方。有些星星不会一下子说出答案，只会先让你看见：他们还没有成为大人以前，是什么样子。",
+      "next": "warm_003b"
     },
-    "warm_game": {
-      "type": "minigame",
+    "warm_003b": {
+      "type": "dialogue",
       "background": "bg-warm.svg",
-      "game": "warm_clues",
-      "successNext": "warm_004"
+      "speaker": "narrator",
+      "text": "观察窗里的房间有点模糊，像隔着一层很轻的雾。左边相框里，是爸爸小时候的照片：那时的他还不是爸爸，只是一个小男孩，可能有点害羞，也可能正努力装得很勇敢。右边相框里，是妈妈小时候的照片：那时的她也还不是妈妈，只是一个小女孩，眼睛亮亮的，像刚刚发现了什么好玩的事情。",
+      "next": "warm_003c"
+    },
+    "warm_003c": {
+      "type": "dialogue",
+      "background": "bg-warm.svg",
+      "speaker": "little_angel",
+      "sprite": {
+        "character": "little_angel",
+        "expression": "confused",
+        "position": "left"
+      },
+      "text": "他们小时候也是小朋友呀？为什么我还没有见过他们，却觉得这两张照片有一点熟悉？",
+      "next": "warm_003d"
+    },
+    "warm_003d": {
+      "type": "dialogue",
+      "background": "bg-warm.svg",
+      "speaker": "guardian",
+      "sprite": {
+        "character": "guardian",
+        "expression": "smile",
+        "position": "right"
+      },
+      "text": "因为这就是普通之家给你的提示。长大以后的他们，会成为等你的人；可是很久以前，他们也会摔跤，也会撒娇，也会因为一点小事开心很久。看见他们小时候的样子，你就知道：他们不是天生就会当爸爸妈妈，他们是带着自己的童年，一点点走来等你的。",
+      "next": "warm_003e"
+    },
+    "warm_003e": {
+      "type": "dialogue",
+      "background": "bg-warm.svg",
+      "speaker": "narrator",
+      "text": "两张照片一左一右，被小灯照得很柔和。照片里的他们都还那么小，却像已经从很远的童年出发，慢慢走到同一束灯光下面。那束光没有说话，只安静地把中间的位置留出来，像在等一个还没出生的孩子靠近。",
+      "next": "warm_004"
     },
     "warm_004": {
       "type": "dialogue",
@@ -600,7 +746,7 @@
         "expression": "touched",
         "position": "left"
       },
-      "text": "小夜灯、名字纸条、小衣服、模糊相框……他们还没见过我，可我好像已经被他们想念了。",
+      "text": "左边是爸爸小时候，右边是妈妈小时候，中间是一小片被灯光留出来的空白。原来他们还没见过我，可他们的小时候、现在和以后，好像已经慢慢排成了一条路。",
       "next": "warm_005"
     },
     "warm_005": {
@@ -612,10 +758,10 @@
         "expression": "worried",
         "position": "left"
       },
-      "text": "我的星星好暖。可是我还不知道，能不能说：我想去这里。",
+      "text": "普通之家没有最亮的房子，也没有最多的礼物。可我看见那两张照片的时候，忽然觉得：如果我去了那里，也许会被两个曾经也是小孩的人，好好抱住。",
       "choices": [
         {
-          "text": "我想再靠近一点。",
+          "text": "我想再看看那两张照片。",
           "cost": {
             "stardust": 1
           },
@@ -625,7 +771,7 @@
           "next": "warm_gift"
         },
         {
-          "text": "这盏灯好像在等我。",
+          "text": "我想靠近这个普通的家。",
           "cost": {
             "stardust": 1
           },
@@ -732,13 +878,13 @@
         "expression": "explain",
         "position": "right"
       },
-      "text": "心愿之门不是用来抢夺的。它会听见真正相连的缘分。你们都可以听，都可以看，都可以回应。",
+      "text": "心愿之门不是用来抢夺的。它会听见真正相连的缘分。你们都可以听，都可以看，也可以回答一些只有这个家才会慢慢变清楚的问题。",
       "next": "trial_wait_game"
     },
     "trial_wait_game": {
       "type": "minigame",
       "background": "bg-gate.svg",
-      "game": "trial_waiting",
+      "game": "family_quiz",
       "successNext": "trial_wait_after"
     },
     "trial_wait_after": {
@@ -750,25 +896,7 @@
         "expression": "touched",
         "position": "left"
       },
-      "text": "是这一句。它不是最漂亮的话，可我听见的时候，星星像被抱住了一下。",
-      "next": "trial_detail_game"
-    },
-    "trial_detail_game": {
-      "type": "minigame",
-      "background": "bg-gate.svg",
-      "game": "trial_details",
-      "successNext": "trial_detail_after"
-    },
-    "trial_detail_after": {
-      "type": "dialogue",
-      "background": "bg-gate.svg",
-      "speaker": "xingyu",
-      "sprite": {
-        "character": "xingyu",
-        "expression": "quiet",
-        "position": "right"
-      },
-      "text": "我记得那盏灯很暖。可是这些细节……好像是你一直在记住。",
+      "text": "这些答案还只是星星先放在这里的草稿。等真正的照片和问题被放进来以后，心愿之门会更清楚地知道：谁一直在被这个家等着。",
       "next": "trial_response"
     },
     "trial_response": {
@@ -870,7 +998,7 @@
       "chapter": "终章 原来是你们",
       "background": "bg-warm.svg",
       "speaker": "narrator",
-      "text": "心愿之门缓缓打开。门后的房间终于变得清楚：小夜灯、名字纸条、小衣服，还有那张模糊的相框，都被星光一点一点照亮。",
+      "text": "心愿之门缓缓打开。门后的房间终于变得清楚：一盏小夜灯，两张分开放着的童年照片，还有照片中间那片被灯光留出来的位置，都被星光一点一点照亮。",
       "next": "ending_002"
     },
     "ending_002": {

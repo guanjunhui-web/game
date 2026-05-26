@@ -164,6 +164,7 @@ function labelForPath(path, key) {
     resultTitle: "分支结局标题",
     resultText: "分支结局正文",
     hintText: "提示语",
+    answer: "正确答案 ID",
     label: "标签",
     name: "名称",
     displayName: "显示名",
@@ -171,7 +172,7 @@ function labelForPath(path, key) {
     rarity: "卡片类型"
   };
   const base = labels[key] || key;
-  const match = path.match(/\.(choices|homes|options|items|cards|answers|steps|lines)\.(\d+)\./);
+  const match = path.match(/\.(choices|homes|options|items|cards|answers|steps|lines|questions)\.(\d+)\./);
   if (!match) return base;
   const groupLabels = {
     choices: "选项",
@@ -180,6 +181,7 @@ function labelForPath(path, key) {
     items: "项目",
     cards: "卡片",
     answers: "答案",
+    questions: "题目",
     steps: "步骤",
     lines: "对白"
   };
@@ -238,7 +240,7 @@ function testNode(nodeId) {
   saveOverrides();
   const lateStory = /^(gate_select|xingyu_|trial_|ending_|birthday_)/.test(nodeId);
   const params = new URLSearchParams({
-    v: "vn39",
+    v: "vn46",
     testNode: nodeId,
     dust: "1"
   });

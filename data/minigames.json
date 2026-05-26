@@ -157,201 +157,145 @@
       }
     ]
   },
-  "warm_clues": {
-    "title": "那盏没有熄的灯",
-    "subtitle": "在昏暗房间里，找出等待她的线索。",
-    "type": "select_cards",
-    "mode": "set",
-    "items": [
-      {
-        "id": "lamp",
-        "text": "小夜灯"
-      },
-      {
-        "id": "name",
-        "text": "未写完的名字"
-      },
-      {
-        "id": "clothes",
-        "text": "叠得歪歪的小衣服"
-      },
-      {
-        "id": "frame",
-        "text": "模糊相框"
-      },
-      {
-        "id": "cup",
-        "text": "桌上的水杯"
-      },
-      {
-        "id": "curtain",
-        "text": "窗帘影子"
-      }
-    ],
-    "answer": [
-      "lamp",
-      "name",
-      "clothes",
-      "frame"
-    ],
-    "successText": "房间一点一点亮起来。普通的东西里，藏着提前到达的爱。",
-    "hintText": "有些爱藏得很轻。再找找和未来孩子有关的东西。",
-    "reward": {
-      "stardust": 7
-    }
-  },
-  "trial_waiting": {
-    "title": "第一轮：听见等待",
-    "subtitle": "从几句低语里，听出真正碰到小星星的那一句。",
-    "type": "select_cards",
-    "mode": "single",
-    "items": [
-      {
-        "id": "waiting",
-        "text": "希望她来到这个世界的时候，知道有人在等她。"
-      },
-      {
-        "id": "lively",
-        "text": "希望家里永远热闹。"
-      },
-      {
-        "id": "no_fear",
-        "text": "希望她永远不用害怕。"
-      },
-      {
-        "id": "treasure",
-        "text": "希望她成为我们最珍贵的孩子。"
-      }
-    ],
-    "answer": [
-      "waiting"
-    ],
-    "successText": "那句话不是最响，却像把小星星轻轻抱住了。",
-    "hintText": "这句话很好，但还不是那盏灯真正想说的话。",
+  "family_quiz": {
+    "title": "心愿之门：家的问题",
+    "subtitle": "回答几道关于这个家的问题。现在先放占位内容，之后可以在文字编辑器里改成你们家的真实问题和答案。",
+    "type": "family_quiz",
+    "successText": "星光把答案一颗颗收好。问题以后还可以改，但普通之家已经知道，她在认真靠近这个家。",
+    "hintText": "这个答案也很好，不过心愿之门想听见更贴近这个家的那一个。",
     "reward": {
       "stardust": 6
-    }
-  },
-  "trial_details": {
-    "title": "第二轮：记住细节",
-    "subtitle": "选出她在那间普通房间里真正记住的四个细节。",
-    "type": "select_cards",
-    "mode": "set",
-    "items": [
+    },
+    "questions": [
       {
-        "id": "lamp",
-        "text": "小夜灯"
+        "prompt": "第一题：爸爸小时候照片里，最容易被小天使认出来的提示是什么？",
+        "answer": "eyes",
+        "options": [
+          { "id": "hair", "text": "一撮很有主见的头发" },
+          { "id": "eyes", "text": "亮亮的眼睛" },
+          { "id": "shoes", "text": "跑得很快的小鞋子" }
+        ]
       },
       {
-        "id": "name",
-        "text": "未写完的名字"
+        "prompt": "第二题：妈妈小时候照片里，星星最想提醒小天使注意什么？",
+        "answer": "smile",
+        "options": [
+          { "id": "smile", "text": "温柔又有点调皮的笑" },
+          { "id": "toy", "text": "抱在怀里的玩具" },
+          { "id": "dress", "text": "漂亮的小裙子" }
+        ]
       },
       {
-        "id": "clothes",
-        "text": "小衣服"
-      },
-      {
-        "id": "frame",
-        "text": "模糊相框"
-      },
-      {
-        "id": "castle",
-        "text": "大玩具城堡"
-      },
-      {
-        "id": "map",
-        "text": "海边地图"
-      },
-      {
-        "id": "book",
-        "text": "?????"
+        "prompt": "第三题：普通之家最想对小天使说什么？",
+        "answer": "waiting",
+        "options": [
+          { "id": "gift", "text": "我们准备了很多礼物" },
+          { "id": "waiting", "text": "我们一直在等你" },
+          { "id": "rule", "text": "请准时来到人间" }
+        ]
       }
-    ],
-    "answer": [
-      "lamp",
-      "name",
-      "clothes",
-      "frame"
-    ],
-    "successText": "那些细节一件件亮起。它们不是漂亮装饰，而是她一直记住的等待。",
-    "hintText": "这张记忆很好，但不属于那盏灯前的房间。",
-    "reward": {
-      "stardust": 6
-    }
+    ]
   },
   "stardust_practice": {
-    "title": "星尘练习",
-    "subtitle": "分辨真正温柔稳定的光。每次完成都会随机获得一把星尘。",
-    "type": "stardust_sort",
-    "rounds": [
+    "title": "星尘脑筋急转弯",
+    "subtitle": "每次随机出现一道脑筋急转弯。答对获得星尘，答错这次就没有奖励，可以回到星图后再来挑战。",
+    "type": "brain_teaser",
+    "successText": "答对了！一小把星尘落进掌心。",
+    "failText": "这次没有答对，星尘悄悄躲回云后面了。",
+    "questions": [
       {
-        "prompt": "第一片云里，有三颗光在晃。哪一颗像真正的星尘？",
-        "hint": "太刺眼的光会很快散掉，真正的星尘更安静。",
+        "prompt": "脑筋急转弯 1：请在文字编辑器里改成你的题目。",
+        "answer": "a",
         "options": [
-          {
-            "icon": "✦",
-            "text": "刺眼的闪光",
-            "kind": "false"
-          },
-          {
-            "icon": "✧",
-            "text": "安静的暖光",
-            "kind": "true"
-          },
-          {
-            "icon": "•",
-            "text": "灰灰的小点",
-            "kind": "false"
-          }
+          { "id": "a", "text": "正确答案占位 A" },
+          { "id": "b", "text": "错误答案占位 B" },
+          { "id": "c", "text": "错误答案占位 C" }
         ]
       },
       {
-        "prompt": "风把光吹散了。选择那颗还愿意留下来的星尘。",
-        "hint": "会跟着风乱跑的光，还不能点亮观察窗。",
+        "prompt": "脑筋急转弯 2：请在文字编辑器里改成你的题目。",
+        "answer": "a",
         "options": [
-          {
-            "icon": "☼",
-            "text": "跑得最快的光",
-            "kind": "false"
-          },
-          {
-            "icon": "✧",
-            "text": "停在掌心的光",
-            "kind": "true"
-          },
-          {
-            "icon": "○",
-            "text": "空空的光圈",
-            "kind": "false"
-          }
+          { "id": "a", "text": "正确答案占位 A" },
+          { "id": "b", "text": "错误答案占位 B" },
+          { "id": "c", "text": "错误答案占位 C" }
         ]
       },
       {
-        "prompt": "最后一颗星尘藏在声音里。哪一句听起来最认真？",
-        "hint": "真正的星尘常常藏在愿意等待的声音里。",
+        "prompt": "脑筋急转弯 3：请在文字编辑器里改成你的题目。",
+        "answer": "a",
         "options": [
-          {
-            "icon": "♪",
-            "text": "快一点，别磨蹭",
-            "kind": "false"
-          },
-          {
-            "icon": "✧",
-            "text": "我会等你慢慢来",
-            "kind": "true"
-          },
-          {
-            "icon": "!",
-            "text": "大家都看着呢",
-            "kind": "false"
-          }
+          { "id": "a", "text": "正确答案占位 A" },
+          { "id": "b", "text": "错误答案占位 B" },
+          { "id": "c", "text": "错误答案占位 C" }
+        ]
+      },
+      {
+        "prompt": "脑筋急转弯 4：请在文字编辑器里改成你的题目。",
+        "answer": "a",
+        "options": [
+          { "id": "a", "text": "正确答案占位 A" },
+          { "id": "b", "text": "错误答案占位 B" },
+          { "id": "c", "text": "错误答案占位 C" }
+        ]
+      },
+      {
+        "prompt": "脑筋急转弯 5：请在文字编辑器里改成你的题目。",
+        "answer": "a",
+        "options": [
+          { "id": "a", "text": "正确答案占位 A" },
+          { "id": "b", "text": "错误答案占位 B" },
+          { "id": "c", "text": "错误答案占位 C" }
+        ]
+      },
+      {
+        "prompt": "脑筋急转弯 6：请在文字编辑器里改成你的题目。",
+        "answer": "a",
+        "options": [
+          { "id": "a", "text": "正确答案占位 A" },
+          { "id": "b", "text": "错误答案占位 B" },
+          { "id": "c", "text": "错误答案占位 C" }
+        ]
+      },
+      {
+        "prompt": "脑筋急转弯 7：请在文字编辑器里改成你的题目。",
+        "answer": "a",
+        "options": [
+          { "id": "a", "text": "正确答案占位 A" },
+          { "id": "b", "text": "错误答案占位 B" },
+          { "id": "c", "text": "错误答案占位 C" }
+        ]
+      },
+      {
+        "prompt": "脑筋急转弯 8：请在文字编辑器里改成你的题目。",
+        "answer": "a",
+        "options": [
+          { "id": "a", "text": "正确答案占位 A" },
+          { "id": "b", "text": "错误答案占位 B" },
+          { "id": "c", "text": "错误答案占位 C" }
+        ]
+      },
+      {
+        "prompt": "脑筋急转弯 9：请在文字编辑器里改成你的题目。",
+        "answer": "a",
+        "options": [
+          { "id": "a", "text": "正确答案占位 A" },
+          { "id": "b", "text": "错误答案占位 B" },
+          { "id": "c", "text": "错误答案占位 C" }
+        ]
+      },
+      {
+        "prompt": "脑筋急转弯 10：请在文字编辑器里改成你的题目。",
+        "answer": "a",
+        "options": [
+          { "id": "a", "text": "正确答案占位 A" },
+          { "id": "b", "text": "错误答案占位 B" },
+          { "id": "c", "text": "错误答案占位 C" }
         ]
       }
     ],
-    "randomReward": {
-      "resource": "stardust",
-      "min": 5,
-      "max": 9
+    "reward": {
+      "stardust": 8
     }
   }
 }

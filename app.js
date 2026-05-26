@@ -2,7 +2,7 @@ const STORAGE_KEY = "angel_vn_save_v1";
 const READ_KEY = "angel_vn_read_v1";
 const TEXT_OVERRIDES_KEY = "angel_vn_text_overrides_v1";
 const ASSET_ROOT = "./assets";
-const ASSET_VERSION = "vn39";
+const ASSET_VERSION = "vn46";
 
 const els = {
   screen: document.querySelector("#screen"),
@@ -434,8 +434,16 @@ function renderMinigame(node) {
     renderDinoMemory(node, config);
     return;
   }
+  if (config.type === "family_quiz") {
+    renderFamilyQuiz(node, config);
+    return;
+  }
   if (config.type === "stardust_sort") {
     renderStardustSort(node, config);
+    return;
+  }
+  if (config.type === "brain_teaser") {
+    renderBrainTeaser(node, config);
     return;
   }
   if (config.type === "poop_dodge") {
@@ -498,7 +506,7 @@ function renderHomeStar(home, index) {
   const marker = done ? "✓" : lockedByStory ? "…" : affordable ? "✦" : "⌁";
   const title = `${home.title}，${status}`;
   return `
-    <button class="star-node star-${home.id} ${done ? "explored" : ""} ${lockedByStory ? "story-locked" : ""} ${!lockedByStory && !affordable ? "dust-locked" : ""}"
+    <button class="star-node star-${home.id} ${done ? "explored" : "unexplored"} ${lockedByStory ? "story-locked" : ""} ${!lockedByStory && !affordable ? "dust-locked" : ""}"
       style="--star-index:${index}" data-home="${home.id}" type="button" aria-label="${title}" title="${title}">
       <span class="star-glow"></span>
       <span class="star-sketch-ring ring-a"></span>
@@ -701,6 +709,68 @@ function renderStardustSort(node, config) {
     els.modal.querySelector("#finishMiniBtn").addEventListener("click", () => showNode(node.successNext));
   };
   draw();
+}
+
+function renderBrainTeaser(node, config) {
+  const questions = config.questions || [];
+  const question = questions[Math.floor(Math.random() * questions.length)] || {
+    prompt: "这里还没有题目。",
+    answer: "a",
+    options: [{ id: "a", text: "知道了" }]
+  };
+  els.modal.classList.remove("hidden");
+  els.speakerName.textContent = "星尘脑筋急转弯";
+  els.dialogueText.textContent = question.prompt;
+  els.modal.innerHTML = `
+    <div class="minigame-panel brain-teaser-panel">
+      <span class="modal-kicker">STARDUST RIDDLE</span>
+      <h2>${config.title}</h2>
+      <p>${config.subtitle}</p>
+      <div class="brain-question">${question.prompt}</div>
+      <div class="brain-options">
+        ${(question.options || []).map((option, index) => `
+          <button class="brain-option" data-answer="${option.id}" type="button">
+            <span>${String.fromCharCode(65 + index)}</span>
+            <em>${option.text}</em>
+          </button>
+        `).join("")}
+      </div>
+    </div>
+  `;
+  els.modal.querySelectorAll(".brain-option").forEach((button) => {
+    button.addEventListener("click", () => {
+      const correct = button.dataset.answer === question.answer;
+      els.modal.querySelectorAll(".brain-option").forEach((item) => {
+        item.disabled = true;
+        item.classList.toggle("correct", item.dataset.answer === question.answer);
+      });
+      if (correct) {
+        const reward = resolveReward(config);
+        gain(reward);
+        els.dialogueText.textContent = config.successText || "答对了，获得星尘。";
+        els.modal.innerHTML = `
+          <div class="minigame-panel complete">
+            <span class="modal-kicker">CORRECT</span>
+            <h2>答对了</h2>
+            <p>${config.successText || "一小把星尘落进掌心。"}</p>
+            <div class="reward-list">${rewardLabel(reward)}</div>
+            <button id="finishMiniBtn" type="button">回到星图</button>
+          </div>
+        `;
+      } else {
+        els.dialogueText.textContent = config.failText || "这次没有答对。";
+        els.modal.innerHTML = `
+          <div class="minigame-panel complete brain-fail">
+            <span class="modal-kicker">MISS</span>
+            <h2>没有获得星尘</h2>
+            <p>${config.failText || "答错了，这次没有星尘奖励。"}</p>
+            <button id="finishMiniBtn" type="button">回到星图</button>
+          </div>
+        `;
+      }
+      els.modal.querySelector("#finishMiniBtn").addEventListener("click", () => showNode(node.successNext));
+    });
+  });
 }
 
 function renderPoopDodge(node, config) {
@@ -1780,6 +1850,70 @@ function shuffleArray(items) {
   return copy;
 }
 
+function renderFamilyQuiz(node, config) {
+  const questions = config.questions || [];
+  const state = { index: 0, correct: 0, mistakes: 0 };
+  els.modal.classList.remove("hidden");
+  els.speakerName.textContent = "心愿之门";
+  els.dialogueText.textContent = config.subtitle;
+
+  const draw = (message = "") => {
+    const question = questions[state.index];
+    if (!question) {
+      finish();
+      return;
+    }
+    els.modal.innerHTML = `
+      <div class="minigame-panel family-quiz-panel">
+        <span class="modal-kicker">FAMILY QUIZ</span>
+        <h2>${config.title}</h2>
+        <p>${question.prompt}</p>
+        <div class="family-quiz-options">
+          ${(question.options || []).map((option) => `
+            <button class="family-quiz-option" data-id="${option.id}" type="button">${option.text}</button>
+          `).join("")}
+        </div>
+        <div class="mini-meter">${message || `第 ${state.index + 1} / ${questions.length} 题 · 选择一个答案`}</div>
+      </div>
+    `;
+    els.modal.querySelectorAll(".family-quiz-option").forEach((button) => {
+      button.addEventListener("click", () => choose(button.dataset.id));
+    });
+  };
+
+  const choose = (id) => {
+    const question = questions[state.index];
+    if (id === question.answer) {
+      state.correct += 1;
+      state.index += 1;
+      els.dialogueText.textContent = "这颗答案亮了一下，像照片背后轻轻露出的笑。";
+      draw("答对了。星光继续往前走。");
+      return;
+    }
+    state.mistakes += 1;
+    els.dialogueText.textContent = config.hintText || "这个答案也很好，不过还不是这道题想要的。";
+    draw(config.hintText || "再想想这盏灯想说什么。");
+  };
+
+  const finish = () => {
+    const reward = resolveReward(config);
+    gain(reward);
+    els.dialogueText.textContent = config.successText;
+    els.modal.innerHTML = `
+      <div class="minigame-panel complete family-quiz-panel">
+        <span class="modal-kicker">COMPLETE</span>
+        <h2>家的问题回答完成</h2>
+        <p>${config.successText}</p>
+        <div class="reward-list">${rewardLabel(reward)}</div>
+        <button id="finishMiniBtn" type="button">继续剧情</button>
+      </div>
+    `;
+    els.modal.querySelector("#finishMiniBtn").addEventListener("click", () => showNode(node.successNext));
+  };
+
+  draw();
+}
+
 function progressText(config, selected) {
   if (config.mode === "single") return "选择你认为最重要的一项。";
   if (config.mode === "order") return `已选择 ${selected.length} / ${(config.answer || []).length}。`;
@@ -1929,6 +2063,24 @@ function showSettings() {
   els.modal.querySelector("#closeSettingsBtn").addEventListener("click", () => els.modal.classList.add("hidden"));
 }
 
+function showStardustPracticeInfo() {
+  if (game.currentNode?.type !== "home_map") return;
+  els.modal.classList.remove("hidden");
+  els.modal.innerHTML = `
+    <div class="settings-panel stardust-info-panel">
+      <span class="modal-kicker">STARDUST</span>
+      <h2>星尘</h2>
+      <p>星尘用来点亮下一颗想观察的星星。星尘不够时，可以玩一次脑筋急转弯：系统会从 10 道题里随机抽 1 道，答对获得星尘，答错这次没有奖励。</p>
+      <button id="startPracticeBtn" type="button">玩脑筋急转弯</button>
+      <button id="closePracticeInfoBtn" type="button">先不玩</button>
+    </div>
+  `;
+  els.modal.querySelector("#startPracticeBtn").addEventListener("click", () => {
+    showNode(game.currentNode.practiceNext || "practice_star_game");
+  });
+  els.modal.querySelector("#closePracticeInfoBtn").addEventListener("click", () => els.modal.classList.add("hidden"));
+}
+
 function getNodeLabel(id, node) {
   const source = node.chapter || node.title || node.subtitle || node.text || node.prompt || id;
   const clean = String(source).replace(/\s+/g, " ").trim();
@@ -2065,13 +2217,12 @@ els.skipBtn.addEventListener("click", () => {
 els.menuBtn.addEventListener("click", () => showNode(game.story.start));
 els.musicBtn.addEventListener("click", () => game.music ? stopMusic() : startMusic());
 els.resourceBar.addEventListener("click", () => {
-  if (game.currentNode?.type !== "home_map") return;
-  showNode(game.currentNode.practiceNext || "practice_star_game");
+  showStardustPracticeInfo();
 });
 els.resourceBar.addEventListener("keydown", (event) => {
   if (game.currentNode?.type !== "home_map" || !["Enter", " "].includes(event.key)) return;
   event.preventDefault();
-  showNode(game.currentNode.practiceNext || "practice_star_game");
+  showStardustPracticeInfo();
 });
 
 boot().catch((error) => {
