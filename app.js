@@ -4,7 +4,7 @@ const TEXT_OVERRIDES_KEY = "angel_vn_text_overrides_v1";
 const ADDED_NODES_KEY = "angel_vn_added_nodes_v1";
 const NODE_REWIRES_KEY = "angel_vn_node_rewires_v1";
 const ASSET_ROOT = "./assets";
-const ASSET_VERSION = "vn80";
+const ASSET_VERSION = "vn95";
 const BGM_FILES = [
   "audio/kikujiro-summer-piano.mp3",
   "audio/bgm.mp3"
@@ -337,6 +337,7 @@ function clearTransientUi() {
   els.choiceLayer.classList.remove("active");
   els.advanceBtn.classList.remove("hidden");
   els.dialogueBox.classList.remove("hidden");
+  els.dialogueBox.classList.remove("choice-mode");
 }
 
 function renderTitle(node) {
@@ -387,11 +388,17 @@ function renderFinalCard(node) {
         <span class="keepsake-photo photo-b"></span>
         <span class="keepsake-star"></span>
       </div>
-      <div class="final-message" role="article">
-        <span>写给我们的宝贝</span>
-        <h1>${node.title}</h1>
+      <div class="final-message final-letter" role="article">
+        <p>亲爱的宝贝：</p>
+        <figure class="final-birthday-photo">
+          <span class="photo-tape tape-left"></span>
+          <span class="photo-tape tape-right"></span>
+          <img src="${asset("images/photo-daughter-birthday.jpg")}" alt="宝贝八岁生日照片" />
+        </figure>
+        <p>${node.title}</p>
+        <p>${node.wishText || "祝宝贝八岁生日快乐。"}</p>
         <p>${node.subtitle || ""}</p>
-        <div class="final-signature">爸爸妈妈和星星一起写下</div>
+        <p class="final-signature">爱你的爸爸妈妈</p>
       </div>
       <button id="finalBackBtn" type="button">${node.buttonText || "回到星空"}</button>
     </div>
@@ -421,6 +428,7 @@ function renderDialogue(node) {
 function renderChoice(node) {
   renderStageVisuals(node);
   els.speakerName.textContent = characterName(node.speaker);
+  els.dialogueBox.classList.add("choice-mode");
   typeText(node.text || node.prompt || "");
   addHistory(node.speaker, node.text || node.prompt || "");
   els.advanceBtn.classList.add("hidden");
@@ -775,7 +783,6 @@ function renderWishGate(node) {
 }
 
 function renderWishStar(option, index) {
-  const marker = option.correct ? "灯" : "星";
   return `
     <button class="star-node wish-option star-${option.id} ${option.correct ? "true-home" : ""}"
       style="--star-index:${index}" data-option="${option.id}" type="button" aria-label="${option.title}" title="${option.title}">
@@ -789,7 +796,6 @@ function renderWishStar(option, index) {
         <span class="star-spark spark-b"></span>
         <span class="star-spark spark-c"></span>
       </span>
-      <span class="star-status" aria-hidden="true">${marker}</span>
       <span class="star-label" aria-hidden="true">${option.title}</span>
     </button>
   `;
@@ -1081,7 +1087,7 @@ function renderPoopDodge(node, config) {
       state.poops.push({
         x: 10 + Math.random() * 80,
         y: -8 - Math.random() * 18,
-        size: 6 + Math.random() * 3,
+        size: 9 + Math.random() * 4,
         speed: (0.16 + Math.random() * 0.12) * speedBoost,
         drift: -0.045 + Math.random() * 0.09,
         hit: false,
@@ -1131,10 +1137,10 @@ function renderPoopDodge(node, config) {
     state.poops.forEach((poop) => {
       const drop = document.createElement("span");
       drop.className = `poop-drop ${poop.hit ? "splatted" : ""}`;
-      drop.textContent = "💩";
+      drop.innerHTML = poopMarkup();
       drop.style.left = `${poop.x}%`;
       drop.style.top = `${poop.y}%`;
-      drop.style.fontSize = `${poop.size * 3}px`;
+      drop.style.setProperty("--poop-size", `${poop.size * 4.2}px`);
       arena.appendChild(drop);
     });
     meter.textContent = `剩余 ${remaining} 秒 · 碰到 ${state.hits} / ${maxHits} 次`;
@@ -1402,7 +1408,7 @@ function renderRichRunner(node, config) {
 
   const jump = () => {
     if (!state.running || !state.player.grounded) return;
-    state.player.vy = -2.25;
+    state.player.vy = -3.25;
     state.player.grounded = false;
   };
   const setDuck = (value) => {
@@ -1449,7 +1455,7 @@ function renderRichRunner(node, config) {
     state.hits = 0;
     state.items = [];
     state.keys.clear();
-    state.player = { x: 22, y: 0, vy: 0, grounded: true };
+    state.player = { x: 16, y: 0, vy: 0, grounded: true };
     state.ducking = false;
     state.start = performance.now();
     state.lastObstacle = 0;
@@ -1467,15 +1473,20 @@ function renderRichRunner(node, config) {
             <span class="hall-gift gift-a"></span>
             <span class="hall-gift gift-b"></span>
             <span class="hall-table"></span>
+            <span class="hall-sofa"></span>
+            <span class="hall-clock"></span>
+            <span class="hall-phone-note"></span>
+            <span class="hall-toy toy-a"></span>
+            <span class="hall-toy toy-b"></span>
           </div>
           <div class="runner-ground"></div>
           <div id="richRunnerPlayer" class="rich-runner-player">小天使</div>
         </div>
-        <div class="runner-controls">
-          <button data-runner-dir="left" type="button">左移</button>
-          <button id="runnerJumpBtn" type="button">跳跃</button>
-          <button id="runnerDuckBtn" type="button">低头</button>
-          <button data-runner-dir="right" type="button">右移</button>
+        <div class="poop-touch-controls runner-controls" aria-label="触屏方向键">
+          <button id="runnerJumpBtn" data-dir="up" type="button">↑</button>
+          <button data-runner-dir="left" data-dir="left" type="button">←</button>
+          <button id="runnerDuckBtn" data-dir="down" type="button">↓</button>
+          <button data-runner-dir="right" data-dir="right" type="button">→</button>
         </div>
         <div id="richRunnerMeter" class="mini-meter">目标：坚持 ${round.duration || 15} 秒 · 碰撞 0 / ${maxHits}</div>
       </div>
@@ -1488,7 +1499,10 @@ function renderRichRunner(node, config) {
       event.preventDefault();
       jump();
     });
-    jumpButton.addEventListener("click", jump);
+    jumpButton.addEventListener("pointerdown", (event) => {
+      event.preventDefault();
+      jump();
+    });
     els.modal.querySelectorAll("[data-runner-dir]").forEach((button) => {
       const dir = button.dataset.runnerDir;
       button.addEventListener("pointerdown", (event) => {
@@ -1516,8 +1530,8 @@ function renderRichRunner(node, config) {
       kind: high ? "call" : "case",
       x: 112,
       y: high ? 46 : ground,
-      w: high ? 12 : 10,
-      h: high ? 15 : 17,
+      w: high ? 10 : 10,
+      h: high ? 12 : 13,
       speed,
       hit: false,
       label: high ? "电话" : "会议"
@@ -1530,8 +1544,8 @@ function renderRichRunner(node, config) {
       type: "collect",
       x: 112,
       y: Math.random() > 0.5 ? 48 : 64,
-      w: 9,
-      h: 9,
+      w: 8,
+      h: 8,
       speed,
       hit: false,
       label: "陪伴"
@@ -1549,11 +1563,11 @@ function renderRichRunner(node, config) {
     const duration = round.duration || 18;
     const speed = Number(round.speed || 1.1);
 
-    if (state.keys.has("left")) state.player.x -= 0.5;
-    if (state.keys.has("right")) state.player.x += 0.5;
-    state.player.x = clamp(state.player.x, 14, 42);
+    if (state.keys.has("left")) state.player.x -= 0.82;
+    if (state.keys.has("right")) state.player.x += 0.82;
+    state.player.x = clamp(state.player.x, 8, 92);
 
-    state.player.vy += 0.078;
+    state.player.vy += 0.07;
     state.player.y += state.player.vy;
     if (state.player.y >= 0) {
       state.player.y = 0;
@@ -1603,7 +1617,7 @@ function renderRichRunner(node, config) {
     state.items.forEach((item) => {
       const el = document.createElement("span");
       el.className = `runner-item ${item.type} ${item.kind || ""} ${item.hit ? "hit" : ""}`;
-      el.textContent = item.type === "collect" ? "陪伴" : item.label;
+      el.innerHTML = runnerItemMarkup(item);
       el.style.left = `${item.x}%`;
       el.style.top = `${item.y}%`;
       arena.appendChild(el);
@@ -1666,6 +1680,60 @@ function renderRichRunner(node, config) {
 
 function intersects(a, b) {
   return Math.abs(a.x - b.x) < (a.w + b.w) / 2 && Math.abs(a.y - b.y) < (a.h + b.h) / 2;
+}
+
+function poopMarkup() {
+  return `
+    <svg class="poop-shape" viewBox="0 0 96 96" aria-hidden="true" focusable="false">
+      <path class="poop-layer poop-top" d="M50 10c-12 1-20 10-18 20 7-7 22-6 31 1 5-11-2-21-13-21Z" />
+      <path class="poop-layer poop-mid" d="M33 27c-17 2-27 15-23 30 13-9 58-9 75 1 4-17-12-32-35-33-6 0-11 0-17 2Z" />
+      <path class="poop-layer poop-base" d="M22 51C6 55-1 70 8 82c15 11 66 12 81 0 8-12 2-26-16-31-12 12-39 13-51 0Z" />
+      <path class="poop-highlight" d="M31 34c10-6 25-6 35 1" />
+      <circle class="poop-eye" cx="34" cy="57" r="5.2" />
+      <circle class="poop-eye" cx="62" cy="57" r="5.2" />
+      <circle class="poop-eye-light" cx="32.4" cy="55.2" r="1.6" />
+      <circle class="poop-eye-light" cx="60.4" cy="55.2" r="1.6" />
+      <path class="poop-cheek" d="M18 65c5-4 11-3 14 1-4 5-11 5-14-1Z" />
+      <path class="poop-cheek" d="M78 65c-5-4-11-3-14 1 4 5 11 5 14-1Z" />
+      <path class="poop-mouth" d="M36 69c7 8 17 8 24 0 6 1 10 5 8 10-5 10-34 10-40 0-2-5 2-9 8-10Z" />
+      <path class="poop-lip" d="M30 70c8-7 17-6 25 0 8-6 17-7 25 0-6 6-16 8-25 4-9 4-19 2-25-4Z" />
+    </svg>`;
+}
+
+function runnerItemMarkup(item) {
+  if (item.type === "collect") {
+    return '<span class="runner-item-icon collect-icon" aria-hidden="true">✦</span><span>陪伴</span>';
+  }
+  if (item.kind === "call") {
+    return '<span class="runner-item-icon phone-icon" aria-hidden="true">♪</span><span>电话</span>';
+  }
+  return '<span class="runner-item-icon case-icon" aria-hidden="true">!</span><span>会议</span>';
+}
+
+function dinoCardArt(card) {
+  const palette = {
+    trex: ["#91c98d", "#5d9b72", "#ffe1a6"],
+    trike: ["#f0c27f", "#d48b6d", "#fff0b9"],
+    stego: ["#9ec9d8", "#6d9fb5", "#f7c4c9"],
+    ptero: ["#d4b6e8", "#9b7bc2", "#ffe2a8"],
+    bronto: ["#a7d7b2", "#6aa989", "#dcefc8"]
+  };
+  const [body, stroke, accent] = palette[card.id] || palette.trex;
+  const vars = `style="--dino-body:${body};--dino-stroke:${stroke};--dino-accent:${accent}"`;
+  const title = `<title>${card.name}</title>`;
+  if (card.id === "trex") {
+    return `<svg class="dino-art dino-trex" ${vars} viewBox="0 0 96 72" role="img" aria-label="${card.name}">${title}<path class="dino-tail" d="M24 44C10 45 6 38 3 34c12 0 21 3 28 8Z"/><ellipse class="dino-body" cx="49" cy="43" rx="28" ry="18"/><circle class="dino-head" cx="65" cy="29" r="17"/><path class="dino-mouth" d="M65 32c8 1 14 0 19-4-2 9-8 14-17 13"/><circle class="dino-eye" cx="69" cy="24" r="2.3"/><path class="dino-arm" d="M47 42c-5 3-8 5-11 8"/><path class="dino-leg" d="M47 56l-4 10M62 56l4 10"/><path class="dino-foot" d="M38 66h12M62 66h12"/></svg>`;
+  }
+  if (card.id === "trike") {
+    return `<svg class="dino-art dino-trike" ${vars} viewBox="0 0 96 72" role="img" aria-label="${card.name}">${title}<ellipse class="dino-body" cx="45" cy="45" rx="26" ry="16"/><path class="dino-frill" d="M59 15c19 4 27 17 23 34-12-1-27-8-34-20 1-8 5-12 11-14Z"/><circle class="dino-head" cx="62" cy="35" r="15"/><path class="dino-horn" d="M62 18l-4-14 10 12M49 31l-12-7 13-2M74 32l14-5-10 10"/><circle class="dino-eye" cx="66" cy="31" r="2.2"/><path class="dino-tail" d="M22 43C12 42 7 37 4 31c11 2 18 5 24 12Z"/><path class="dino-leg" d="M37 57l-4 9M55 57l4 9"/><path class="dino-foot" d="M29 66h11M55 66h12"/></svg>`;
+  }
+  if (card.id === "stego") {
+    return `<svg class="dino-art dino-stego" ${vars} viewBox="0 0 96 72" role="img" aria-label="${card.name}">${title}<path class="dino-plate" d="M29 29l6-16 7 16M43 28l7-18 7 18M58 30l6-15 6 18"/><ellipse class="dino-body" cx="46" cy="45" rx="31" ry="16"/><circle class="dino-head" cx="74" cy="39" r="11"/><circle class="dino-eye" cx="78" cy="35" r="2"/><path class="dino-tail" d="M19 44C8 42 4 37 2 32c10 0 18 3 27 10Z"/><path class="dino-leg" d="M35 57l-5 9M57 57l4 9"/><path class="dino-foot" d="M26 66h12M57 66h12"/></svg>`;
+  }
+  if (card.id === "ptero") {
+    return `<svg class="dino-art dino-ptero" ${vars} viewBox="0 0 96 72" role="img" aria-label="${card.name}">${title}<path class="dino-wing" d="M45 35C25 20 15 21 4 30c14 7 25 14 39 18M52 35c19-15 31-14 41-5-14 7-25 14-39 18"/><ellipse class="dino-body" cx="49" cy="39" rx="13" ry="17"/><circle class="dino-head" cx="55" cy="20" r="10"/><path class="dino-beak" d="M63 20l21-5-18 11Z"/><path class="dino-crest" d="M50 13l-3-11 10 8"/><circle class="dino-eye" cx="58" cy="17" r="2"/><path class="dino-leg" d="M44 53l-6 10M54 53l6 10"/></svg>`;
+  }
+  return `<svg class="dino-art dino-bronto" ${vars} viewBox="0 0 96 72" role="img" aria-label="${card.name}">${title}<ellipse class="dino-body" cx="43" cy="48" rx="29" ry="15"/><path class="dino-neck" d="M58 38C61 21 68 11 78 8c8-2 15 3 15 10 0 8-9 12-17 9-5 5-7 12-7 21"/><circle class="dino-head" cx="80" cy="17" r="10"/><circle class="dino-eye" cx="83" cy="14" r="2"/><path class="dino-tail" d="M17 47C8 45 3 40 1 34c11 1 20 4 29 11Z"/><path class="dino-leg" d="M33 59l-5 8M52 59l5 8"/><path class="dino-foot" d="M24 67h12M52 67h12"/></svg>`;
 }
 
 function clamp(value, min, max) {
@@ -1960,7 +2028,7 @@ function renderDinoMemory(node, config) {
                 aria-label="${open ? card.name : "恐龙蛋"}">
                 <span class="egg-shell"></span>
                 <span class="dino-baby" ${open ? "" : "aria-hidden=\"true\""}>
-                  <strong>${card.icon}</strong>
+                  ${dinoCardArt(card)}
                   <em>${card.name}</em>
                 </span>
               </button>
@@ -2124,22 +2192,67 @@ function spriteMarkup(sprites = []) {
 function renderStageVisuals(node) {
   const sprites = node.sprite ? [node.sprite] : [];
   if (node.photoScene === "warm_family_photos") {
-    els.stage.innerHTML = `
-      <div class="warm-photo-scene" aria-label="爸爸和妈妈小时候的两张照片">
-        <figure class="warm-photo-frame dad-photo">
-          <span class="photo-tape"></span>
-          <img src="${asset("images/photo-dad-childhood.jpg")}" alt="爸爸小时候的照片" />
-          <figcaption>爸爸小时候</figcaption>
-        </figure>
-        <div class="warm-photo-light" aria-hidden="true"></div>
-        <figure class="warm-photo-frame mom-photo">
-          <span class="photo-tape"></span>
-          <img src="${asset("images/photo-mom-childhood.jpg")}" alt="妈妈小时候的照片" />
-          <figcaption>妈妈小时候</figcaption>
-        </figure>
-      </div>
-      ${spriteMarkup(sprites)}
-    `;
+    if (!els.stage.querySelector(".warm-photo-scene")) {
+      els.stage.innerHTML = `
+        <div class="warm-photo-scene" aria-label="爸爸和妈妈小时候的两张照片">
+          <figure class="warm-photo-frame dad-photo">
+            <span class="photo-tape"></span>
+            <img src="${asset("images/photo-dad-childhood.jpg")}" alt="爸爸小时候的照片" />
+            <figcaption>爸爸小时候</figcaption>
+          </figure>
+          <div class="warm-photo-light" aria-hidden="true"></div>
+          <figure class="warm-photo-frame mom-photo">
+            <span class="photo-tape"></span>
+            <img src="${asset("images/photo-mom-childhood.jpg")}" alt="妈妈小时候的照片" />
+            <figcaption>妈妈小时候</figcaption>
+          </figure>
+        </div>
+      `;
+    }
+    els.stage.querySelectorAll(".sprite").forEach((sprite) => sprite.remove());
+    els.stage.insertAdjacentHTML("beforeend", spriteMarkup(sprites));
+    return;
+  }
+  if (node.photoScene === "ending_family_room") {
+    if (!els.stage.querySelector(".ending-photo-scene")) {
+      els.stage.innerHTML = `
+        <div class="ending-photo-scene" aria-label="心愿之门打开后看见的家庭照片">
+          <figure class="ending-main-photo">
+            <span class="photo-tape tape-left"></span>
+            <span class="photo-tape tape-right"></span>
+            <img src="${asset("images/photo-parents-together.jpg")}" alt="爸爸妈妈的照片" />
+          </figure>
+          <figure class="ending-small-photo ending-dad-photo">
+            <img src="${asset("images/photo-dad-childhood.jpg")}" alt="爸爸小时候的照片" />
+          </figure>
+          <figure class="ending-small-photo ending-mom-photo">
+            <img src="${asset("images/photo-mom-childhood.jpg")}" alt="妈妈小时候的照片" />
+          </figure>
+          <div class="ending-photo-glow" aria-hidden="true"></div>
+        </div>
+      `;
+    }
+    els.stage.querySelectorAll(".sprite").forEach((sprite) => sprite.remove());
+    els.stage.insertAdjacentHTML("beforeend", spriteMarkup(sprites));
+    return;
+  }
+  if (node.photoScene === "birthday_family_photo") {
+    if (!els.stage.querySelector(".birthday-photo-scene")) {
+      els.stage.innerHTML = `
+        <div class="birthday-photo-scene" aria-label="谢谢你成为我们的孩子的家庭照片">
+          <figure class="birthday-family-photo">
+            <span class="photo-tape tape-left"></span>
+            <span class="photo-tape tape-right"></span>
+            <img src="${asset("images/photo-family-baby.jpg")}" alt="爸爸妈妈和宝宝的照片" />
+          </figure>
+          <span class="birthday-photo-star star-a" aria-hidden="true"></span>
+          <span class="birthday-photo-star star-b" aria-hidden="true"></span>
+          <span class="birthday-photo-glow" aria-hidden="true"></span>
+        </div>
+      `;
+    }
+    els.stage.querySelectorAll(".sprite").forEach((sprite) => sprite.remove());
+    els.stage.insertAdjacentHTML("beforeend", spriteMarkup(sprites));
     return;
   }
   renderSprites(sprites);
@@ -2398,7 +2511,13 @@ async function startFileMusic(requestId) {
       if (!response.ok) continue;
       const audio = new Audio(url);
       audio.loop = true;
+      audio.preload = "auto";
       audio.volume = 0.42;
+      audio.addEventListener("ended", () => {
+        if (!game.music || game.audio?.element !== audio) return;
+        audio.currentTime = 0;
+        audio.play().catch(() => {});
+      });
       await audio.play();
       if (!isCurrentMusicRequest(requestId)) {
         audio.pause();

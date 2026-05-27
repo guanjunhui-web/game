@@ -695,12 +695,21 @@
       "background": "bg-warm.svg",
       "photoScene": "warm_family_photos",
       "speaker": "narrator",
-      "text": "观察窗里的房间有点模糊，像隔着一层很轻的雾。左边相框里，是爸爸小时候的照片：那时的他还不是爸爸，只是一个小男孩，可能有点害羞，也可能正努力装得很勇敢。右边相框里，是妈妈小时候的照片：那时的她也还不是妈妈，只是一个小女孩，眼睛亮亮的，像刚刚发现了什么好玩的事情。",
+      "text": "观察窗里的房间有点模糊，像隔着一层很轻的雾。左边相框里，是爸爸小时候的照片：那时的他还不是爸爸，只是一个小男孩，可能有点害羞，也可能正努力装得很勇敢。",
+      "next": "warm_003b2"
+    },
+    "warm_003b2": {
+      "type": "dialogue",
+      "background": "bg-warm.svg",
+      "photoScene": "warm_family_photos",
+      "speaker": "narrator",
+      "text": "右边相框里，是妈妈小时候的照片：那时的她也还不是妈妈，只是一个小女孩，眼睛亮亮的，像刚刚发现了什么好玩的事情。",
       "next": "warm_003c"
     },
     "warm_003c": {
       "type": "dialogue",
       "background": "bg-warm.svg",
+      "photoScene": "warm_family_photos",
       "speaker": "little_angel",
       "sprite": {
         "character": "little_angel",
@@ -713,13 +722,27 @@
     "warm_003d": {
       "type": "dialogue",
       "background": "bg-warm.svg",
+      "photoScene": "warm_family_photos",
       "speaker": "guardian",
       "sprite": {
         "character": "guardian",
         "expression": "smile",
         "position": "right"
       },
-      "text": "因为这就是普通之家给你的提示。长大以后的他们，会成为等你的人；可是很久以前，他们也会摔跤，也会撒娇，也会因为一点小事开心很久。看见他们小时候的样子，你就知道：他们不是天生就会当爸爸妈妈，他们是带着自己的童年，一点点走来等你的。",
+      "text": "因为这就是普通之家给你的提示。长大以后的他们，会成为等你的人；可是很久以前，他们也会摔跤，也会撒娇，也会因为一点小事开心很久。",
+      "next": "warm_003d2"
+    },
+    "warm_003d2": {
+      "type": "dialogue",
+      "background": "bg-warm.svg",
+      "photoScene": "warm_family_photos",
+      "speaker": "guardian",
+      "sprite": {
+        "character": "guardian",
+        "expression": "smile",
+        "position": "right"
+      },
+      "text": "看见他们小时候的样子，你就知道：他们不是天生就会当爸爸妈妈，他们是带着自己的童年，一点点走来等你的。",
       "next": "warm_003e"
     },
     "warm_003e": {
@@ -1036,6 +1059,7 @@
       "type": "dialogue",
       "chapter": "终章 原来是你们",
       "background": "bg-warm.svg",
+      "photoScene": "ending_family_room",
       "speaker": "narrator",
       "text": "心愿之门缓缓打开。门后的房间终于变得清楚：一盏小夜灯，两张分开放着的童年照片，还有照片中间那片被灯光留出来的位置，都被星光一点一点照亮。",
       "next": "ending_002"
@@ -1043,6 +1067,7 @@
     "ending_002": {
       "type": "dialogue",
       "background": "bg-warm.svg",
+      "photoScene": "ending_family_room",
       "speaker": "little_angel",
       "sprite": {
         "character": "little_angel",
@@ -1055,6 +1080,7 @@
     "ending_003": {
       "type": "dialogue",
       "background": "bg-warm.svg",
+      "photoScene": "ending_family_room",
       "speaker": "narrator",
       "text": "妈妈的声音轻轻传来：我希望她来到这个世界的时候，知道有人在等她。爸爸的声音也很轻：我们会慢慢学，不会一开始就什么都会，但会一直陪她长大。",
       "next": "ending_004"
@@ -1081,6 +1107,7 @@
     "birthday_002": {
       "type": "dialogue",
       "background": "bg-cover.svg",
+      "photoScene": "birthday_family_photo",
       "speaker": "narrator",
       "text": "亲爱的宝贝，八岁生日快乐。你不是偶然来到这个家的。是很久以前，有一个小天使穿过星星，认真看过很多家的光，最后选择了我们。",
       "next": "birthday_003"
@@ -1088,6 +1115,7 @@
     "birthday_003": {
       "type": "dialogue",
       "background": "bg-cover.svg",
+      "photoScene": "birthday_family_photo",
       "speaker": "narrator",
       "text": "谢谢你成为我们的孩子，也谢谢你，让我们成为爸爸妈妈。愿你以后走到很远很远的地方，也永远知道：这个家，会一直为你亮着灯。",
       "next": "birthday_final"
@@ -1095,6 +1123,7 @@
     "birthday_final": {
       "type": "final_card",
       "title": "这是爸爸妈妈送给你的，世界上独一无二的游戏。",
+      "wishText": "祝宝贝八岁生日快乐。",
       "subtitle": "愿你每一次想起它，都知道自己被认真地选择、认真地爱着。",
       "buttonText": "回到星空"
     }
