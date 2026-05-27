@@ -199,7 +199,8 @@ textarea {
   gap: 8px;
 }
 
-.test-node-btn {
+.test-node-btn,
+.add-dialogue-btn {
   min-height: 34px;
   padding: 0 12px;
   border-radius: 13px 11px 14px 10px;
@@ -208,9 +209,53 @@ textarea {
   box-shadow: 0 8px 18px rgba(84, 114, 136, 0.16);
 }
 
+.add-dialogue-btn {
+  background: linear-gradient(180deg, #fff3bd, #f0c96c);
+}
+
 .field-grid {
   display: grid;
   gap: 12px;
+}
+
+.new-dialogue-card {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.new-dialogue-hint {
+  display: grid;
+  gap: 6px;
+  margin: 0 0 14px;
+  padding: 12px 14px;
+  border: 2px dashed rgba(91, 73, 70, 0.24);
+  border-radius: 18px 14px 20px 13px;
+  background: rgba(255, 251, 239, 0.62);
+  color: var(--muted);
+}
+
+.new-dialogue-hint p {
+  margin: 0;
+  line-height: 1.55;
+}
+
+select {
+  width: 100%;
+  min-height: 46px;
+  border: 2px solid rgba(91, 73, 70, 0.35);
+  border-radius: 18px 14px 20px 13px / 14px 20px 13px 18px;
+  background: rgba(255, 251, 239, 0.82);
+  color: var(--ink);
+  padding: 8px 12px;
+  font: inherit;
+  outline: none;
+}
+
+.new-dialogue-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
 }
 
 .field-row[data-hidden="true"] {

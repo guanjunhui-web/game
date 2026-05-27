@@ -171,8 +171,8 @@
       "homes": [
         {
           "id": "family01",
-          "title": "热闹的客厅",
-          "description": "笑声很多，像玻璃珠落在阳光里。",
+          "title": "便便之家",
+          "description": "有一点臭臭的幽默感，天上会掉下奇怪的便便流星。",
           "background": "bg-rainbow.svg",
           "node": "family01_001",
           "cost": 4,
@@ -242,10 +242,10 @@
       "options": [
         {
           "id": "family01",
-          "title": "热闹的客厅",
-          "description": "这颗星里有很多笑声，像永远不会停下来的白天。",
-          "resultTitle": "热闹的星",
-          "resultText": "小天使走向了热闹的客厅。那里有许多玩具和笑声，可是在很深很深的夜里，她还是会想起那盏没有熄的小灯。原来开心很好，但真正叫她名字的光，不在这里。"
+          "title": "便便之家",
+          "description": "这颗星有一点臭臭的幽默感，天上会掉下奇怪的便便流星，但笑声也来得很直接。",
+          "resultTitle": "臭臭的星",
+          "resultText": "小天使走进了便便之家。那里的人很会把尴尬的事情变成笑话，摔一跤也能笑出声，连便便流星都像一场奇怪的欢迎仪式。这个家很有趣，可她认真想了想：她还是想去一个不用天天躲便便，也能被温柔抱住的地方。"
         },
         {
           "id": "family03",
@@ -285,7 +285,6 @@
     },
     "family01_001": {
       "type": "dialogue",
-      "chapter": "第二章 第一扇观察窗",
       "background": "bg-rainbow.svg",
       "speaker": "narrator",
       "text": "第一扇观察窗里，是一间很热闹的客厅。孩子们在地毯上跑来跑去，玩具铺满一地。这里的声音很多，像一盒彩色玻璃珠洒在阳光下。",
@@ -335,14 +334,16 @@
         {
           "text": "这里很开心，但我还想再看看。",
           "set": {
-            "joy": 1
+            "joy": 1,
+            "family01_done": 1
           },
           "next": "family01_gift"
         },
         {
           "text": "我想听见更安静、更专门等我的声音。",
           "set": {
-            "seen": 1
+            "seen": 1,
+            "family01_done": 1
           },
           "next": "family01_gift"
         }
@@ -352,14 +353,10 @@
       "type": "gacha",
       "background": "bg-rainbow.svg",
       "pool": "family_pool",
-      "set": {
-        "family01_done": 1
-      },
       "next": "home_map"
     },
     "family03_001": {
       "type": "dialogue",
-      "chapter": "第四章 第三扇观察窗",
       "background": "bg-teacher.svg",
       "speaker": "narrator",
       "text": "第三扇观察窗打开时，里面没有风，只有一间非常整洁的屋子。书本按高矮排好，铅笔都削得一样尖，墙上的钟一格一格，走得很准。",
@@ -409,14 +406,16 @@
         {
           "text": "整齐会让人安心。",
           "set": {
-            "order": 1
+            "order": 1,
+            "family03_done": 1
           },
           "next": "family03_gift"
         },
         {
           "text": "我也想被允许慢慢来。",
           "set": {
-            "gentle_room": 1
+            "gentle_room": 1,
+            "family03_done": 1
           },
           "next": "family03_gift"
         }
@@ -426,14 +425,10 @@
       "type": "gacha",
       "background": "bg-teacher.svg",
       "pool": "family_pool",
-      "set": {
-        "family03_done": 1
-      },
       "next": "home_map"
     },
     "family04_001": {
       "type": "dialogue",
-      "chapter": "第五章 第四扇观察窗",
       "background": "bg-candy.svg",
       "speaker": "narrator",
       "text": "第四扇观察窗打开时，光一下子变得很亮。窗后是一座很大的房子，地板像月亮洗过一样干净，衣柜里挂着一排漂亮裙子，玩具架一直排到墙边。",
@@ -516,14 +511,16 @@
         {
           "text": "礼物很好，可我还想要拥抱。",
           "set": {
-            "sweetness": 1
+            "sweetness": 1,
+            "family04_done": 1
           },
           "next": "family04_gift"
         },
         {
           "text": "我想去有时间听我说话的地方。",
           "set": {
-            "understood": 1
+            "understood": 1,
+            "family04_done": 1
           },
           "next": "family04_gift"
         }
@@ -533,14 +530,10 @@
       "type": "gacha",
       "background": "bg-candy.svg",
       "pool": "family_pool",
-      "set": {
-        "family04_done": 1
-      },
       "next": "home_map"
     },
     "dino_001": {
       "type": "dialogue",
-      "chapter": "恐龙之家 嗷呜观察窗",
       "background": "bg-dino.svg",
       "speaker": "narrator",
       "text": "下一颗星星一亮，星图边缘先传来“咚、咚、咚”的脚步声。云朵被震得抖了三下，像一碗差点洒出来的棉花糖。",
@@ -645,14 +638,16 @@
         {
           "text": "变成小恐龙听起来也不错。",
           "set": {
-            "dino_fun": 1
+            "dino_fun": 1,
+            "dino_done": 1
           },
           "next": "dino_gift"
         },
         {
           "text": "我还是想当可以被抱在怀里的小女孩。",
           "set": {
-            "human_wish": 1
+            "human_wish": 1,
+            "dino_done": 1
           },
           "next": "dino_gift"
         }
@@ -662,14 +657,10 @@
       "type": "gacha",
       "background": "bg-dino.svg",
       "pool": "family_pool",
-      "set": {
-        "dino_done": 1
-      },
       "next": "home_map"
     },
     "warm_001": {
       "type": "dialogue",
-      "chapter": "第六章 普通之家",
       "background": "bg-warm.svg",
       "speaker": "narrator",
       "text": "最后一扇观察窗亮得很慢。窗后没有城堡，也没有会唱歌的云，只是一间普通房间。桌边亮着一盏小灯，灯光里放着两只小相框，一左一右，像两颗还没完全醒来的星星。",
@@ -702,6 +693,7 @@
     "warm_003b": {
       "type": "dialogue",
       "background": "bg-warm.svg",
+      "photoScene": "warm_family_photos",
       "speaker": "narrator",
       "text": "观察窗里的房间有点模糊，像隔着一层很轻的雾。左边相框里，是爸爸小时候的照片：那时的他还不是爸爸，只是一个小男孩，可能有点害羞，也可能正努力装得很勇敢。右边相框里，是妈妈小时候的照片：那时的她也还不是妈妈，只是一个小女孩，眼睛亮亮的，像刚刚发现了什么好玩的事情。",
       "next": "warm_003c"
@@ -733,6 +725,7 @@
     "warm_003e": {
       "type": "dialogue",
       "background": "bg-warm.svg",
+      "photoScene": "warm_family_photos",
       "speaker": "narrator",
       "text": "两张照片一左一右，被小灯照得很柔和。照片里的他们都还那么小，却像已经从很远的童年出发，慢慢走到同一束灯光下面。那束光没有说话，只安静地把中间的位置留出来，像在等一个还没出生的孩子靠近。",
       "next": "warm_004"
@@ -740,6 +733,7 @@
     "warm_004": {
       "type": "dialogue",
       "background": "bg-warm.svg",
+      "photoScene": "warm_family_photos",
       "speaker": "little_angel",
       "sprite": {
         "character": "little_angel",
@@ -752,6 +746,7 @@
     "warm_005": {
       "type": "choice",
       "background": "bg-warm.svg",
+      "photoScene": "warm_family_photos",
       "speaker": "little_angel",
       "sprite": {
         "character": "little_angel",
@@ -762,21 +757,17 @@
       "choices": [
         {
           "text": "我想再看看那两张照片。",
-          "cost": {
-            "stardust": 1
-          },
           "set": {
-            "belonging": 1
+            "belonging": 1,
+            "warm_done": 1
           },
           "next": "warm_gift"
         },
         {
           "text": "我想靠近这个普通的家。",
-          "cost": {
-            "stardust": 1
-          },
           "set": {
-            "belonging": 2
+            "belonging": 2,
+            "warm_done": 1
           },
           "next": "warm_gift"
         }
@@ -786,14 +777,11 @@
       "type": "gacha",
       "background": "bg-warm.svg",
       "pool": "warm_pool",
-      "set": {
-        "warm_done": 1
-      },
       "next": "home_map"
     },
     "xingyu_001": {
       "type": "dialogue",
-      "chapter": "第七章 同一盏灯前",
+      "chapter": "第二章 同一盏灯前",
       "background": "bg-warm.svg",
       "speaker": "narrator",
       "text": "就在小天使想伸手触碰那扇观察窗的时候，另一只手，也轻轻碰到了同一片星光。",
@@ -897,6 +885,66 @@
         "position": "left"
       },
       "text": "这些答案还只是星星先放在这里的草稿。等真正的照片和问题被放进来以后，心愿之门会更清楚地知道：谁一直在被这个家等着。",
+      "next": "trial_after_xingyu_001"
+    },
+    "trial_after_xingyu_001": {
+      "type": "dialogue",
+      "background": "bg-gate.svg",
+      "speaker": "xingyu",
+      "sprite": {
+        "character": "xingyu",
+        "expression": "sad",
+        "position": "right"
+      },
+      "text": "我好像听见了。那些答案不是最聪明的答案，是这个家一点一点留下来的声音。",
+      "next": "trial_after_angel_001"
+    },
+    "trial_after_angel_001": {
+      "type": "dialogue",
+      "background": "bg-gate.svg",
+      "speaker": "little_angel",
+      "sprite": {
+        "character": "little_angel",
+        "expression": "touched",
+        "position": "left"
+      },
+      "text": "星羽，我也不知道为什么，可是看见那两张小时候的照片时，我心里像被轻轻叫了一下。不是很大声，但我听见了。",
+      "next": "trial_after_xingyu_002"
+    },
+    "trial_after_xingyu_002": {
+      "type": "dialogue",
+      "background": "bg-gate.svg",
+      "speaker": "xingyu",
+      "sprite": {
+        "character": "xingyu",
+        "expression": "smile",
+        "position": "right"
+      },
+      "text": "那可能就是你的星星在发亮。我还是会有一点羡慕，可是我不想把别人的光拿走。",
+      "next": "trial_after_guardian_001"
+    },
+    "trial_after_guardian_001": {
+      "type": "dialogue",
+      "background": "bg-gate.svg",
+      "speaker": "guardian",
+      "sprite": {
+        "character": "guardian",
+        "expression": "smile",
+        "position": "right"
+      },
+      "text": "能承认羡慕，也能放开不属于自己的愿望，这也是很亮的星光。心愿之门不会让谁输掉，它只会把每个小天使送到真正等她的地方。",
+      "next": "trial_after_angel_002"
+    },
+    "trial_after_angel_002": {
+      "type": "dialogue",
+      "background": "bg-gate.svg",
+      "speaker": "little_angel",
+      "sprite": {
+        "character": "little_angel",
+        "expression": "serious",
+        "position": "left"
+      },
+      "text": "那我想认真地说出我的选择。不是为了赢过谁，是因为我真的想去那里。",
       "next": "trial_response"
     },
     "trial_response": {
@@ -912,9 +960,6 @@
       "choices": [
         {
           "text": "我也选择了你们。",
-          "cost": {
-            "stardust": 8
-          },
           "set": {
             "ending_a": 1,
             "gate_done": 1
@@ -923,9 +968,6 @@
         },
         {
           "text": "我想成为你们的孩子。",
-          "cost": {
-            "stardust": 8
-          },
           "set": {
             "ending_b": 1,
             "gate_done": 1
@@ -934,9 +976,6 @@
         },
         {
           "text": "我会带着星星去见你们。",
-          "cost": {
-            "stardust": 8
-          },
           "set": {
             "ending_c": 1,
             "gate_done": 1
@@ -1034,7 +1073,6 @@
     },
     "birthday_001": {
       "type": "dialogue",
-      "chapter": "生日结尾",
       "background": "bg-cover.svg",
       "speaker": "narrator",
       "text": "很多年以后，那个小天使长到了八岁。她也许不记得星星档案馆和心愿之门，但那一天的选择，一直藏在她的笑声里。",
@@ -1052,7 +1090,13 @@
       "background": "bg-cover.svg",
       "speaker": "narrator",
       "text": "谢谢你成为我们的孩子，也谢谢你，让我们成为爸爸妈妈。愿你以后走到很远很远的地方，也永远知道：这个家，会一直为你亮着灯。",
-      "next": "title"
+      "next": "birthday_final"
+    },
+    "birthday_final": {
+      "type": "final_card",
+      "title": "这是爸爸妈妈送给你的，世界上独一无二的游戏。",
+      "subtitle": "愿你每一次想起它，都知道自己被认真地选择、认真地爱着。",
+      "buttonText": "回到星空"
     }
   }
 }

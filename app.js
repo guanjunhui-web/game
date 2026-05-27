@@ -1,8 +1,14 @@
-const STORAGE_KEY = "angel_vn_save_v1";
+﻿const STORAGE_KEY = "angel_vn_save_v1";
 const READ_KEY = "angel_vn_read_v1";
 const TEXT_OVERRIDES_KEY = "angel_vn_text_overrides_v1";
+const ADDED_NODES_KEY = "angel_vn_added_nodes_v1";
+const NODE_REWIRES_KEY = "angel_vn_node_rewires_v1";
 const ASSET_ROOT = "./assets";
-const ASSET_VERSION = "vn46";
+const ASSET_VERSION = "vn80";
+const BGM_FILES = [
+  "audio/kikujiro-summer-piano.mp3",
+  "audio/bgm.mp3"
+];
 
 const els = {
   screen: document.querySelector("#screen"),
@@ -39,16 +45,54 @@ const game = {
   typing: false,
   fullText: "",
   typeTimer: null,
+  chapterBlocking: false,
   auto: false,
   skip: false,
   music: false,
+  musicLoading: false,
+  musicRequestId: 0,
   audio: null,
   gachaCounters: {},
+  shownChapters: new Set(),
   miniCleanup: null
+};
+
+const HOME_COMPLETION_NODES = {
+  family01_001: "family01_done",
+  family01_gift: "family01_done",
+  family03_001: "family03_done",
+  family03_gift: "family03_done",
+  family04_001: "family04_done",
+  family04_gift: "family04_done",
+  dino_001: "dino_done",
+  dino_gift: "dino_done",
+  warm_001: "warm_done",
+  warm_gift: "warm_done"
 };
 
 function isTruthyFlag(key) {
   return (game.vars[key] || 0) > 0;
+}
+
+function normalizeCompletionFlags() {
+  const aliases = {
+    family01_done: ["joy", "seen"],
+    family03_done: ["order", "gentle_room"],
+    family04_done: ["sweetness", "understood"],
+    dino_done: ["dino_fun", "human_wish"],
+    warm_done: ["belonging"],
+    gate_done: ["ending_a", "ending_b", "ending_c"]
+  };
+  Object.entries(aliases).forEach(([doneKey, keys]) => {
+    if (!isTruthyFlag(doneKey) && keys.some((key) => isTruthyFlag(key))) {
+      game.vars[doneKey] = 1;
+    }
+  });
+  Object.entries(HOME_COMPLETION_NODES).forEach(([nodeId, doneKey]) => {
+    if (!isTruthyFlag(doneKey) && game.read.has(nodeId)) {
+      game.vars[doneKey] = 1;
+    }
+  });
 }
 
 function asset(path) {
@@ -69,19 +113,42 @@ async function boot() {
     loadJson("./data/gacha.json"),
     loadJson("./data/minigames.json")
   ]);
+  applyStoryAdditions();
   applyTextOverrides();
   renderResourceBar();
+  updateMusicButton();
   const params = new URLSearchParams(window.location.search);
   const testNode = params.get("testNode");
   if (testNode && game.story.nodes[testNode]) {
+    const unlockMode = params.get("unlockHomes");
     applyTestState({
-      unlockHomes: params.get("unlockHomes") === "1",
+      unlockHomes: unlockMode === "1",
+      unlockFirstFour: unlockMode === "first4",
       stardust: params.get("dust") === "1" ? 120 : game.inventory.stardust
     });
     showNode(testNode);
     return;
   }
   showNode(game.story.start);
+}
+
+function readJsonStorage(key, fallback) {
+  try {
+    return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback));
+  } catch {
+    return fallback;
+  }
+}
+
+function applyStoryAdditions() {
+  const addedNodes = readJsonStorage(ADDED_NODES_KEY, {});
+  const rewires = readJsonStorage(NODE_REWIRES_KEY, {});
+  Object.entries(addedNodes).forEach(([id, node]) => {
+    if (node && typeof node === "object") game.story.nodes[id] = node;
+  });
+  Object.entries(rewires).forEach(([id, next]) => {
+    if (game.story.nodes[id] && typeof next === "string") game.story.nodes[id].next = next;
+  });
 }
 
 function applyTextOverrides() {
@@ -104,6 +171,7 @@ function mergeStringOverrides(target, source) {
   if (!target || !source || typeof source !== "object") return;
   Object.entries(source).forEach(([key, value]) => {
     if (typeof value === "string") {
+      if (/^[?\s]+$/.test(value) && value.includes("?")) return;
       if (key in target) target[key] = value;
       return;
     }
@@ -135,6 +203,7 @@ function loadGame() {
   if (!raw) return false;
   const save = JSON.parse(raw);
   game.vars = save.vars || {};
+  normalizeCompletionFlags();
   game.inventory = { stardust: save.inventory?.stardust || 0 };
   game.history = save.history || [];
   game.gachaCounters = save.gachaCounters || {};
@@ -153,8 +222,27 @@ function showChapter(title) {
   if (!title) return;
   els.chapterCard.textContent = title;
   els.chapterCard.classList.remove("hidden");
-  window.clearTimeout(showChapter.timer);
-  showChapter.timer = window.setTimeout(() => els.chapterCard.classList.add("hidden"), 1800);
+  els.screen.classList.add("chapter-mode");
+  renderSprites([]);
+  els.dialogueBox.classList.add("hidden");
+  els.titleMenu.classList.add("hidden");
+  els.modal.classList.add("hidden");
+  els.choiceLayer.classList.remove("active");
+  els.choiceLayer.innerHTML = "";
+  game.chapterBlocking = true;
+}
+
+function hideChapter() {
+  if (!game.chapterBlocking) return false;
+  els.chapterCard.classList.add("hidden");
+  els.screen.classList.remove("chapter-mode");
+  game.chapterBlocking = false;
+  if (game.currentNode) {
+    clearTransientUi();
+    renderNodeContent(game.currentNode);
+    saveGame();
+  }
+  return true;
 }
 
 function characterName(id) {
@@ -171,14 +259,25 @@ function showNode(id) {
   const node = game.story.nodes[id];
   if (!node) throw new Error(`Missing story node: ${id}`);
   window.clearTimeout(game.typeTimer);
+  markCompletionByNode(id);
   game.nodeId = id;
   game.currentNode = node;
   game.read.add(id);
   setBackground(node.background);
   renderResourceBar();
   clearTransientUi();
-  if (node.chapter) showChapter(node.chapter);
+  if (node.chapter && !game.shownChapters.has(node.chapter)) {
+    game.shownChapters.add(node.chapter);
+    showChapter(node.chapter);
+    saveGame();
+    return;
+  }
 
+  renderNodeContent(node);
+  saveGame();
+}
+
+function renderNodeContent(node) {
   switch (node.type) {
     case "title":
       renderTitle(node);
@@ -204,10 +303,18 @@ function showNode(id) {
     case "wish_gate":
       renderWishGate(node);
       break;
+    case "final_card":
+      renderFinalCard(node);
+      break;
     default:
       throw new Error(`Unknown node type: ${node.type}`);
   }
-  saveGame();
+}
+
+function markCompletionByNode(id) {
+  const completionByNode = HOME_COMPLETION_NODES;
+  const key = completionByNode[id];
+  if (key) game.vars[key] = 1;
 }
 
 function goNext(node) {
@@ -223,6 +330,7 @@ function clearTransientUi() {
   els.screen.classList.remove("map-screen");
   els.titleMenu.classList.add("hidden");
   els.titleMenu.classList.remove("map-mode");
+  els.titleMenu.classList.remove("final-mode");
   els.modal.classList.add("hidden");
   els.modal.innerHTML = "";
   els.choiceLayer.innerHTML = "";
@@ -260,23 +368,58 @@ function renderTitle(node) {
   els.titleMenu.querySelector('[data-action="settings"]').addEventListener("click", showSettings);
 }
 
+function renderFinalCard(node) {
+  renderSprites([]);
+  els.dialogueBox.classList.add("hidden");
+  els.titleMenu.classList.remove("hidden");
+  els.titleMenu.classList.add("final-mode");
+  els.titleMenu.innerHTML = `
+    <div class="final-sky" aria-label="游戏结束画面">
+      <div class="final-stars" aria-hidden="true">
+        ${Array.from({ length: 26 }, (_, index) => `<span style="--i:${index}"></span>`).join("")}
+      </div>
+      <div class="final-paper-lines" aria-hidden="true"></div>
+      <div class="final-constellation" aria-hidden="true">
+        <i></i><i></i><i></i><i></i><i></i>
+      </div>
+      <div class="final-keepsakes" aria-hidden="true">
+        <span class="keepsake-photo photo-a"></span>
+        <span class="keepsake-photo photo-b"></span>
+        <span class="keepsake-star"></span>
+      </div>
+      <div class="final-message" role="article">
+        <span>写给我们的宝贝</span>
+        <h1>${node.title}</h1>
+        <p>${node.subtitle || ""}</p>
+        <div class="final-signature">爸爸妈妈和星星一起写下</div>
+      </div>
+      <button id="finalBackBtn" type="button">${node.buttonText || "回到星空"}</button>
+    </div>
+  `;
+  els.titleMenu.querySelector("#finalBackBtn").addEventListener("click", () => showNode(game.story.start));
+}
 function resetRun() {
   game.vars = {};
   game.inventory = { stardust: 0 };
   game.history = [];
   game.gachaCounters = {};
+  game.read = new Set();
+  game.shownChapters = new Set();
+  game.nodeId = null;
+  game.currentNode = null;
   localStorage.removeItem(STORAGE_KEY);
+  localStorage.removeItem(READ_KEY);
 }
 
 function renderDialogue(node) {
-  renderSprites(node.sprite ? [node.sprite] : []);
+  renderStageVisuals(node);
   els.speakerName.textContent = characterName(node.speaker);
   typeText(node.text);
   addHistory(node.speaker, node.text);
 }
 
 function renderChoice(node) {
-  renderSprites(node.sprite ? [node.sprite] : []);
+  renderStageVisuals(node);
   els.speakerName.textContent = characterName(node.speaker);
   typeText(node.text || node.prompt || "");
   addHistory(node.speaker, node.text || node.prompt || "");
@@ -419,7 +562,7 @@ function renderMinigame(node) {
   const config = game.minigames[node.game];
   if (!config) throw new Error(`Missing minigame: ${node.game}`);
   renderSprites([]);
-  els.speakerName.textContent = "星愿观测";
+  els.speakerName.textContent = "星愿观察";
   els.dialogueText.textContent = config.subtitle;
   els.advanceBtn.classList.add("hidden");
   if (config.type === "voice_bubbles") {
@@ -464,6 +607,7 @@ function renderMinigame(node) {
 }
 
 function renderHomeMap(node) {
+  normalizeCompletionFlags();
   renderSprites([]);
   setBackground(node.background || "bg-archive.svg");
   els.screen.classList.add("map-screen");
@@ -471,13 +615,14 @@ function renderHomeMap(node) {
   els.titleMenu.classList.remove("hidden");
   els.titleMenu.classList.add("map-mode");
   const homes = node.homes || [];
+  const shouldRevealWarm = shouldRevealWarmHome(homes);
   els.titleMenu.innerHTML = `
     <div class="starmap-scene">
       <div class="ambient-stars" aria-hidden="true">
         ${Array.from({ length: 28 }, (_, index) => `<span style="--i:${index}"></span>`).join("")}
       </div>
       <div class="star-field" aria-label="观察星星">
-        ${homes.map((home, index) => renderHomeStar(home, index)).join("")}
+        ${homes.map((home, index) => renderHomeStar(home, index, shouldRevealWarm ? "warm" : "")).join("")}
       </div>
       <div id="starInfo" class="star-info hidden"></div>
     </div>
@@ -489,10 +634,22 @@ function renderHomeMap(node) {
       showStarInfo(home, node);
     });
   });
-  showStarInfo(homes.find((home) => !home.doneVar || !isTruthyFlag(home.doneVar)) || homes[0], node);
+  const defaultHome = shouldRevealWarm
+    ? homes.find((home) => home.id === "warm")
+    : homes.find((home) => !home.doneVar || !isTruthyFlag(home.doneVar)) || homes[0];
+  showStarInfo(defaultHome, node);
+  if (shouldRevealWarm) {
+    game.vars.warm_revealed = 1;
+    showWarmReveal();
+  }
 }
 
-function renderHomeStar(home, index) {
+function shouldRevealWarmHome(homes) {
+  const warm = homes.find((home) => home.id === "warm");
+  return Boolean(warm && !isTruthyFlag("warm_revealed") && !isTruthyFlag(warm.doneVar) && requirementsMet(warm.requires));
+}
+
+function renderHomeStar(home, index, revealHomeId = "") {
   const done = home.doneVar && isTruthyFlag(home.doneVar);
   const lockedByStory = !requirementsMet(home.requires);
   const cost = home.cost || 0;
@@ -503,10 +660,11 @@ function renderHomeStar(home, index) {
   else if (lockedByStory) status = "暂未出现";
   else if (!affordable) status = `还差 ${cost - current} 星尘`;
   else status = `可以探索 · 消耗 ${cost}`;
-  const marker = done ? "✓" : lockedByStory ? "…" : affordable ? "✦" : "⌁";
+  const marker = done ? "✓" : lockedByStory ? "…" : affordable ? "✦" : "○";
   const title = `${home.title}，${status}`;
+  const revealClass = home.id === revealHomeId ? "newly-revealed" : "";
   return `
-    <button class="star-node star-${home.id} ${done ? "explored" : "unexplored"} ${lockedByStory ? "story-locked" : ""} ${!lockedByStory && !affordable ? "dust-locked" : ""}"
+    <button class="star-node star-${home.id} ${done ? "explored" : "unexplored"} ${!done && lockedByStory ? "story-locked" : ""} ${!done && !lockedByStory && !affordable ? "dust-locked" : ""} ${revealClass}"
       style="--star-index:${index}" data-home="${home.id}" type="button" aria-label="${title}" title="${title}">
       <span class="star-glow"></span>
       <span class="star-sketch-ring ring-a"></span>
@@ -522,6 +680,19 @@ function renderHomeStar(home, index) {
       <span class="star-label" aria-hidden="true">${home.title}</span>
     </button>
   `;
+}
+
+function showWarmReveal() {
+  els.modal.classList.remove("hidden");
+  els.modal.innerHTML = `
+    <div class="card-reveal warm-reveal-card">
+      <span class="modal-kicker">NEW STAR</span>
+      <h2>普通之家出现了</h2>
+      <p>四颗星都被认真看见以后，星图中央的雾慢慢散开。一颗很安静的星亮了起来，看起来普通，却像一直在等小天使靠近。</p>
+      <button id="closeWarmRevealBtn" type="button">去看看普通之家</button>
+    </div>
+  `;
+  els.modal.querySelector("#closeWarmRevealBtn").addEventListener("click", () => els.modal.classList.add("hidden"));
 }
 
 function showStarInfo(home, node) {
@@ -604,11 +775,22 @@ function renderWishGate(node) {
 }
 
 function renderWishStar(option, index) {
+  const marker = option.correct ? "灯" : "星";
   return `
     <button class="star-node wish-option star-${option.id} ${option.correct ? "true-home" : ""}"
       style="--star-index:${index}" data-option="${option.id}" type="button" aria-label="${option.title}" title="${option.title}">
       <span class="star-glow"></span>
-      <span class="star-core"><span>${option.correct ? "灯" : "星"}</span></span>
+      <span class="star-sketch-ring ring-a"></span>
+      <span class="star-sketch-ring ring-b"></span>
+      <span class="star-core">
+        <span class="star-texture"></span>
+        <span class="star-window"></span>
+        <span class="star-spark spark-a"></span>
+        <span class="star-spark spark-b"></span>
+        <span class="star-spark spark-c"></span>
+      </span>
+      <span class="star-status" aria-hidden="true">${marker}</span>
+      <span class="star-label" aria-hidden="true">${option.title}</span>
     </button>
   `;
 }
@@ -790,7 +972,7 @@ function renderPoopDodge(node, config) {
   };
   const bounds = { left: 8, right: 92, top: 16, bottom: 90 };
   els.modal.classList.remove("hidden");
-  els.speakerName.textContent = "星愿观测";
+  els.speakerName.textContent = "星愿观察";
   els.dialogueText.textContent = config.subtitle;
   els.modal.innerHTML = `
     <div class="minigame-panel poop-dodge-panel">
@@ -799,7 +981,7 @@ function renderPoopDodge(node, config) {
       <p>${config.subtitle}</p>
       <div id="poopArena" class="poop-arena" tabindex="0" aria-label="便便流星雨躲避小游戏">
         <div class="poop-sky"></div>
-        <div id="poopPlayer" class="poop-player">ʚ★ɞ</div>
+        <div id="poopPlayer" class="poop-player">小天使</div>
       </div>
       <div class="poop-touch-controls" aria-label="触屏方向键">
         <button data-dir="up" type="button">↑</button>
@@ -934,7 +1116,7 @@ function renderPoopDodge(node, config) {
         player.classList.remove("is-hit");
         void player.offsetWidth;
         player.classList.add("is-hit");
-        els.dialogueText.textContent = config.hitText || "小心，继续躲开掉下来的东西！";
+        els.dialogueText.textContent = config.hitText || "小心，继续躲开掉下来的东西。";
         window.setTimeout(() => arena.classList.remove("hit-flash"), 180);
         if (state.hits >= maxHits) {
           gameOverPoopDodge(cleanup, node, config, state.hits);
@@ -952,7 +1134,7 @@ function renderPoopDodge(node, config) {
       drop.textContent = "💩";
       drop.style.left = `${poop.x}%`;
       drop.style.top = `${poop.y}%`;
-      drop.style.fontSize = `${poop.size * 2.2}px`;
+      drop.style.fontSize = `${poop.size * 3}px`;
       arena.appendChild(drop);
     });
     meter.textContent = `剩余 ${remaining} 秒 · 碰到 ${state.hits} / ${maxHits} 次`;
@@ -971,12 +1153,15 @@ function finishPoopDodge(cleanup, node, config, hits) {
   const reward = { ...resolveReward(config) };
   if (hits === 0) reward.stardust = (reward.stardust || 0) + 2;
   gain(reward);
-  els.dialogueText.textContent = config.successText || "小天使成功穿过了奇怪的流星雨。";
+  const resultText = hits === 0
+    ? (config.successText || "小天使灵巧地穿过便便流星雨，翅膀上一点脏东西都没有沾到。")
+    : `小天使坚持穿过了便便流星雨，中途碰到 ${hits} 次，但还是到达了干净的星光里。`;
+  els.dialogueText.textContent = resultText;
   els.modal.innerHTML = `
     <div class="minigame-panel complete poop-complete">
       <span class="modal-kicker">COMPLETE</span>
       <h2>躲避完成</h2>
-      <p>${config.successText || "小天使成功穿过了奇怪的流星雨。"}${hits === 0 ? " 完美躲避，额外获得星尘。" : ` 一共碰到 ${hits} 次，但还是坚持到了最后。`}</p>
+      <p>${resultText}${hits === 0 ? " 完美躲避，额外获得星尘。" : ""}</p>
       <div class="reward-list">${rewardLabel(reward)}</div>
       <button id="finishMiniBtn" type="button">继续剧情</button>
     </div>
@@ -987,11 +1172,11 @@ function finishPoopDodge(cleanup, node, config, hits) {
 function gameOverPoopDodge(cleanup, node, config, hits) {
   cleanup();
   game.miniCleanup = null;
-  els.dialogueText.textContent = "被碰到 5 次了，星愿观测失败。调整一下位置，再试一次。";
+  els.dialogueText.textContent = "被碰到 5 次了，星愿观察失败。调整一下位置，再试一次。";
   els.modal.innerHTML = `
     <div class="minigame-panel complete poop-complete">
       <span class="modal-kicker">GAME OVER</span>
-      <h2>观测失败</h2>
+      <h2>观察失败</h2>
       <p>小天使被便便碰到了 ${hits} 次。重新来一次，撑过 ${config.duration || 15} 秒就能继续剧情。</p>
       <button id="retryPoopBtn" type="button">重新开始</button>
     </div>
@@ -1004,7 +1189,7 @@ function renderBusyHome(node, config) {
   const state = { round: 0, hits: 0, keys: new Set(), dragging: false, raf: 0, running: false };
   els.modal.classList.remove("hidden");
   els.advanceBtn.classList.add("hidden");
-  els.speakerName.textContent = "星愿观测";
+  els.speakerName.textContent = "星愿观察";
 
   const drawRound = () => {
     const round = rounds[state.round];
@@ -1018,7 +1203,7 @@ function renderBusyHome(node, config) {
       size: 7 + Math.random() * 2,
       vx: (index % 2 ? -0.12 : 0.12) * (1 + index * 0.12),
       vy: (index % 3 ? 0.1 : -0.1) * (1 + index * 0.08),
-      icon: ["☎", "💻", "📅", "✉"][index % 4]
+      icon: ["☁", "💼", "📋", "✦"][index % 4]
     }));
     els.dialogueText.textContent = round.narration;
     els.modal.innerHTML = `
@@ -1029,7 +1214,7 @@ function renderBusyHome(node, config) {
         <div id="busyArena" class="busy-arena" tabindex="0" aria-label="把陪伴星光送到孩子身边">
           <div class="busy-room"><span class="room-window"></span><span class="room-table"></span><span class="room-lamp"></span></div>
           <div id="busyTarget" class="busy-target"><span>孩子</span><em>${round.targetLabel || "陪伴位置"}</em></div>
-          <div id="busyPlayer" class="busy-player">★</div>
+          <div id="busyPlayer" class="busy-player">☁</div>
         </div>
         <div class="poop-touch-controls busy-controls" aria-label="触屏方向键">
           <button data-dir="up" type="button">↑</button>
@@ -1037,7 +1222,7 @@ function renderBusyHome(node, config) {
           <button data-dir="down" type="button">↓</button>
           <button data-dir="right" type="button">→</button>
         </div>
-        <div id="busyMeter" class="mini-meter">第 ${state.round + 1} / ${rounds.length} 局 · 把星光送过去</div>
+        <div id="busyMeter" class="mini-meter">第 ${state.round + 1} / ${rounds.length} 关 · 把星光送过去</div>
       </div>
     `;
     setupBusyHomeControls(state, drawRound);
@@ -1118,7 +1303,7 @@ function renderBusyHome(node, config) {
       item.style.top = `${blocker.y}%`;
       arena.appendChild(item);
     });
-    meter.textContent = `第 ${state.round + 1} / ${rounds.length} 局 · 剩余 ${remaining} 秒 · 被打断 ${state.hits} 次`;
+    meter.textContent = `第 ${state.round + 1} / ${rounds.length} 关 · 剩余 ${remaining} 秒 · 被打断 ${state.hits} 次`;
 
     if (distance(state.player.x, state.player.y, state.target.x, state.target.y) < state.player.size + state.target.size) {
       cleanup();
@@ -1131,7 +1316,7 @@ function renderBusyHome(node, config) {
       state.player.x = 14;
       state.player.y = 76;
       state.start = performance.now();
-      els.dialogueText.textContent = "时间又被工作挤走了。小天使把星光捡回来，再试一次。";
+      els.dialogueText.textContent = "时间又被工作挤走了。小天使把星光捧回来，再试一次。";
     }
     state.raf = window.requestAnimationFrame(tick);
   };
@@ -1392,7 +1577,7 @@ function renderRichRunner(node, config) {
         item.hit = true;
         if (item.type === "collect") {
           state.score += 1;
-          els.dialogueText.textContent = "小天使捡到了一小段真正能陪孩子的时间。";
+          els.dialogueText.textContent = "小天使接到了一小段真正能陪孩子的时间。";
         } else {
           state.hits += 1;
           player?.classList.remove("is-hit");
@@ -1651,7 +1836,7 @@ function renderVoiceBubbles(node, config) {
     els.modal.innerHTML = `
       <div class="minigame-panel complete">
         <span class="modal-kicker">COMPLETE</span>
-        <h2>观测完成</h2>
+        <h2>观察完成</h2>
         <p>你在热闹里找到了真正关心孩子的声音。</p>
         <div class="reward-list">${rewardLabel(reward)}</div>
         <button id="finishMiniBtn" type="button">继续剧情</button>
@@ -1730,12 +1915,12 @@ function renderSelectCards(node, config) {
   const finish = () => {
     const reward = resolveReward(config);
     gain(reward);
-    els.dialogueText.textContent = config.successText || "星愿观测完成了。";
+    els.dialogueText.textContent = config.successText || "星愿观察完成了。";
     els.modal.innerHTML = `
       <div class="minigame-panel complete">
         <span class="modal-kicker">COMPLETE</span>
-        <h2>观测完成</h2>
-        <p>${config.successText || "星愿观测完成了。"}</p>
+        <h2>观察完成</h2>
+        <p>${config.successText || "星愿观察完成了。"}</p>
         <div class="reward-list">${rewardLabel(reward)}</div>
         <button id="finishMiniBtn" type="button">继续剧情</button>
       </div>
@@ -1774,7 +1959,7 @@ function renderDinoMemory(node, config) {
                 data-index="${index}" type="button" ${state.locked || state.matched.has(index) ? "disabled" : ""}
                 aria-label="${open ? card.name : "恐龙蛋"}">
                 <span class="egg-shell"></span>
-                <span class="dino-baby">
+                <span class="dino-baby" ${open ? "" : "aria-hidden=\"true\""}>
                   <strong>${card.icon}</strong>
                   <em>${card.name}</em>
                 </span>
@@ -1804,7 +1989,7 @@ function renderDinoMemory(node, config) {
       state.matched.add(first);
       state.matched.add(second);
       state.revealed.clear();
-      els.dialogueText.textContent = `找到一组${cards[first].name}。它们高兴得差点把蛋壳当帽子戴。`;
+      els.dialogueText.textContent = `找到一组 ${cards[first].name}。它们高兴得差点把蛋壳当帽子戴。`;
       if (state.matched.size === cards.length) {
         finish();
       } else {
@@ -1921,7 +2106,11 @@ function progressText(config, selected) {
 }
 
 function renderSprites(sprites) {
-  els.stage.innerHTML = sprites.map((spriteData) => {
+  els.stage.innerHTML = spriteMarkup(sprites);
+}
+
+function spriteMarkup(sprites = []) {
+  return sprites.map((spriteData) => {
     const character = game.characters[spriteData.character];
     if (!character?.sprite) return "";
     return `
@@ -1930,6 +2119,30 @@ function renderSprites(sprites) {
         alt="${character.displayName}" />
     `;
   }).join("");
+}
+
+function renderStageVisuals(node) {
+  const sprites = node.sprite ? [node.sprite] : [];
+  if (node.photoScene === "warm_family_photos") {
+    els.stage.innerHTML = `
+      <div class="warm-photo-scene" aria-label="爸爸和妈妈小时候的两张照片">
+        <figure class="warm-photo-frame dad-photo">
+          <span class="photo-tape"></span>
+          <img src="${asset("images/photo-dad-childhood.jpg")}" alt="爸爸小时候的照片" />
+          <figcaption>爸爸小时候</figcaption>
+        </figure>
+        <div class="warm-photo-light" aria-hidden="true"></div>
+        <figure class="warm-photo-frame mom-photo">
+          <span class="photo-tape"></span>
+          <img src="${asset("images/photo-mom-childhood.jpg")}" alt="妈妈小时候的照片" />
+          <figcaption>妈妈小时候</figcaption>
+        </figure>
+      </div>
+      ${spriteMarkup(sprites)}
+    `;
+    return;
+  }
+  renderSprites(sprites);
 }
 
 function typeText(text) {
@@ -1946,7 +2159,7 @@ function typeText(text) {
       game.typeTimer = window.setTimeout(tick, speed);
     } else {
       game.typing = false;
-      if (game.auto && game.currentNode?.next) {
+      if (game.auto && game.currentNode?.next && !game.chapterBlocking) {
         game.typeTimer = window.setTimeout(() => showNode(game.currentNode.next), 1100);
       }
     }
@@ -1955,6 +2168,7 @@ function typeText(text) {
 }
 
 function advance() {
+  if (hideChapter()) return;
   const node = game.currentNode;
   if (!node) return;
   if (game.typing) {
@@ -2032,7 +2246,7 @@ function showHistory() {
       <span class="modal-kicker">BACKLOG</span>
       <h2>对话回想</h2>
       <div class="history-list">
-        ${game.history.slice(-30).map((item) => `<p><strong>${item.speaker}</strong>${item.text}</p>`).join("") || "<p>还没有可回看的对白。</p>"}
+        ${game.history.slice(-30).map((item) => `<p><strong>${item.speaker}</strong>${item.text}</p>`).join("") || "<p>还没有可以回看的对白。</p>"}
       </div>
       <button id="closeHistoryBtn" type="button">关闭</button>
     </div>
@@ -2046,7 +2260,7 @@ function showSettings() {
     <div class="settings-panel">
       <span class="modal-kicker">SETTINGS</span>
       <h2>设置</h2>
-      <p>当前样片已支持音乐开关、自动播放、快进和对话回想。后续会加入文字速度和音量滑杆。</p>
+      <p>当前样片已支持默认背景音乐、自动播放、快进和对话回想。后续会加入文字速度和音量滑杆。</p>
       <button id="openEditorBtn" type="button">打开文字编辑器</button>
       <button id="closeSettingsBtn" type="button">关闭</button>
     </div>
@@ -2087,13 +2301,14 @@ function getNodeLabel(id, node) {
   return `${id} - ${clean.slice(0, 24)}${clean.length > 24 ? "..." : ""}`;
 }
 
-function applyTestState({ unlockHomes = false, stardust = 120 } = {}) {
+function applyTestState({ unlockHomes = false, unlockFirstFour = false, stardust = 120 } = {}) {
   game.inventory.stardust = Math.max(game.inventory.stardust || 0, stardust);
-  if (unlockHomes) {
-    ["family01_done", "family03_done", "family04_done", "dino_done", "warm_done"].forEach((key) => {
+  if (unlockHomes || unlockFirstFour) {
+    ["family01_done", "family03_done", "family04_done", "dino_done"].forEach((key) => {
       game.vars[key] = 1;
     });
   }
+  if (unlockHomes) game.vars.warm_done = 1;
   renderResourceBar();
 }
 
@@ -2162,10 +2377,51 @@ function showQuickTest() {
   els.modal.querySelector("#backSettingsBtn").addEventListener("click", showSettings);
 }
 
-function startMusic() {
-  if (game.music) return;
+async function startMusic() {
+  if (game.music || game.musicLoading) return;
+  const requestId = ++game.musicRequestId;
+  game.musicLoading = true;
+  game.music = true;
+  updateMusicButton();
+  const fileStarted = await startFileMusic(requestId);
+  if (!fileStarted && isCurrentMusicRequest(requestId)) startSynthMusic(requestId);
+  if (isCurrentMusicRequest(requestId)) game.musicLoading = false;
+}
+
+async function startFileMusic(requestId) {
+  for (const file of BGM_FILES) {
+    if (!isCurrentMusicRequest(requestId)) return true;
+    const url = asset(file);
+    try {
+      const response = await fetch(url, { method: "HEAD", cache: "no-store" });
+      if (!isCurrentMusicRequest(requestId)) return true;
+      if (!response.ok) continue;
+      const audio = new Audio(url);
+      audio.loop = true;
+      audio.volume = 0.42;
+      await audio.play();
+      if (!isCurrentMusicRequest(requestId)) {
+        audio.pause();
+        audio.currentTime = 0;
+        return true;
+      }
+      game.audio = { type: "file", element: audio };
+      game.musicLoading = false;
+      updateMusicButton();
+      return true;
+    } catch {
+      continue;
+    }
+  }
+  return false;
+}
+
+function startSynthMusic(requestId) {
   const AudioContext = window.AudioContext || window.webkitAudioContext;
-  if (!AudioContext) return;
+  if (!AudioContext || !isCurrentMusicRequest(requestId)) {
+    updateMusicButton();
+    return;
+  }
   const audio = new AudioContext();
   const gain = audio.createGain();
   gain.gain.value = 0.035;
@@ -2187,22 +2443,54 @@ function startMusic() {
     osc.stop(now + 1.65);
     index += 1;
   };
-  game.audio = { audio, timer: window.setInterval(play, 900) };
+  game.audio = { type: "synth", audio, timer: window.setInterval(play, 900) };
   game.music = true;
+  game.musicLoading = false;
+  updateMusicButton();
   play();
 }
 
 function stopMusic() {
-  if (!game.music) return;
-  window.clearInterval(game.audio.timer);
-  game.audio.audio.close();
+  if (!game.music && !game.musicLoading) return;
+  game.musicRequestId += 1;
+  game.musicLoading = false;
+  if (game.audio?.type === "file") {
+    game.audio.element.pause();
+    game.audio.element.currentTime = 0;
+  }
+  if (game.audio?.type === "synth") {
+    window.clearInterval(game.audio.timer);
+    game.audio.audio.close();
+  }
   game.audio = null;
   game.music = false;
+  updateMusicButton();
+}
+
+function isCurrentMusicRequest(requestId) {
+  return game.music && game.musicRequestId === requestId;
+}
+
+function updateMusicButton() {
+  if (!els.musicBtn) return;
+  els.musicBtn.textContent = game.music ? "♪ ✓" : "♪ ×";
+  els.musicBtn.setAttribute("aria-label", game.music ? "音乐开" : "音乐关");
+  els.musicBtn.title = game.music ? "音乐开" : "音乐关";
+  els.musicBtn.classList.toggle("active", game.music);
+  els.musicBtn.setAttribute("aria-pressed", game.music ? "true" : "false");
 }
 
 els.advanceBtn.addEventListener("click", advance);
+els.chapterCard.addEventListener("click", (event) => {
+  event.stopPropagation();
+  hideChapter();
+});
 els.screen.addEventListener("click", (event) => {
   if (event.target.closest("button") || event.target.closest(".modal")) return;
+  if (game.chapterBlocking) {
+    hideChapter();
+    return;
+  }
   if (!els.dialogueBox.classList.contains("hidden") && !els.choiceLayer.classList.contains("active")) advance();
 });
 els.historyBtn.addEventListener("click", showHistory);
@@ -2215,7 +2503,7 @@ els.skipBtn.addEventListener("click", () => {
   els.skipBtn.classList.toggle("active", game.skip);
 });
 els.menuBtn.addEventListener("click", () => showNode(game.story.start));
-els.musicBtn.addEventListener("click", () => game.music ? stopMusic() : startMusic());
+els.musicBtn?.addEventListener("click", () => game.music ? stopMusic() : startMusic());
 els.resourceBar.addEventListener("click", () => {
   showStardustPracticeInfo();
 });
@@ -2227,5 +2515,6 @@ els.resourceBar.addEventListener("keydown", (event) => {
 
 boot().catch((error) => {
   console.error(error);
-  els.stage.innerHTML = `<div class="error">加载失败：${error.message}</div>`;
+  els.stage.innerHTML = `<div class="error">鍔犺浇澶辫触锛?{error.message}</div>`;
 });
+

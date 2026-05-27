@@ -1,4 +1,7 @@
 const TEXT_OVERRIDES_KEY = "angel_vn_text_overrides_v1";
+const ADDED_NODES_KEY = "angel_vn_added_nodes_v1";
+const NODE_REWIRES_KEY = "angel_vn_node_rewires_v1";
+const EDITOR_VERSION = "vn80";
 
 const els = {
   fields: document.querySelector("#fields"),
@@ -15,6 +18,9 @@ let gacha;
 let resources;
 let characters;
 let controls = [];
+let addedNodes = {};
+let nodeRewires = {};
+let baseNodeIds = [];
 
 async function loadStory() {
   const [storyResponse, minigamesResponse, gachaResponse, resourcesResponse, charactersResponse] = await Promise.all([
@@ -25,18 +31,56 @@ async function loadStory() {
     fetch("./data/characters.json", { cache: "no-store" })
   ]);
   story = await storyResponse.json();
+  baseNodeIds = Object.keys(story.nodes);
   minigames = await minigamesResponse.json();
   gacha = await gachaResponse.json();
   resources = await resourcesResponse.json();
   characters = await charactersResponse.json();
+  applyStoryAdditions();
+  const params = new URLSearchParams(window.location.search);
+  const cleanupTestNode = params.get("cleanupTestNode");
+  if (cleanupTestNode) {
+    delete addedNodes[cleanupTestNode];
+    Object.entries(nodeRewires).forEach(([id, next]) => {
+      if (next === cleanupTestNode) delete nodeRewires[id];
+    });
+    localStorage.setItem(ADDED_NODES_KEY, JSON.stringify(addedNodes));
+    localStorage.setItem(NODE_REWIRES_KEY, JSON.stringify(nodeRewires));
+    window.location.href = `./editor.html?v=${EDITOR_VERSION}`;
+    return;
+  }
+  const addAfter = params.get("addAfter");
+  if (addAfter) {
+    renderNewDialoguePage(addAfter);
+    return;
+  }
   renderEditor();
   applySavedOverrides();
   updateChangedState();
   els.status.textContent = "已读取剧情。修改后点“保存修改”，或直接点“测试这一段”查看效果。";
 }
 
+function readJsonStorage(key, fallback) {
+  try {
+    return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback));
+  } catch {
+    return fallback;
+  }
+}
+
+function applyStoryAdditions() {
+  addedNodes = readJsonStorage(ADDED_NODES_KEY, {});
+  nodeRewires = readJsonStorage(NODE_REWIRES_KEY, {});
+  Object.entries(addedNodes).forEach(([id, node]) => {
+    if (node && typeof node === "object") story.nodes[id] = node;
+  });
+  Object.entries(nodeRewires).forEach(([id, next]) => {
+    if (story.nodes[id] && typeof next === "string") story.nodes[id].next = next;
+  });
+}
+
 function renderEditor() {
-  const storyCards = Object.entries(story.nodes).map(([nodeId, node]) => {
+  const storyCards = orderedStoryEntries().map(([nodeId, node]) => {
     const rows = collectEditableStrings(node, `story.nodes.${nodeId}`)
       .map((item) => fieldMarkup(item.path, item.label, item.value, item.long));
     if (!rows.length) return "";
@@ -50,6 +94,7 @@ function renderEditor() {
           </div>
           <div class="field-meta">
             <small>${escapeHtml(nodeId)}</small>
+            ${canAddDialogueAfter(node) ? `<button class="add-dialogue-btn" data-add-after="${escapeAttr(nodeId)}" type="button" title="在这一段后面新增一段对话">＋ 新段落</button>` : ""}
             <button class="test-node-btn" data-test-node="${escapeAttr(nodeId)}" type="button">测试这一段</button>
           </div>
         </div>
@@ -93,6 +138,32 @@ function renderEditor() {
   els.fields.querySelectorAll("[data-test-node]").forEach((button) => {
     button.addEventListener("click", () => testNode(button.dataset.testNode));
   });
+  els.fields.querySelectorAll("[data-add-after]").forEach((button) => {
+    button.addEventListener("click", () => openNewDialoguePage(button.dataset.addAfter));
+  });
+}
+
+function orderedStoryEntries() {
+  const visited = new Set();
+  const entries = [];
+  const pushNodeAndInsertedChildren = (nodeId) => {
+    let currentId = nodeId;
+    while (currentId && story.nodes[currentId] && !visited.has(currentId)) {
+      visited.add(currentId);
+      entries.push([currentId, story.nodes[currentId]]);
+      const nextId = story.nodes[currentId].next;
+      currentId = addedNodes[nextId] ? nextId : "";
+    }
+  };
+  baseNodeIds.forEach(pushNodeAndInsertedChildren);
+  Object.keys(story.nodes).forEach((nodeId) => {
+    if (!visited.has(nodeId)) pushNodeAndInsertedChildren(nodeId);
+  });
+  return entries;
+}
+
+function canAddDialogueAfter(node) {
+  return ["dialogue", "reward"].includes(node.type);
 }
 
 function dataCardMarkup(type, id, value, path) {
@@ -114,6 +185,122 @@ function dataCardMarkup(type, id, value, path) {
       <div class="field-grid">${rows.join("")}</div>
     </article>
   `;
+}
+
+function openNewDialoguePage(nodeId) {
+  saveOverrides();
+  window.location.href = `./editor.html?v=${EDITOR_VERSION}&addAfter=${encodeURIComponent(nodeId)}`;
+}
+
+function renderNewDialoguePage(afterId) {
+  const source = story.nodes[afterId];
+  if (!source) {
+    els.status.textContent = "没有找到要插入的位置。";
+    return;
+  }
+  controls = [];
+  els.search.closest("label").style.display = "none";
+  els.save.style.display = "none";
+  els.reset.style.display = "none";
+  els.export.style.display = "none";
+  const sourceNext = source.next || "";
+  const defaultSpeaker = source.speaker || "narrator";
+  const characterOptions = Object.entries(characters)
+    .map(([id, character]) => `<option value="${escapeAttr(id)}" ${id === defaultSpeaker ? "selected" : ""}>${escapeHtml(character.displayName || id)}</option>`)
+    .join("");
+  const sourceSprite = source.sprite || {};
+  els.status.textContent = `正在为 ${afterId} 后面添加新对话。保存后，原本的下一段会自动接到新对话后面。`;
+  els.fields.innerHTML = `
+    <article class="field-card new-dialogue-card">
+      <div class="field-title">
+        <div>
+          <span class="field-kicker">NEW DIALOGUE</span>
+          <h2>添加新一段对话</h2>
+        </div>
+        <div class="field-meta">
+          <small>插入到 ${escapeHtml(afterId)} 后</small>
+        </div>
+      </div>
+      <div class="new-dialogue-hint">
+        <p>新段落会沿用上一段的背景、角色位置和表情。你只需要填写这一页要说的话。</p>
+        <p>保存后流程会变成：当前段落 → 新段落 → 原本下一段。</p>
+      </div>
+      <div class="field-grid">
+        <label class="field-row">
+          <span>说话的人</span>
+          <small>speaker</small>
+          <select id="newSpeaker">${characterOptions}</select>
+        </label>
+        <label class="field-row">
+          <span>新增对白/旁白</span>
+          <small>text</small>
+          <textarea id="newDialogueText" placeholder="在这里写新增的一页对白。"></textarea>
+        </label>
+        <label class="field-row">
+          <span>节点编号</span>
+          <small>自动生成，也可以改成容易记的英文编号</small>
+          <input id="newNodeId" value="${escapeAttr(makeNewNodeId(afterId))}" />
+        </label>
+      </div>
+      <div class="new-dialogue-actions">
+        <button id="saveNewDialogueBtn" type="button">保存新段落</button>
+        <button id="cancelNewDialogueBtn" type="button">返回编辑器</button>
+      </div>
+    </article>
+  `;
+  els.fields.querySelector("#newDialogueText").focus();
+  els.fields.querySelector("#cancelNewDialogueBtn").addEventListener("click", () => {
+    window.location.href = `./editor.html?v=${EDITOR_VERSION}`;
+  });
+  els.fields.querySelector("#saveNewDialogueBtn").addEventListener("click", () => {
+    saveNewDialogue({
+      afterId,
+      source,
+      sourceNext,
+      sourceSprite
+    });
+  });
+}
+
+function makeNewNodeId(afterId) {
+  const base = `${afterId}_extra`;
+  let index = 1;
+  while (story.nodes[`${base}_${String(index).padStart(2, "0")}`]) index += 1;
+  return `${base}_${String(index).padStart(2, "0")}`;
+}
+
+function saveNewDialogue({ afterId, source, sourceNext, sourceSprite }) {
+  const id = els.fields.querySelector("#newNodeId").value.trim();
+  const text = els.fields.querySelector("#newDialogueText").value.trim();
+  const speaker = els.fields.querySelector("#newSpeaker").value;
+  if (!/^[A-Za-z0-9_]+$/.test(id)) {
+    els.status.textContent = "节点编号只能用英文字母、数字和下划线。";
+    return;
+  }
+  if (story.nodes[id] && !addedNodes[id]) {
+    els.status.textContent = "这个节点编号已经存在，请换一个。";
+    return;
+  }
+  if (!text) {
+    els.status.textContent = "请先填写新增对白。";
+    return;
+  }
+  const newNode = {
+    type: "dialogue",
+    background: source.background,
+    speaker,
+    text
+  };
+  if (sourceNext) newNode.next = sourceNext;
+  if (sourceSprite?.character && speaker !== "narrator") {
+    newNode.sprite = { ...sourceSprite, character: speaker };
+  }
+  addedNodes[id] = newNode;
+  nodeRewires[afterId] = id;
+  localStorage.setItem(ADDED_NODES_KEY, JSON.stringify(addedNodes));
+  localStorage.setItem(NODE_REWIRES_KEY, JSON.stringify(nodeRewires));
+  els.status.textContent = "新段落已保存。正在回到文字编辑器。";
+  window.location.href = `./editor.html?v=${EDITOR_VERSION}`;
 }
 
 function collectEditableStrings(value, path, rows = []) {
@@ -217,6 +404,7 @@ function applySavedOverrides() {
   }
   controls.forEach((control) => {
     const value = getByPath(saved, control.dataset.editPath);
+    if (typeof value === "string" && /^[?\s]+$/.test(value) && value.includes("?")) return;
     if (typeof value === "string") control.value = value;
   });
 }
@@ -240,7 +428,7 @@ function testNode(nodeId) {
   saveOverrides();
   const lateStory = /^(gate_select|xingyu_|trial_|ending_|birthday_)/.test(nodeId);
   const params = new URLSearchParams({
-    v: "vn46",
+    v: EDITOR_VERSION,
     testNode: nodeId,
     dust: "1"
   });
@@ -251,6 +439,8 @@ function testNode(nodeId) {
 function resetOverrides() {
   if (!confirm("确定清空所有文字修改吗？")) return;
   localStorage.removeItem(TEXT_OVERRIDES_KEY);
+  localStorage.removeItem(ADDED_NODES_KEY);
+  localStorage.removeItem(NODE_REWIRES_KEY);
   controls.forEach((control) => {
     control.value = control.closest(".field-row").dataset.original;
   });
@@ -259,7 +449,12 @@ function resetOverrides() {
 }
 
 function exportOverrides() {
-  const blob = new Blob([JSON.stringify(buildOverrides(), null, 2)], { type: "application/json" });
+  const payload = {
+    textOverrides: buildOverrides(),
+    addedNodes,
+    nodeRewires
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
