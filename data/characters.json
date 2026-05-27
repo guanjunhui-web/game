@@ -14,21 +14,37 @@
     "displayName": "小天使",
     "role": "出生前的她",
     "sprite": "angel.svg",
-    "expressions": ["normal", "smile", "confused", "serious", "worried", "touched"]
+    "expressions": [
+      "normal",
+      "smile",
+      "confused",
+      "serious",
+      "worried",
+      "touched"
+    ]
   },
   "guardian": {
     "name": "守护天使",
     "displayName": "守护天使",
     "role": "星星档案馆的引导者",
     "sprite": "guardian.svg",
-    "expressions": ["normal", "smile", "explain"]
+    "expressions": [
+      "normal",
+      "smile",
+      "explain"
+    ]
   },
   "xingyu": {
-    "name": "星羽",
-    "displayName": "星羽",
+    "name": "小星羽",
+    "displayName": "小星羽",
     "role": "另一个也在寻找家的小天使",
     "sprite": "xingyu.svg",
-    "expressions": ["normal", "quiet", "sad", "smile"]
+    "expressions": [
+      "normal",
+      "quiet",
+      "sad",
+      "smile"
+    ]
   },
   "narrator": {
     "name": "旁白",

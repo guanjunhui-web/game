@@ -4,7 +4,7 @@ const TEXT_OVERRIDES_KEY = "angel_vn_text_overrides_v1";
 const ADDED_NODES_KEY = "angel_vn_added_nodes_v1";
 const NODE_REWIRES_KEY = "angel_vn_node_rewires_v1";
 const ASSET_ROOT = "./assets";
-const ASSET_VERSION = "vn95";
+const ASSET_VERSION = "vn97";
 const BGM_FILES = [
   "audio/kikujiro-summer-piano.mp3",
   "audio/bgm.mp3"
@@ -2504,11 +2504,13 @@ async function startMusic() {
 async function startFileMusic(requestId) {
   for (const file of BGM_FILES) {
     if (!isCurrentMusicRequest(requestId)) return true;
-    const url = asset(file);
+    const url = file.startsWith("data:") ? file : asset(file);
     try {
-      const response = await fetch(url, { method: "HEAD", cache: "no-store" });
-      if (!isCurrentMusicRequest(requestId)) return true;
-      if (!response.ok) continue;
+      if (!file.startsWith("data:")) {
+        const response = await fetch(url, { method: "HEAD", cache: "no-store" });
+        if (!isCurrentMusicRequest(requestId)) return true;
+        if (!response.ok) continue;
+      }
       const audio = new Audio(url);
       audio.loop = true;
       audio.preload = "auto";
