@@ -3,7 +3,7 @@ const path = require("path");
 const { execFileSync } = require("child_process");
 
 const root = process.cwd();
-const version = "vn98";
+const version = "vn99";
 const outDir = path.join(root, "dist", `embedded-${version}`);
 const zipPath = path.join(root, "dist", `angel-game-embedded-${version}.zip`);
 
@@ -79,10 +79,15 @@ function collectAssets() {
 
 function compressedMusicUri() {
   const ffmpeg = findFfmpeg();
+  const source = path.join(root, "assets", "audio", "bgm.mp3");
   if (!ffmpeg) {
+    const previousCompressed = fs.readdirSync(path.join(root, "dist"))
+      .filter((name) => /^bgm-embedded-vn\d+\.mp3$/.test(name))
+      .sort()
+      .pop();
+    if (previousCompressed) return dataUri(path.join(root, "dist", previousCompressed));
     throw new Error("Missing ffmpeg. Set FFMPEG_PATH or install ffmpeg-static before building the embedded release.");
   }
-  const source = path.join(root, "assets", "audio", "bgm.mp3");
   const target = path.join(root, "dist", `bgm-embedded-${version}.mp3`);
   remove(target);
   execFileSync(ffmpeg, ["-y", "-i", source, "-vn", "-ac", "2", "-b:a", "64k", target], {

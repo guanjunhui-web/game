@@ -4923,7 +4923,7 @@ select {
 }
 
 .dialogue-box {
-  height: clamp(218px, 29dvh, 258px);
+  height: clamp(272px, 40dvh, 332px);
   min-height: 0;
   display: flex;
   flex-direction: column;
@@ -4934,6 +4934,8 @@ select {
   min-height: 0;
   overflow-y: auto;
   scrollbar-width: thin;
+  font-size: 16.5px;
+  line-height: 1.7;
 }
 
 .choice-layer.active {
@@ -4944,23 +4946,23 @@ select {
 }
 
 .dialogue-box.choice-mode {
-  height: clamp(248px, 34dvh, 304px);
+  height: clamp(286px, 42dvh, 356px);
 }
 
 .dialogue-box.choice-mode #dialogueText {
   flex: 0 0 auto;
-  min-height: 52px;
-  max-height: 92px;
+  min-height: 66px;
+  max-height: 126px;
   margin: 8px 2px 9px;
-  font-size: 15px;
-  line-height: 1.62;
+  font-size: 15.5px;
+  line-height: 1.66;
 }
 
 .dialogue-box.choice-mode .choice-layer.active {
   flex: 1 1 auto;
   gap: 6px;
   align-content: start;
-  max-height: 156px;
+  max-height: 186px;
 }
 
 .dialogue-box.choice-mode .choice-btn {
@@ -5433,28 +5435,28 @@ select {
 
 @media (max-height: 740px) {
   .dialogue-box {
-    height: 196px;
+    height: clamp(260px, 44dvh, 310px);
   }
 
   .dialogue-box.choice-mode {
-    height: 228px;
+    height: clamp(268px, 46dvh, 316px);
   }
 
   .dialogue-box.choice-mode #dialogueText {
-    min-height: 44px;
-    max-height: 72px;
-    font-size: 14px;
-    line-height: 1.54;
+    min-height: 58px;
+    max-height: 108px;
+    font-size: 15px;
+    line-height: 1.6;
   }
 
   .dialogue-box.choice-mode .choice-layer.active {
-    max-height: 138px;
+    max-height: 164px;
   }
 
   .dialogue-box.choice-mode .choice-btn {
-    min-height: 36px;
-    padding: 5px 10px;
-    font-size: 14px;
+    min-height: 38px;
+    padding: 6px 10px;
+    font-size: 14.5px;
   }
 
   .minigame-panel.dino-memory-panel:not(.complete) {
