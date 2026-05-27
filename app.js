@@ -4,7 +4,7 @@ const TEXT_OVERRIDES_KEY = "angel_vn_text_overrides_v1";
 const ADDED_NODES_KEY = "angel_vn_added_nodes_v1";
 const NODE_REWIRES_KEY = "angel_vn_node_rewires_v1";
 const ASSET_ROOT = "./assets";
-const ASSET_VERSION = "vn97";
+const ASSET_VERSION = "vn98";
 const BGM_FILES = [
   "audio/kikujiro-summer-piano.mp3",
   "audio/bgm.mp3"
@@ -570,6 +570,7 @@ function renderMinigame(node) {
   const config = game.minigames[node.game];
   if (!config) throw new Error(`Missing minigame: ${node.game}`);
   renderSprites([]);
+  setBackground(node.background || "bg-starmap.svg");
   els.speakerName.textContent = "星愿观察";
   els.dialogueText.textContent = config.subtitle;
   els.advanceBtn.classList.add("hidden");
@@ -617,7 +618,7 @@ function renderMinigame(node) {
 function renderHomeMap(node) {
   normalizeCompletionFlags();
   renderSprites([]);
-  setBackground(node.background || "bg-archive.svg");
+  setBackground(node.background || "bg-starmap.svg");
   els.screen.classList.add("map-screen");
   els.dialogueBox.classList.add("hidden");
   els.titleMenu.classList.remove("hidden");

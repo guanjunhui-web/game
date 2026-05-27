@@ -279,7 +279,7 @@
     },
     "practice_star_game": {
       "type": "minigame",
-      "background": "bg-archive.svg",
+      "background": "bg-starmap.svg",
       "game": "stardust_practice",
       "successNext": "home_map"
     },
