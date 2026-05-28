@@ -11,7 +11,8 @@
     "minified": true,
     "newFeature": true,
     "coverView": true,
-    "nodeModules": false
+    "nodeModules": false,
+    "minifyWXML": true
   },
   "compileType": "miniprogram",
   "libVersion": "3.8.12",

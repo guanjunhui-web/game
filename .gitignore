@@ -14,3 +14,7 @@ dist/
 build/
 .cache/
 .wrangler/
+
+# WeChat DevTools generated output
+wechat-miniprogram/preview-qrcode.png
+wechat-miniprogram/upload-result.json
