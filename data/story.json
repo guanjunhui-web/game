@@ -3,14 +3,14 @@
   "nodes": {
     "title": {
       "type": "title",
-      "background": "bg-cover.svg",
+      "background": "bg-heaven.svg",
       "title": "小天使的选择",
       "subtitle": "妹妹出生前的故事",
       "startNext": "world_001"
     },
     "world_001": {
       "type": "dialogue",
-      "chapter": "序章 出发日",
+      "chapter": "序章 星星图书馆",
       "background": "bg-heaven.svg",
       "speaker": "narrator",
       "text": "在很久很久以前，在每个人来到这个世界以前，我们都曾经是云端上的小天使。",
@@ -104,7 +104,6 @@
     },
     "archive_001": {
       "type": "dialogue",
-      "chapter": "第一章 星星图书馆",
       "background": "bg-starmap.svg",
       "speaker": "narrator",
       "text": "云阶尽头，是一座没有屋顶的图书馆。无数颗星星像书一样排在空中，每一颗星星里，都藏着一个家的故事。",
@@ -119,7 +118,19 @@
         "expression": "explain",
         "position": "right"
       },
-      "text": "你不能只看一眼就决定，你需要认真观察。每一次靠近新的星星，都要需要用到星尘，星尘可以通过观察星星收集，不够的时候也可以通过小游戏获得。",
+      "text": "你不能只看一眼就决定，你需要认真观察。",
+      "next": "archive_002_page_02"
+    },
+    "archive_002_page_02": {
+      "type": "dialogue",
+      "background": "bg-starmap.svg",
+      "speaker": "guardian",
+      "sprite": {
+        "character": "guardian",
+        "expression": "explain",
+        "position": "right"
+      },
+      "text": "每一次靠近新的星星，都需要用到星尘，星尘可以通过观察星星收集，不够的时候也可以通过小游戏获得。",
       "next": "archive_003"
     },
     "archive_003": {
@@ -431,7 +442,14 @@
       "type": "dialogue",
       "background": "bg-candy.svg",
       "speaker": "narrator",
-      "text": "小天使观察这个星球时，光一下子变得很亮。这一座很大的房子，地板像辈月光洗过一样干净，衣柜里挂着一排漂亮裙子，玩具架一直排到墙边。",
+      "text": "小天使观察这个星球时，光一下子变得很亮。",
+      "next": "family04_001_page_02"
+    },
+    "family04_001_page_02": {
+      "type": "dialogue",
+      "background": "bg-candy.svg",
+      "speaker": "narrator",
+      "text": "这一座很大的房子，地板像被月光洗过一样干净，衣柜里挂着一排漂亮裙子，玩具架一直排到墙边。",
       "next": "family04_001b"
     },
     "family04_001b": {
@@ -579,7 +597,14 @@
       "type": "dialogue",
       "background": "bg-dino.svg",
       "speaker": "narrator",
-      "text": "恐龙之家里一个恐龙爸爸正在给小恐龙系围兜。围兜很漂亮，恐龙也很努力，结果围兜刚系好，小恐龙一低头，整张餐桌都往前挪了半厘米。",
+      "text": "恐龙之家里一个恐龙爸爸正在给小恐龙系围兜。",
+      "next": "dino_005_page_02"
+    },
+    "dino_005_page_02": {
+      "type": "dialogue",
+      "background": "bg-dino.svg",
+      "speaker": "narrator",
+      "text": "围兜很漂亮，恐龙也很努力，结果围兜刚系好，小恐龙一低头，整张餐桌都往前挪了半厘米。",
       "next": "dino_006"
     },
     "dino_006": {
@@ -591,7 +616,19 @@
         "expression": "smile",
         "position": "right"
       },
-      "text": "这里的爱很直接。饿了就给一大盆青菜，开心了就把尾巴摇成扫帚，难过了就用很大的脑袋轻轻蹭一蹭。缺点是，轻轻蹭一蹭也可能把枕头蹭到隔壁房间。",
+      "text": "这里的爱很直接。饿了就给一大盆青菜，开心了就把尾巴摇成扫帚，难过了就用很大的脑袋轻轻蹭一蹭。",
+      "next": "dino_006_page_02"
+    },
+    "dino_006_page_02": {
+      "type": "dialogue",
+      "background": "bg-dino.svg",
+      "speaker": "guardian",
+      "sprite": {
+        "character": "guardian",
+        "expression": "smile",
+        "position": "right"
+      },
+      "text": "缺点是，轻轻蹭一蹭也可能把枕头蹭到隔壁房间。",
       "next": "dino_007"
     },
     "dino_007": {
@@ -687,7 +724,19 @@
         "expression": "explain",
         "position": "right"
       },
-      "text": "那就仔细看。真正的提示，常常藏在最普通的地方。有些星星不会一下子说出答案，只会先让你看见：他们还没有成为大人以前，是什么样子。",
+      "text": "那就仔细看。真正的提示，常常藏在最普通的地方。",
+      "next": "warm_003_page_02"
+    },
+    "warm_003_page_02": {
+      "type": "dialogue",
+      "background": "bg-warm.svg",
+      "speaker": "guardian",
+      "sprite": {
+        "character": "guardian",
+        "expression": "explain",
+        "position": "right"
+      },
+      "text": "有些星星不会一下子说出答案，只会先让你看见：他们还没有成为大人以前，是什么样子。",
       "next": "warm_003b"
     },
     "warm_003b": {
@@ -729,7 +778,20 @@
         "expression": "smile",
         "position": "right"
       },
-      "text": "因为这就是普通之家给你的提示。长大以后的他们，会成为等你的人；可是很久以前，他们也会摔跤，也会撒娇，也会因为一点小事开心很久。",
+      "text": "因为这就是普通之家给你的提示。长大以后的他们，会成为等你的人；",
+      "next": "warm_003d_page_02"
+    },
+    "warm_003d_page_02": {
+      "type": "dialogue",
+      "background": "bg-warm.svg",
+      "photoScene": "warm_family_photos",
+      "speaker": "guardian",
+      "sprite": {
+        "character": "guardian",
+        "expression": "smile",
+        "position": "right"
+      },
+      "text": "可是很久以前，他们也会摔跤，也会撒娇，也会因为一点小事开心很久。",
       "next": "warm_003d_extra_01"
     },
     "warm_003d2": {
@@ -750,7 +812,15 @@
       "background": "bg-warm.svg",
       "photoScene": "warm_family_photos",
       "speaker": "narrator",
-      "text": "两张照片一左一右，被小灯照得很柔和。照片里的他们都还那么小，却像已经从很远的童年出发，慢慢走到同一束灯光下面。那束光没有说话，只安静地把中间的位置留出来，像在等一个还没出生的孩子靠近。",
+      "text": "两张照片一左一右，被小灯照得很柔和。照片里的他们都还那么小，却像已经从很远的童年出发，慢慢走到同一束灯光下面。",
+      "next": "warm_003e_page_02"
+    },
+    "warm_003e_page_02": {
+      "type": "dialogue",
+      "background": "bg-warm.svg",
+      "photoScene": "warm_family_photos",
+      "speaker": "narrator",
+      "text": "那束光没有说话，只安静地把中间的位置留出来，像在等一个还没出生的孩子靠近。",
       "next": "warm_004"
     },
     "warm_004": {
@@ -763,7 +833,20 @@
         "expression": "touched",
         "position": "left"
       },
-      "text": "左边是爸爸小时候，右边是妈妈小时候，中间是一小片被灯光留出来的空白。原来他们还没见过我，可他们的小时候、现在和以后，好像已经慢慢排成了一条路。",
+      "text": "左边是爸爸小时候，右边是妈妈小时候，中间是一小片被灯光留出来的空白。",
+      "next": "warm_004_page_02"
+    },
+    "warm_004_page_02": {
+      "type": "dialogue",
+      "background": "bg-warm.svg",
+      "photoScene": "warm_family_photos",
+      "speaker": "little_angel",
+      "sprite": {
+        "character": "little_angel",
+        "expression": "touched",
+        "position": "left"
+      },
+      "text": "原来他们还没见过我，可他们的小时候、现在和以后，好像已经慢慢排成了一条路。",
       "next": "warm_005"
     },
     "warm_005": {
@@ -804,7 +887,7 @@
     },
     "xingyu_001": {
       "type": "dialogue",
-      "chapter": "第三章 同一颗星星前",
+      "chapter": "中章 同一颗星星前",
       "background": "bg-warm.svg",
       "speaker": "narrator",
       "text": "就在小天使想伸手触碰那颗星球的时候，另一只手，也轻轻碰到了同一片星光。",
@@ -1088,18 +1171,15 @@
     "ending_004": {
       "type": "dialogue",
       "background": "bg-gate.svg",
+      "photoScene": "birth_gate_transition",
       "speaker": "little_angel",
-      "sprite": {
-        "character": "little_angel",
-        "expression": "smile",
-        "position": "center"
-      },
       "text": "我选好了。我要去做他们的孩子。",
       "next": "birthday_001"
     },
     "birthday_001": {
       "type": "dialogue",
       "background": "bg-cover.svg",
+      "photoScene": "birthday_family_photo",
       "speaker": "narrator",
       "text": "很多年以后，那个小天使长到了八岁。她也许不记得星星档案馆和心愿之门，但那一天的选择，一直藏在她的睡梦里。",
       "next": "birthday_002"
@@ -1144,6 +1224,7 @@
     "warm_003b_extra_01": {
       "type": "dialogue",
       "background": "bg-warm.svg",
+      "photoScene": "warm_family_photos",
       "speaker": "narrator",
       "text": "右边相框里，是妈妈小时候的照片：那时的她也还不是妈妈，只是一个小女孩，眼睛亮亮的，像刚刚发现了什么好玩的事情。",
       "next": "warm_003c"
@@ -1152,12 +1233,20 @@
       "type": "dialogue",
       "background": "bg-warm.svg",
       "speaker": "narrator",
-      "text": "星球里没有城堡，也没有会唱歌的云，只是一间普通房间。桌边亮着一盏小灯，灯光里放着两只小相框，一左一右，像两颗还没完全醒来的星星。",
+      "text": "星球里没有城堡，也没有会唱歌的云，只是一间普通房间。",
+      "next": "warm_001_extra_01_page_02"
+    },
+    "warm_001_extra_01_page_02": {
+      "type": "dialogue",
+      "background": "bg-warm.svg",
+      "speaker": "narrator",
+      "text": "桌边亮着一盏小灯，灯光里放着两只小相框，一左一右，像两颗还没完全醒来的星星。",
       "next": "warm_002"
     },
     "warm_003d_extra_01": {
       "type": "dialogue",
       "background": "bg-warm.svg",
+      "photoScene": "warm_family_photos",
       "speaker": "guardian",
       "text": "看见他们小时候的样子，你就知道：他们不是天生就会当爸爸妈妈，他们是带着自己的童年，一点点走来等你的。",
       "next": "warm_003e",

@@ -4,7 +4,7 @@ const TEXT_OVERRIDES_KEY = "angel_vn_text_overrides_v1";
 const ADDED_NODES_KEY = "angel_vn_added_nodes_v1";
 const NODE_REWIRES_KEY = "angel_vn_node_rewires_v1";
 const ASSET_ROOT = "./assets";
-const ASSET_VERSION = "vn100";
+const ASSET_VERSION = "vn119";
 const BGM_FILES = [
   "audio/kikujiro-summer-piano.mp3",
   "audio/bgm.mp3"
@@ -52,6 +52,7 @@ const game = {
   musicLoading: false,
   musicRequestId: 0,
   audio: null,
+  birthGate: null,
   gachaCounters: {},
   shownChapters: new Set(),
   miniCleanup: null
@@ -68,6 +69,28 @@ const HOME_COMPLETION_NODES = {
   dino_gift: "dino_done",
   warm_001: "warm_done",
   warm_gift: "warm_done"
+};
+
+const WARM_FAMILY_PHOTO_SEQUENCE = new Set([
+  "warm_003b",
+  "warm_003b_extra_01",
+  "warm_003b2",
+  "warm_003c",
+  "warm_003d",
+  "warm_003d_page_02",
+  "warm_003d_extra_01",
+  "warm_003d2",
+  "warm_003e",
+  "warm_003e_page_02",
+  "warm_004",
+  "warm_004_page_02",
+  "warm_005"
+]);
+
+const CANONICAL_CHAPTER_TITLES = {
+  world_001: "序章 星星图书馆",
+  xingyu_001: "中章 同一颗星星前",
+  ending_001: "终章 原来是你们"
 };
 
 function isTruthyFlag(key) {
@@ -115,6 +138,7 @@ async function boot() {
   ]);
   applyStoryAdditions();
   applyTextOverrides();
+  normalizeChapterTitles();
   renderResourceBar();
   updateMusicButton();
   const params = new URLSearchParams(window.location.search);
@@ -183,6 +207,12 @@ function mergeStringOverrides(target, source) {
     if (value && typeof value === "object") {
       mergeStringOverrides(target[key], value);
     }
+  });
+}
+
+function normalizeChapterTitles() {
+  Object.entries(CANONICAL_CHAPTER_TITLES).forEach(([nodeId, chapter]) => {
+    if (game.story.nodes[nodeId]) game.story.nodes[nodeId].chapter = chapter;
   });
 }
 
@@ -327,7 +357,12 @@ function clearTransientUi() {
     game.miniCleanup();
     game.miniCleanup = null;
   }
+  if (game.birthGate?.timer) window.clearTimeout(game.birthGate.timer);
+  if (game.birthGate?.photoTimer) window.clearTimeout(game.birthGate.photoTimer);
+  game.birthGate = null;
   els.screen.classList.remove("map-screen");
+  els.screen.classList.remove("chapter-mode");
+  els.chapterCard.classList.add("hidden");
   els.titleMenu.classList.add("hidden");
   els.titleMenu.classList.remove("map-mode");
   els.titleMenu.classList.remove("final-mode");
@@ -336,8 +371,11 @@ function clearTransientUi() {
   els.choiceLayer.innerHTML = "";
   els.choiceLayer.classList.remove("active");
   els.advanceBtn.classList.remove("hidden");
+  els.advanceBtn.textContent = "继续";
   els.dialogueBox.classList.remove("hidden");
   els.dialogueBox.classList.remove("choice-mode");
+  els.dialogueBox.classList.remove("choice-expanded");
+  game.chapterBlocking = false;
 }
 
 function renderTitle(node) {
@@ -429,11 +467,16 @@ function renderChoice(node) {
   renderStageVisuals(node);
   els.speakerName.textContent = characterName(node.speaker);
   els.dialogueBox.classList.add("choice-mode");
-  typeText(node.text || node.prompt || "");
-  addHistory(node.speaker, node.text || node.prompt || "");
+  const prompt = node.text || node.prompt || "";
+  const choices = node.choices || [];
+  const maxChoiceLength = Math.max(0, ...choices.map((choice) => Array.from(choice.text || "").length));
+  const needsExpandedBox = Array.from(prompt).length > 48 || choices.length > 3 || maxChoiceLength > 18;
+  els.dialogueBox.classList.toggle("choice-expanded", needsExpandedBox);
+  typeText(prompt);
+  addHistory(node.speaker, prompt);
   els.advanceBtn.classList.add("hidden");
   els.choiceLayer.classList.add("active");
-  els.choiceLayer.innerHTML = node.choices.map((choice, index) => {
+  els.choiceLayer.innerHTML = choices.map((choice, index) => {
     const affordable = canPay(choice.cost);
     return `
       <button class="choice-btn" data-index="${index}" type="button" ${affordable ? "" : "disabled"}>
@@ -988,13 +1031,13 @@ function renderPoopDodge(node, config) {
       <p>${config.subtitle}</p>
       <div id="poopArena" class="poop-arena" tabindex="0" aria-label="便便流星雨躲避小游戏">
         <div class="poop-sky"></div>
-        <div id="poopPlayer" class="poop-player">小天使</div>
+        <div id="poopPlayer" class="poop-player">${miniAngelMarkup()}</div>
       </div>
       <div class="poop-touch-controls" aria-label="触屏方向键">
-        <button data-dir="up" type="button">↑</button>
-        <button data-dir="left" type="button">←</button>
-        <button data-dir="down" type="button">↓</button>
-        <button data-dir="right" type="button">→</button>
+        <button data-dir="up" type="button" aria-label="向上"></button>
+        <button data-dir="left" type="button" aria-label="向左"></button>
+        <button data-dir="down" type="button" aria-label="向下"></button>
+        <button data-dir="right" type="button" aria-label="向右"></button>
       </div>
       <div class="mini-meter" id="poopMeter">剩余 ${duration} 秒 · 碰到 0 / ${maxHits} 次</div>
     </div>
@@ -1221,13 +1264,13 @@ function renderBusyHome(node, config) {
         <div id="busyArena" class="busy-arena" tabindex="0" aria-label="把陪伴星光送到孩子身边">
           <div class="busy-room"><span class="room-window"></span><span class="room-table"></span><span class="room-lamp"></span></div>
           <div id="busyTarget" class="busy-target"><span>孩子</span><em>${round.targetLabel || "陪伴位置"}</em></div>
-          <div id="busyPlayer" class="busy-player">☁</div>
+          <div id="busyPlayer" class="busy-player">${miniAngelMarkup()}</div>
         </div>
         <div class="poop-touch-controls busy-controls" aria-label="触屏方向键">
-          <button data-dir="up" type="button">↑</button>
-          <button data-dir="left" type="button">←</button>
-          <button data-dir="down" type="button">↓</button>
-          <button data-dir="right" type="button">→</button>
+          <button data-dir="up" type="button" aria-label="向上"></button>
+          <button data-dir="left" type="button" aria-label="向左"></button>
+          <button data-dir="down" type="button" aria-label="向下"></button>
+          <button data-dir="right" type="button" aria-label="向右"></button>
         </div>
         <div id="busyMeter" class="mini-meter">第 ${state.round + 1} / ${rounds.length} 关 · 把星光送过去</div>
       </div>
@@ -1481,13 +1524,13 @@ function renderRichRunner(node, config) {
             <span class="hall-toy toy-b"></span>
           </div>
           <div class="runner-ground"></div>
-          <div id="richRunnerPlayer" class="rich-runner-player">小天使</div>
+          <div id="richRunnerPlayer" class="rich-runner-player">${miniAngelMarkup()}</div>
         </div>
         <div class="poop-touch-controls runner-controls" aria-label="触屏方向键">
-          <button id="runnerJumpBtn" data-dir="up" type="button">↑</button>
-          <button data-runner-dir="left" data-dir="left" type="button">←</button>
-          <button id="runnerDuckBtn" data-dir="down" type="button">↓</button>
-          <button data-runner-dir="right" data-dir="right" type="button">→</button>
+          <button id="runnerJumpBtn" data-dir="up" type="button" aria-label="跳起"></button>
+          <button data-runner-dir="left" data-dir="left" type="button" aria-label="向左"></button>
+          <button id="runnerDuckBtn" data-dir="down" type="button" aria-label="低头"></button>
+          <button data-runner-dir="right" data-dir="right" type="button" aria-label="向右"></button>
         </div>
         <div id="richRunnerMeter" class="mini-meter">目标：坚持 ${round.duration || 15} 秒 · 碰撞 0 / ${maxHits}</div>
       </div>
@@ -1696,8 +1739,29 @@ function poopMarkup() {
       <circle class="poop-eye-light" cx="60.4" cy="55.2" r="1.6" />
       <path class="poop-cheek" d="M18 65c5-4 11-3 14 1-4 5-11 5-14-1Z" />
       <path class="poop-cheek" d="M78 65c-5-4-11-3-14 1 4 5 11 5 14-1Z" />
-      <path class="poop-mouth" d="M36 69c7 8 17 8 24 0 6 1 10 5 8 10-5 10-34 10-40 0-2-5 2-9 8-10Z" />
-      <path class="poop-lip" d="M30 70c8-7 17-6 25 0 8-6 17-7 25 0-6 6-16 8-25 4-9 4-19 2-25-4Z" />
+      <path class="poop-mouth" d="M35 70c8 7 18 7 26 0" />
+    </svg>`;
+}
+
+function miniAngelMarkup() {
+  return `
+    <svg class="mini-angel" viewBox="0 0 96 96" aria-hidden="true" focusable="false">
+      <path class="mini-wing mini-wing-left" d="M34 52c-17-13-28-8-30 6 10-1 18 3 27 12 3-5 4-11 3-18Z" />
+      <path class="mini-wing mini-wing-right" d="M62 52c17-13 28-8 30 6-10-1-18 3-27 12-3-5-4-11-3-18Z" />
+      <ellipse class="mini-body" cx="48" cy="70" rx="18" ry="16" />
+      <path class="mini-hair-back" d="M27 42c0-22 13-34 31-29 15 4 21 19 15 39-4 14-16 22-28 21-11-1-18-12-18-31Z" />
+      <circle class="mini-face" cx="48" cy="42" r="23" />
+      <path class="mini-hair-front" d="M27 36c7-19 25-25 42-11-6-1-11 0-16 4-5-5-14-7-26 7Z" />
+      <path class="mini-bang" d="M42 20c-1 10-6 17-15 21" />
+      <circle class="mini-eye" cx="39" cy="43" r="3.2" />
+      <circle class="mini-eye" cx="57" cy="43" r="3.2" />
+      <circle class="mini-eye-light" cx="38" cy="41.8" r="1.1" />
+      <circle class="mini-eye-light" cx="56" cy="41.8" r="1.1" />
+      <path class="mini-mouth" d="M43 53c4 4 8 4 12 0" />
+      <circle class="mini-blush" cx="32" cy="51" r="4.4" />
+      <circle class="mini-blush" cx="64" cy="51" r="4.4" />
+      <path class="mini-hair-side" d="M28 42c-5 16-2 31 8 41M68 39c4 18 1 32-8 43" />
+      <path class="mini-dress" d="M36 68c8 7 16 7 24 0l7 18H29l7-18Z" />
     </svg>`;
 }
 
@@ -1851,9 +1915,10 @@ function renderRuleStopwatch(node, config) {
       <div class="minigame-panel complete stopwatch-panel success">
         <span class="modal-kicker">PERFECT TIME</span>
         <h2>挑战成功</h2>
-        <div class="stopwatch-face compact">
-          <div class="stopwatch-time">${formatTime(stoppedAt)}</div>
-          <div class="stopwatch-target">10.00 - 10.20</div>
+        <div class="stopwatch-result-card">
+          <span class="stopwatch-result-label">停止时间</span>
+          <strong>${formatTime(stoppedAt)}</strong>
+          <span class="stopwatch-result-target">目标 10.00 - 10.20</span>
         </div>
         <p>${config.successText}</p>
         <div class="reward-list">${rewardLabel(reward)}</div>
@@ -2192,7 +2257,8 @@ function spriteMarkup(sprites = []) {
 
 function renderStageVisuals(node) {
   const sprites = node.sprite ? [node.sprite] : [];
-  if (node.photoScene === "warm_family_photos") {
+  const keepWarmFamilyPhotos = node.photoScene === "warm_family_photos" || WARM_FAMILY_PHOTO_SEQUENCE.has(game.nodeId);
+  if (keepWarmFamilyPhotos) {
     if (!els.stage.querySelector(".warm-photo-scene")) {
       els.stage.innerHTML = `
         <div class="warm-photo-scene" aria-label="爸爸和妈妈小时候的两张照片">
@@ -2237,6 +2303,28 @@ function renderStageVisuals(node) {
     els.stage.insertAdjacentHTML("beforeend", spriteMarkup(sprites));
     return;
   }
+  if (node.photoScene === "birth_gate_transition") {
+    els.stage.innerHTML = `
+      <div class="birth-gate-scene" aria-label="心愿之门被强光慢慢打开">
+        <div class="birth-gate" aria-hidden="true">
+          <span class="birth-gate-light"></span>
+          <span class="birth-gate-door"></span>
+          <span class="birth-gate-arch"></span>
+        </div>
+        <span class="birth-light-bloom bloom-a" aria-hidden="true"></span>
+        <span class="birth-light-bloom bloom-b" aria-hidden="true"></span>
+        <span class="birth-light-ray ray-a" aria-hidden="true"></span>
+        <span class="birth-light-ray ray-b" aria-hidden="true"></span>
+        <figure class="birth-baby-photo">
+          <span class="photo-tape tape-left"></span>
+          <span class="photo-tape tape-right"></span>
+          <img src="${asset("images/photo-baby-newborn.jpg")}" alt="宝贝刚出生时的照片" />
+        </figure>
+      </div>
+    `;
+    setupBirthGateTransition();
+    return;
+  }
   if (node.photoScene === "birthday_family_photo") {
     if (!els.stage.querySelector(".birthday-photo-scene")) {
       els.stage.innerHTML = `
@@ -2273,7 +2361,7 @@ function typeText(text) {
       game.typeTimer = window.setTimeout(tick, speed);
     } else {
       game.typing = false;
-      if (game.auto && game.currentNode?.next && !game.chapterBlocking) {
+      if (game.auto && game.currentNode?.next && !game.chapterBlocking && !isBirthGateTransitionNode(game.currentNode)) {
         game.typeTimer = window.setTimeout(() => showNode(game.currentNode.next), 1100);
       }
     }
@@ -2291,7 +2379,106 @@ function advance() {
     game.typing = false;
     return;
   }
+  if (handleBirthGateAdvance(node)) return;
   if (node.next) showNode(node.next);
+}
+
+function isBirthGateTransitionNode(node) {
+  return node?.photoScene === "birth_gate_transition";
+}
+
+function setupBirthGateTransition() {
+  if (game.birthGate?.timer) window.clearTimeout(game.birthGate.timer);
+  if (game.birthGate?.photoTimer) window.clearTimeout(game.birthGate.photoTimer);
+  game.birthGate = {
+    nodeId: game.nodeId,
+    phase: "opening",
+    ready: false,
+    timer: window.setTimeout(() => {
+      if (!game.birthGate || game.birthGate.nodeId !== game.nodeId || game.birthGate.phase !== "opening") return;
+      game.birthGate.ready = true;
+      game.birthGate.phase = "ready";
+      els.stage.querySelector(".birth-gate-scene")?.classList.add("is-ready");
+    }, 3200),
+    photoTimer: null
+  };
+}
+
+function handleBirthGateAdvance(node) {
+  if (!isBirthGateTransitionNode(node)) return false;
+  const scene = els.stage.querySelector(".birth-gate-scene");
+  if (!scene) return false;
+  if (!game.birthGate || game.birthGate.nodeId !== game.nodeId) setupBirthGateTransition();
+  const gate = game.birthGate;
+  if (!gate.ready) return true;
+  if (gate.phase === "ready") {
+    gate.phase = "cried";
+    scene.classList.add("heard-cry");
+    playBabyCry();
+    return true;
+  }
+  if (gate.phase === "cried") {
+    gate.phase = "photo";
+    scene.classList.add("show-baby");
+    els.dialogueBox.classList.add("hidden");
+    gate.photoTimer = window.setTimeout(() => {
+      if (!game.birthGate || game.birthGate.nodeId !== game.nodeId || game.birthGate.phase !== "photo") return;
+      game.birthGate.phase = "done";
+      scene.classList.add("photo-done");
+    }, 3600);
+    return true;
+  }
+  if (gate.phase === "photo") return true;
+  return false;
+}
+
+function playBabyCry() {
+  const cryAudio = new Audio(asset("audio/baby-crying-01.mp3"));
+  cryAudio.preload = "auto";
+  cryAudio.volume = 0.92;
+  cryAudio.play().catch(() => playFallbackBabyCry());
+}
+
+function playFallbackBabyCry() {
+  try {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
+    const ctx = new AudioContextClass();
+    const now = ctx.currentTime;
+    const master = ctx.createGain();
+    const filter = ctx.createBiquadFilter();
+    filter.type = "bandpass";
+    filter.frequency.setValueAtTime(980, now);
+    filter.Q.setValueAtTime(1.4, now);
+    master.gain.setValueAtTime(0.0001, now);
+    master.gain.exponentialRampToValueAtTime(0.18, now + 0.08);
+    master.gain.exponentialRampToValueAtTime(0.12, now + 0.56);
+    master.gain.exponentialRampToValueAtTime(0.0001, now + 1.24);
+    filter.connect(master);
+    master.connect(ctx.destination);
+
+    const makeWail = (offset, duration, startFreq, highFreq, endFreq) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(startFreq, now + offset);
+      osc.frequency.linearRampToValueAtTime(highFreq, now + offset + duration * 0.34);
+      osc.frequency.linearRampToValueAtTime(endFreq, now + offset + duration);
+      gain.gain.setValueAtTime(0.0001, now + offset);
+      gain.gain.exponentialRampToValueAtTime(0.92, now + offset + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.18, now + offset + duration);
+      osc.connect(gain);
+      gain.connect(filter);
+      osc.start(now + offset);
+      osc.stop(now + offset + duration + 0.04);
+    };
+
+    makeWail(0, 0.62, 420, 620, 360);
+    makeWail(0.46, 0.72, 460, 680, 390);
+    window.setTimeout(() => ctx.close().catch(() => {}), 1500);
+  } catch (error) {
+    console.warn("Baby cry sound unavailable", error);
+  }
 }
 
 function applyVars(vars = {}) {
@@ -2611,6 +2798,10 @@ els.screen.addEventListener("click", (event) => {
   if (event.target.closest("button") || event.target.closest(".modal")) return;
   if (game.chapterBlocking) {
     hideChapter();
+    return;
+  }
+  if (isBirthGateTransitionNode(game.currentNode)) {
+    advance();
     return;
   }
   if (!els.dialogueBox.classList.contains("hidden") && !els.choiceLayer.classList.contains("active")) advance();

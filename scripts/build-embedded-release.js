@@ -3,7 +3,7 @@ const path = require("path");
 const { execFileSync } = require("child_process");
 
 const root = process.cwd();
-const version = "vn100";
+const version = "vn119";
 const outDir = path.join(root, "dist", `embedded-${version}`);
 const zipPath = path.join(root, "dist", `angel-game-embedded-${version}.zip`);
 

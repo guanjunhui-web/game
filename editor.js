@@ -1,7 +1,13 @@
 const TEXT_OVERRIDES_KEY = "angel_vn_text_overrides_v1";
 const ADDED_NODES_KEY = "angel_vn_added_nodes_v1";
 const NODE_REWIRES_KEY = "angel_vn_node_rewires_v1";
-const EDITOR_VERSION = "vn100";
+const EDITOR_VERSION = "vn119";
+
+const CANONICAL_CHAPTER_TITLES = {
+  "story.nodes.world_001.chapter": "序章 星星图书馆",
+  "story.nodes.xingyu_001.chapter": "中章 同一颗星星前",
+  "story.nodes.ending_001.chapter": "终章 原来是你们"
+};
 
 const els = {
   fields: document.querySelector("#fields"),
@@ -403,6 +409,10 @@ function applySavedOverrides() {
     return;
   }
   controls.forEach((control) => {
+    if (control.dataset.editPath in CANONICAL_CHAPTER_TITLES) {
+      control.value = CANONICAL_CHAPTER_TITLES[control.dataset.editPath];
+      return;
+    }
     const value = getByPath(saved, control.dataset.editPath);
     if (typeof value === "string" && /^[?\s]+$/.test(value) && value.includes("?")) return;
     if (typeof value === "string") control.value = value;
@@ -420,7 +430,11 @@ function buildOverrides() {
 }
 
 function saveOverrides() {
-  localStorage.setItem(TEXT_OVERRIDES_KEY, JSON.stringify(buildOverrides()));
+  const overrides = buildOverrides();
+  Object.keys(CANONICAL_CHAPTER_TITLES).forEach((path) => {
+    setByPath(overrides, path, CANONICAL_CHAPTER_TITLES[path]);
+  });
+  localStorage.setItem(TEXT_OVERRIDES_KEY, JSON.stringify(overrides));
   els.status.textContent = "已保存。回到游戏页面刷新，新的文字就会生效。";
 }
 
