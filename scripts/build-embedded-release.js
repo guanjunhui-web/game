@@ -3,7 +3,7 @@ const path = require("path");
 const { execFileSync } = require("child_process");
 
 const root = process.cwd();
-const version = "vn99";
+const version = "vn100";
 const outDir = path.join(root, "dist", `embedded-${version}`);
 const zipPath = path.join(root, "dist", `angel-game-embedded-${version}.zip`);
 
@@ -47,6 +47,9 @@ function mimeFor(file) {
     ".jpeg": "image/jpeg",
     ".png": "image/png",
     ".webp": "image/webp",
+    ".ttf": "font/ttf",
+    ".woff": "font/woff",
+    ".woff2": "font/woff2",
     ".mp3": "audio/mpeg"
   }[ext] || "application/octet-stream";
 }
@@ -67,9 +70,10 @@ function collectJsonData() {
 
 function collectAssets() {
   const assets = {};
-  for (const folder of ["assets/images", "assets/sprites"]) {
+  for (const folder of ["assets/images", "assets/sprites", "assets/fonts"]) {
+    if (!fs.existsSync(path.join(root, folder))) continue;
     for (const file of walk(path.join(root, folder))) {
-      if (!/\.(svg|jpg|jpeg|png|webp)$/i.test(file)) continue;
+      if (!/\.(svg|jpg|jpeg|png|webp|ttf|woff|woff2)$/i.test(file)) continue;
       const key = path.relative(path.join(root, "assets"), file).replace(/\\/g, "/");
       assets[key] = dataUri(file);
     }
@@ -136,7 +140,6 @@ function buildApp(data, assets, musicUri) {
 
 function buildCss(assets) {
   let css = readText("styles.css");
-  css = css.replace(/^@import url\([^\n]+\);\s*/m, "");
   return css.replace(/url\((['"]?)\.\/assets\/([^)'"\?#]+)(?:\?[^)'"]*)?\1\)/g, (match, quote, rel) => {
     const key = rel.replace(/\\/g, "/");
     return assets[key] ? `url("${assets[key]}")` : match;
