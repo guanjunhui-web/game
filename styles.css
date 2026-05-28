@@ -4581,7 +4581,7 @@ select {
   }
 
   .title-menu.map-mode .star-warm.newly-revealed:not(.wish-option) {
-    top: 56%;
+    top: 60%;
     z-index: 12;
   }
 
@@ -4678,27 +4678,27 @@ select {
 
   .wish-option.star-family01 {
     left: 18%;
-    top: 45%;
+    top: 49%;
   }
 
   .wish-option.star-family03 {
     left: 32%;
-    top: 24%;
+    top: 28%;
   }
 
   .wish-option.star-family04 {
     left: 76%;
-    top: 31%;
+    top: 35%;
   }
 
   .wish-option.star-dino {
     left: 28%;
-    top: 64%;
+    top: 68%;
   }
 
   .wish-option.star-warm {
     left: 70%;
-    top: 64%;
+    top: 68%;
   }
 
   .wish-option.true-home {
@@ -4722,7 +4722,7 @@ select {
   }
 
   .title-menu.map-mode .star-warm.newly-revealed:not(.wish-option) {
-    top: 54%;
+    top: 58%;
   }
 
   .wish-gate-scene .star-field {
