@@ -1,0 +1,12 @@
+{
+  "pages": [
+    "pages/game/game"
+  ],
+  "window": {
+    "navigationBarTitleText": "小天使的选择",
+    "navigationBarBackgroundColor": "#fff4dc",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#fff4dc"
+  },
+  "sitemapLocation": "sitemap.json"
+}

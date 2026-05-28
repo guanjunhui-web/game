@@ -1,0 +1,3 @@
+<view class="game-page">
+  <web-view src="{{gameUrl}}" bindload="handleLoad" binderror="handleError"></web-view>
+</view>

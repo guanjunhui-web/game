@@ -1,0 +1,21 @@
+{
+  "description": "小天使的选择微信小程序壳",
+  "packOptions": {
+    "ignore": []
+  },
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "newFeature": true,
+    "coverView": true,
+    "nodeModules": false
+  },
+  "compileType": "miniprogram",
+  "libVersion": "3.8.12",
+  "appid": "touristappid",
+  "projectname": "angel-game-birthday",
+  "condition": {}
+}
