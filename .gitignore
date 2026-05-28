@@ -17,4 +17,5 @@ build/
 
 # WeChat DevTools generated output
 wechat-miniprogram/preview-qrcode.png
+wechat-miniprogram/preview-info.json
 wechat-miniprogram/upload-result.json
