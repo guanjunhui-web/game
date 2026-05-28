@@ -15,4 +15,4 @@ if (!(Test-Path $Cli)) {
   exit 1
 }
 
-& $Cli preview --project $ProjectPath --qr-output $QrPath --lang zh
+& $Cli preview --project $ProjectPath --qr-format image --qr-output $QrPath --lang zh
