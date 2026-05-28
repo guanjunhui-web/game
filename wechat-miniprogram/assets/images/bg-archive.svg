@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920">
+  <defs>
+    <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
+      <stop stop-color="#243049"/>
+      <stop offset=".42" stop-color="#7f9ab4"/>
+      <stop offset=".72" stop-color="#e7d8be"/>
+      <stop offset="1" stop-color="#f8edda"/>
+    </linearGradient>
+    <radialGradient id="moonGlow" cx=".5" cy=".18" r=".56">
+      <stop stop-color="#fff9d8" stop-opacity=".95"/>
+      <stop offset=".38" stop-color="#ffe7a0" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#ffe7a0" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="wobble">
+      <feTurbulence type="fractalNoise" baseFrequency=".01" numOctaves="3" seed="23"/>
+      <feDisplacementMap in="SourceGraphic" scale="4"/>
+    </filter>
+    <filter id="soft"><feGaussianBlur stdDeviation="5"/></filter>
+    <g id="starBook">
+      <path d="M-58-24c30-12 58-10 88 4 10 5 18 7 28 5v60c-9 2-18 0-28-5-30-14-58-16-88-4z" fill="#fff5cf" stroke="#725f68" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M0-18v63" stroke="#9c8790" stroke-width="3" stroke-linecap="round"/>
+      <path d="M-38-5c14-5 25-5 39 0M-39 12c15-4 27-4 39 1M16-4c15-4 27-3 40 2M16 14c15-4 27-3 40 2" stroke="#a99678" stroke-width="2.5" stroke-linecap="round" opacity=".65"/>
+      <path d="M0-52l9 27 28 1-22 17 7 28L0 5l-22 16 7-28-22-17 28-1z" fill="#ffd76d" stroke="#8d6b43" stroke-width="3"/>
+    </g>
+  </defs>
+
+  <rect width="1080" height="1920" fill="url(#sky)"/>
+  <circle cx="540" cy="310" r="620" fill="url(#moonGlow)"/>
+  <g opacity=".36" filter="url(#soft)">
+    <circle cx="220" cy="260" r="8" fill="#fff0a8"/>
+    <circle cx="830" cy="210" r="7" fill="#fff0a8"/>
+    <circle cx="925" cy="420" r="10" fill="#fff0a8"/>
+    <circle cx="130" cy="520" r="7" fill="#fff0a8"/>
+    <circle cx="706" cy="590" r="8" fill="#fff0a8"/>
+  </g>
+
+  <g fill="none" stroke="#6f6573" stroke-opacity=".48" stroke-width="6" filter="url(#wobble)">
+    <path d="M100 1645V620c0-118 88-205 214-205h452c126 0 214 87 214 205v1025"/>
+    <path d="M195 1655V705c0-78 58-136 140-136h410c82 0 140 58 140 136v950"/>
+    <path d="M95 1018h890M95 1328h890M95 1538h890"/>
+    <path d="M170 448c96-118 238-180 370-180 136 0 278 62 372 180" stroke-dasharray="18 18" opacity=".5"/>
+  </g>
+
+  <g opacity=".85" filter="url(#wobble)">
+    <path d="M90 1115c132-48 246-52 342-12 86 36 161 34 250 2 98-35 197-28 306 28" fill="none" stroke="#f7e9bd" stroke-width="5" stroke-linecap="round" stroke-dasharray="10 18"/>
+    <path d="M115 1378c126-38 246-42 360-12 114 30 255 24 452-18" fill="none" stroke="#f7e9bd" stroke-width="4" stroke-linecap="round" stroke-dasharray="8 15"/>
+  </g>
+
+  <g filter="url(#wobble)">
+    <use href="#starBook" x="252" y="525" transform="rotate(-11 252 525) scale(.88)"/>
+    <use href="#starBook" x="498" y="458" transform="rotate(5 498 458) scale(1.04)"/>
+    <use href="#starBook" x="756" y="540" transform="rotate(12 756 540) scale(.86)"/>
+    <use href="#starBook" x="198" y="805" transform="rotate(9 198 805) scale(.74)"/>
+    <use href="#starBook" x="420" y="760" transform="rotate(-6 420 760) scale(.82)"/>
+    <use href="#starBook" x="645" y="790" transform="rotate(4 645 790) scale(.8)"/>
+    <use href="#starBook" x="870" y="815" transform="rotate(-10 870 815) scale(.7)"/>
+  </g>
+
+  <g filter="url(#wobble)" stroke="#786a73" stroke-width="4" opacity=".86">
+    <rect x="150" y="1088" width="142" height="108" rx="18" fill="#fff0be"/>
+    <rect x="320" y="1062" width="128" height="134" rx="18" fill="#dff0ef"/>
+    <rect x="480" y="1084" width="146" height="112" rx="18" fill="#f4dce5"/>
+    <rect x="658" y="1058" width="130" height="138" rx="18" fill="#e9e0ff"/>
+    <rect x="818" y="1090" width="120" height="106" rx="18" fill="#f6e5a8"/>
+    <path d="M170 1268c210-38 454-35 742 10" fill="none"/>
+  </g>
+
+  <g fill="#ffe17b" stroke="#8d6b43" stroke-width="2" opacity=".9">
+    <path d="M165 350l7 20 21 1-17 13 6 21-17-12-17 12 6-21-17-13 21-1z"/>
+    <path d="M910 315l6 18 19 1-15 11 5 19-15-11-16 11 6-19-16-11 19-1z"/>
+    <path d="M540 625l8 22 24 1-19 14 7 24-20-14-20 14 7-24-19-14 24-1z"/>
+    <path d="M282 1430l6 18 19 1-15 12 5 18-15-11-16 11 6-18-16-12 19-1z"/>
+    <path d="M775 1465l7 20 21 1-17 13 6 21-17-12-17 12 6-21-17-13 21-1z"/>
+  </g>
+</svg>

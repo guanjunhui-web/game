@@ -1,62 +1,40 @@
-# 小天使的选择 - 微信小程序版
+# 小天使的选择 - 微信小程序原生版
 
-这是一个微信小程序壳，使用 `web-view` 打开已经发布的游戏网页：
+这个目录是游戏的小程序原生版，不使用 `web-view` 打开网页。
 
-`https://angel-game-birthday.pages.dev/?v=wx-vn132`
+当前实现方式：
 
-## 当前状态
+- 剧情读取本地 `data/*.json`
+- 背景、角色、照片读取本地 `assets/`
+- 标题、剧情、星图、心愿之门、抽礼物、小游戏都由小程序页面渲染
+- 婴儿哭声已放入本地包
+- 暂未把 12MB 背景音乐放入小程序主包，避免超过小程序包体限制
 
-我已经在本机安装了微信开发者工具，并创建了可导入的小程序项目。
+## 项目信息
 
-当前项目使用的小程序 AppID：
+- AppID：`wx330f1e415d077f76`
+- 项目目录：`D:\Documents\New project 5\wechat-miniprogram`
+- 入口页面：`pages/game/game`
+- 当前预览包大小约 1.4MB
 
-`wx330f1e415d077f76`
-
-正式预览和上传仍然需要微信开发者工具登录有开发权限的微信账号。
-
-## 测试方式
-
-1. 打开微信开发者工具。
-2. 选择“导入项目”。
-3. 项目目录选择本文件夹：`wechat-miniprogram`。
-4. AppID 已经配置为 `wx330f1e415d077f76`。
-5. 开发者工具里如果提示域名校验，可以先打开“不校验合法域名、web-view 域名、TLS 版本以及 HTTPS 证书”用于本地预览。
-
-## 真机发布注意
-
-正式给别人用时，微信后台需要把下面这个域名配置为小程序业务域名：
-
-`angel-game-birthday.pages.dev`
-
-如果微信后台不允许直接使用 `pages.dev` 域名，建议给 Cloudflare Pages 绑定一个你自己的自定义域名，然后把自定义域名配置到微信后台。
-
-当前方案保留网页游戏的动画、音乐、PWA 优化和全部剧情，不需要重写游戏逻辑。
-
-## 命令行
-
-本机已安装微信开发者工具，路径通常是：
-
-`C:\Program Files (x86)\Tencent\微信web开发者工具\微信开发者工具.exe`
-
-命令行工具路径通常是：
-
-`C:\Program Files (x86)\Tencent\微信web开发者工具\cli.bat`
-
-如果微信开发者工具已经登录，可以运行：
-
-```powershell
-& "C:\Program Files (x86)\Tencent\微信web开发者工具\cli.bat" open --project "D:\Documents\New project 5\wechat-miniprogram"
-```
-
-也可以使用项目内脚本：
+## 本地打开
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\open.ps1
-powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\preview.ps1
-powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\upload.ps1 -Version "1.0.0" -Desc "最终版"
 ```
 
-正式上传前需要：
+## 生成真机预览码
 
-1. 在微信公众平台把游戏网页域名配置为业务域名。
-2. 用有开发权限的微信号登录微信开发者工具。
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\preview.ps1
+```
+
+生成的二维码在：
+
+`wechat-miniprogram/preview-qrcode.png`
+
+## 上传体验版
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\upload.ps1 -Version "1.0.0" -Desc "原生小程序最终版"
+```

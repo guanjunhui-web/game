@@ -1,3 +1,170 @@
-<view class="game-page">
-  <web-view src="{{gameUrl}}" bindload="handleLoad" binderror="handleError"></web-view>
+<view class="game-page {{mode}} {{chapterShowing ? 'chapter-mode' : ''}}">
+  <image class="scene-bg" src="{{backgroundSrc}}" mode="aspectFill"></image>
+  <view class="soft-vignette"></view>
+
+  <view wx:if="{{chapterShowing}}" class="chapter-card" bindtap="dismissChapter">
+    <view class="chapter-title">{{chapterTitle}}</view>
+  </view>
+
+  <view wx:if="{{!chapterShowing}}" class="topbar">
+    <button bindtap="goTitle">菜单</button>
+    <view class="dust" bindtap="openPractice">✦ {{inventory.stardust}}</view>
+    <button bindtap="toggleHistory">回想</button>
+  </view>
+
+  <view wx:if="{{mode === 'title' && !chapterShowing}}" class="title-screen">
+    <view class="title-book">
+      <view class="main-title">{{titleNode.title}}</view>
+      <view class="sub-title">{{titleNode.subtitle}}</view>
+      <button bindtap="startGame">开始游戏</button>
+      <button bindtap="continueGame">继续游戏</button>
+      <button bindtap="showSettings">设置</button>
+    </view>
+  </view>
+
+  <view wx:if="{{photoScene === 'warm_family_photos' && !chapterShowing}}" class="photo-layer warm-photos">
+    <image src="/assets/images/photo-dad-childhood.jpg" mode="aspectFill"></image>
+    <image src="/assets/images/photo-mom-childhood.jpg" mode="aspectFill"></image>
+  </view>
+
+  <view wx:if="{{photoScene === 'ending_family_room' && !chapterShowing}}" class="photo-layer ending-photos">
+    <image class="parents" src="/assets/images/photo-parents-together.jpg" mode="aspectFill"></image>
+    <image class="child dad" src="/assets/images/photo-dad-childhood.jpg" mode="aspectFill"></image>
+    <image class="child mom" src="/assets/images/photo-mom-childhood.jpg" mode="aspectFill"></image>
+  </view>
+
+  <view wx:if="{{photoScene === 'birthday_family_photo' && !chapterShowing}}" class="photo-layer birthday-photo">
+    <image src="/assets/images/photo-family-baby.jpg" mode="aspectFill"></image>
+  </view>
+
+  <view wx:if="{{photoScene === 'birth_gate_transition' && !chapterShowing}}" class="birth-gate {{birthPhase}}" bindtap="advanceBirthGate">
+    <view class="gate-light"></view>
+    <image wx:if="{{birthPhase === 'photo' || birthPhase === 'done'}}" src="/assets/images/photo-baby-newborn.jpg" mode="aspectFill"></image>
+  </view>
+
+  <image wx:if="{{spriteSrc && !chapterShowing && showDialogue}}" class="sprite {{spritePosition}}" src="{{spriteSrc}}" mode="aspectFit"></image>
+
+  <view wx:if="{{showDialogue && !chapterShowing}}" class="dialogue {{choices.length ? 'choice-dialogue' : ''}}" bindtap="continueDialogue">
+    <view class="speaker">{{speakerName}}</view>
+    <view class="dialogue-text">{{displayText}}</view>
+    <view wx:if="{{choices.length}}" class="choices">
+      <button wx:for="{{choices}}" wx:key="index" data-index="{{index}}" catchtap="chooseOption">{{item.text}}</button>
+    </view>
+    <button wx:elif="{{nextNode}}" class="continue">继续</button>
+  </view>
+
+  <view wx:if="{{mode === 'home_map' && !chapterShowing}}" class="map-screen">
+    <view class="map-stars">
+      <button wx:for="{{homes}}" wx:key="id" class="map-star star-{{item.id}} {{item.done ? 'done' : ''}} {{item.locked ? 'locked' : ''}}" data-id="{{item.id}}" bindtap="selectHome">
+        <view class="star-core"></view>
+      </button>
+    </view>
+    <view wx:if="{{selectedHome}}" class="info-paper">
+      <view class="info-title">{{selectedHome.title}}</view>
+      <view class="info-desc">{{selectedHome.description}}</view>
+      <view class="info-state">{{selectedHome.stateText}}</view>
+      <button bindtap="enterSelectedHome">{{selectedHome.actionText}}</button>
+    </view>
+  </view>
+
+  <view wx:if="{{mode === 'wish_gate' && !chapterShowing}}" class="wish-screen">
+    <view class="wish-stars">
+      <button wx:for="{{wishOptions}}" wx:key="id" class="wish-star star-{{item.id}}" data-id="{{item.id}}" bindtap="selectWish">
+        <view class="star-core"></view>
+      </button>
+    </view>
+    <view wx:if="{{selectedWish}}" class="info-paper">
+      <view class="info-title">{{selectedWish.title}}</view>
+      <view class="info-desc">{{selectedWish.description}}</view>
+      <button bindtap="confirmWish">选择这颗星</button>
+    </view>
+  </view>
+
+  <view wx:if="{{mode === 'gacha' && !chapterShowing}}" class="mini-panel">
+    <view class="panel-title">三份小礼物</view>
+    <view class="gift-row">
+      <button wx:for="{{gifts}}" wx:key="index" class="gift-card {{item.opened ? 'opened' : ''}} {{item.tier}}" data-index="{{index}}" bindtap="openGift">
+        <view class="gift-icon">✦</view>
+        <view>{{item.opened ? item.label : '礼物'}}</view>
+      </button>
+    </view>
+    <button wx:if="{{giftOpened}}" bindtap="finishGacha">继续</button>
+  </view>
+
+  <view wx:if="{{mode === 'brain_teaser' && !chapterShowing}}" class="mini-panel">
+    <view class="panel-title">脑筋急转弯</view>
+    <view class="question">{{mini.question}}</view>
+    <view class="answer-list">
+      <button wx:for="{{mini.options}}" wx:key="id" data-id="{{item.id}}" bindtap="answerBrain">{{item.text}}</button>
+    </view>
+    <view class="mini-meter">{{mini.message}}</view>
+    <button wx:if="{{mini.done}}" bindtap="finishMini">回到星图</button>
+  </view>
+
+  <view wx:if="{{mode === 'stopwatch' && !chapterShowing}}" class="mini-panel stopwatch">
+    <view class="panel-title">十秒的规矩</view>
+    <view class="watch-time">{{mini.timeText}}</view>
+    <button bindtap="toggleStopwatch">{{mini.running ? '暂停' : '开始'}}</button>
+    <view class="mini-meter">{{mini.message}}</view>
+    <button wx:if="{{mini.done}}" bindtap="finishMini">继续剧情</button>
+  </view>
+
+  <view wx:if="{{mode === 'dino_memory' && !chapterShowing}}" class="mini-panel">
+    <view class="panel-title">恐龙蛋记忆</view>
+    <view class="egg-grid">
+      <button wx:for="{{mini.cards}}" wx:key="id" class="egg {{item.open ? 'open' : ''}} {{item.matched ? 'matched' : ''}}" data-id="{{item.id}}" bindtap="flipEgg">
+        {{item.open || item.matched ? item.icon : '🥚'}}
+      </button>
+    </view>
+    <view class="mini-meter">{{mini.message}}</view>
+    <button wx:if="{{mini.done}}" bindtap="finishMini">继续剧情</button>
+  </view>
+
+  <view wx:if="{{mode === 'quiz' && !chapterShowing}}" class="mini-panel">
+    <view class="panel-title">心愿问答</view>
+    <view class="question">{{mini.question}}</view>
+    <view class="answer-list">
+      <button wx:for="{{mini.options}}" wx:key="id" data-id="{{item.id}}" bindtap="answerQuiz">{{item.text}}</button>
+    </view>
+    <view class="mini-meter">{{mini.message}}</view>
+    <button wx:if="{{mini.done}}" bindtap="finishMini">继续剧情</button>
+  </view>
+
+  <view wx:if="{{mode === 'action' && !chapterShowing}}" class="mini-panel action-panel">
+    <view class="panel-title">{{mini.title}}</view>
+    <view class="playfield">
+      <view class="player" style="left: {{mini.player.x}}%; top: {{mini.player.y}}%;">👧🏻</view>
+      <view wx:for="{{mini.items}}" wx:key="id" class="falling {{item.kind}}" style="left: {{item.x}}%; top: {{item.y}}%;">{{item.icon}}</view>
+    </view>
+    <view class="mini-meter">{{mini.message}}</view>
+    <view class="dpad">
+      <button data-dir="up" bindtouchstart="holdMove" bindtouchend="stopMove">▲</button>
+      <view>
+        <button data-dir="left" bindtouchstart="holdMove" bindtouchend="stopMove">◀</button>
+        <button data-dir="right" bindtouchstart="holdMove" bindtouchend="stopMove">▶</button>
+      </view>
+      <button data-dir="down" bindtouchstart="holdMove" bindtouchend="stopMove">▼</button>
+    </view>
+    <button wx:if="{{mini.done}}" bindtap="finishMini">继续剧情</button>
+  </view>
+
+  <view wx:if="{{mode === 'final_card' && !chapterShowing}}" class="final-card">
+    <image src="/assets/images/photo-daughter-birthday.jpg" mode="aspectFill"></image>
+    <view class="letter">
+      <view>{{finalCard.title}}</view>
+      <view>{{finalCard.wishText}}</view>
+      <view>{{finalCard.subtitle}}</view>
+      <button bindtap="goTitle">{{finalCard.buttonText}}</button>
+    </view>
+  </view>
+
+  <view wx:if="{{historyOpen}}" class="history-modal">
+    <view class="history-box">
+      <view class="panel-title">回想</view>
+      <scroll-view scroll-y class="history-list">
+        <view wx:for="{{history}}" wx:key="index">{{item.speaker}}：{{item.text}}</view>
+      </scroll-view>
+      <button bindtap="toggleHistory">关闭</button>
+    </view>
+  </view>
 </view>

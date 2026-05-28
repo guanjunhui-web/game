@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920">
+  <defs>
+    <linearGradient id="room" x1=".1" x2=".9" y1="0" y2="1">
+      <stop stop-color="#f2dbc0"/><stop offset=".56" stop-color="#fff2df"/><stop offset="1" stop-color="#d9ece7"/>
+    </linearGradient>
+    <radialGradient id="lamp" cx=".25" cy=".57" r=".42">
+      <stop stop-color="#fff2aa"/><stop offset=".48" stop-color="#f0c66b" stop-opacity=".42"/><stop offset="1" stop-color="#f0c66b" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency=".013" numOctaves="3" seed="4"/><feDisplacementMap in="SourceGraphic" scale="5"/></filter>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#room)"/>
+  <circle cx="270" cy="1035" r="520" fill="url(#lamp)"/>
+  <path d="M125 770c210-35 500-40 825 4v655c-300 36-575 34-825-3z" fill="#fffaf1" opacity=".58" stroke="#9d8170" stroke-width="6" filter="url(#wobble)"/>
+  <g filter="url(#wobble)" stroke="#8d7466" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M470 890c125-32 250-31 376 2v245c-126 26-251 27-376-1z" fill="#fffaf4" opacity=".78"/>
+    <ellipse cx="590" cy="1000" rx="42" ry="58" fill="#a58b8a" opacity=".38"/>
+    <ellipse cx="724" cy="1000" rx="42" ry="58" fill="#a58b8a" opacity=".38"/>
+    <path d="M545 1060c76 38 150 38 225 0" fill="none" opacity=".48"/>
+    <path d="M235 1088h110v42H230z" fill="#9d7668"/>
+    <path d="M262 814h44v275h-44z" fill="#a98572"/>
+    <path d="M198 765c60-25 115-26 171 0l-38 116h-99z" fill="#edc56f"/>
+    <circle cx="284" cy="832" r="154" fill="#edc56f" opacity=".22" stroke="none"/>
+  </g>
+  <g fill="none" stroke="#8b7563" stroke-width="5" stroke-linecap="round" opacity=".46">
+    <path d="M170 1450c260 36 514 36 770-2"/>
+    <path d="M520 1256c35 18 82 16 126-4"/>
+    <path d="M650 1250c28 15 70 13 104-5"/>
+  </g>
+</svg>
