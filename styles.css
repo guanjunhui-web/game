@@ -4577,11 +4577,11 @@ select {
   }
 
   .title-menu.map-mode .star-warm:not(.wish-option) {
-    top: 68%;
+    top: 82%;
   }
 
   .title-menu.map-mode .star-warm.newly-revealed:not(.wish-option) {
-    top: 75%;
+    top: 82%;
     z-index: 12;
   }
 
@@ -4718,11 +4718,11 @@ select {
   }
 
   .title-menu.map-mode .star-warm:not(.wish-option) {
-    top: 66%;
+    top: 82%;
   }
 
   .title-menu.map-mode .star-warm.newly-revealed:not(.wish-option) {
-    top: 64%;
+    top: 82%;
   }
 
   .wish-gate-scene .star-field {
