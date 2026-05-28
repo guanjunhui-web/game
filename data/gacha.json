@@ -13,7 +13,7 @@
       },
       {
         "id": "first_stardust_mid",
-        "name": "温暖的星尘",
+        "name": "带着温度的星尘",
         "rarity": "星尘",
         "resource": "stardust",
         "amount": 5,
@@ -21,7 +21,7 @@
       },
       {
         "id": "first_stardust_big",
-        "name": "发光的星尘",
+        "name": "忽然亮起的星尘",
         "rarity": "星尘",
         "resource": "stardust",
         "amount": 7,
@@ -43,7 +43,7 @@
       },
       {
         "id": "stardust_mid",
-        "name": "温暖发亮的星尘",
+        "name": "暖暖发亮的星尘",
         "rarity": "星尘",
         "resource": "stardust",
         "amount": 5,

@@ -11,7 +11,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="format-detection" content="telephone=no" />
     <link rel="manifest" href="./manifest.webmanifest" />
-    <link rel="stylesheet" href="./styles.css?v=vn119" />
+    <link rel="apple-touch-icon" href="./assets/icons/pwa-icon-180.png" />
+    <link rel="stylesheet" href="./styles.css?v=vn132" />
   </head>
   <body>
     <main id="app" class="vn-app">
@@ -46,6 +47,13 @@
       </section>
     </main>
 
-    <script src="./app.js?v=vn119"></script>
+    <script src="./app.js?v=vn132"></script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("./service-worker.js").catch(() => {});
+        });
+      }
+    </script>
   </body>
 </html>

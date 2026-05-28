@@ -5,7 +5,7 @@
       "type": "title",
       "background": "bg-heaven.svg",
       "title": "小天使的选择",
-      "subtitle": "妹妹出生前的故事",
+      "subtitle": "在她来到人间以前，星星上发生的事",
       "startNext": "world_001"
     },
     "world_001": {
@@ -13,21 +13,21 @@
       "chapter": "序章 星星图书馆",
       "background": "bg-heaven.svg",
       "speaker": "narrator",
-      "text": "在很久很久以前，在每个人来到这个世界以前，我们都曾经是云端上的小天使。",
+      "text": "在很久很久以前，在每个人来到世界以前，我们都曾在云端住过一小会儿。那时，我们是小天使。",
       "next": "world_002"
     },
     "world_002": {
       "type": "dialogue",
       "background": "bg-heaven.svg",
       "speaker": "narrator",
-      "text": "小天使们睡在云朵做成的摇篮里，用小小的翅膀穿过月光，等待属于自己的出发日。",
+      "text": "小天使们睡在云朵做的小摇篮里。月光从翅膀边经过，像一封还没有拆开的信。",
       "next": "world_003"
     },
     "world_003": {
       "type": "dialogue",
       "background": "bg-heaven.svg",
       "speaker": "narrator",
-      "text": "出发日到来的时候，他们会去到星星图书馆，那是一个有着很多星星的地方。",
+      "text": "等到出发日来到，他们会去星星图书馆。那里没有屋顶，因为星星太多，屋顶会装不下。",
       "next": "world_003_extra_01"
     },
     "cloud_001": {
@@ -39,7 +39,7 @@
         "expression": "confused",
         "position": "left"
       },
-      "text": "今天……轮到我了吗？",
+      "text": "今天……是不是轮到我了？",
       "next": "cloud_002"
     },
     "cloud_002": {
@@ -51,7 +51,7 @@
         "expression": "smile",
         "position": "right"
       },
-      "text": "是的。今天是你的出发日。",
+      "text": "是的。今天，云朵要把你送到出发的地方。",
       "next": "cloud_003"
     },
     "cloud_003": {
@@ -63,7 +63,7 @@
         "expression": "worried",
         "position": "left"
       },
-      "text": "出发以后，我会去哪里？",
+      "text": "出发以后，我会落到哪里呢？",
       "next": "cloud_004"
     },
     "cloud_004": {
@@ -75,7 +75,7 @@
         "expression": "explain",
         "position": "right"
       },
-      "text": "去人间。去一个会成为你家的地方。家是你哭的时候，有人愿意抱住你；也是你走远以后，还有一盏灯愿意为你亮着的地方。",
+      "text": "去人间。去一个以后会叫作家的地方。家不是最漂亮的房子；家是你哭的时候，有人把手伸出来；也是你走远以后，还有一盏灯记得你。",
       "next": "cloud_005"
     },
     "cloud_005": {
@@ -87,7 +87,7 @@
         "expression": "confused",
         "position": "left"
       },
-      "text": "那我要怎么找到它？如果我选错了怎么办？",
+      "text": "那我要怎么认出它？如果我看错了呢？",
       "next": "cloud_006"
     },
     "cloud_006": {
@@ -99,14 +99,14 @@
         "expression": "smile",
         "position": "right"
       },
-      "text": "真正属于你的家，不会只用眼睛看见，要靠你用心去感受。",
+      "text": "真正属于你的家，不会只站在眼睛前面。它会轻轻碰一下你的心，你要安静一点，才能听见。",
       "next": "archive_001"
     },
     "archive_001": {
       "type": "dialogue",
       "background": "bg-starmap.svg",
       "speaker": "narrator",
-      "text": "云阶尽头，是一座没有屋顶的图书馆。无数颗星星像书一样排在空中，每一颗星星里，都藏着一个家的故事。",
+      "text": "云阶的尽头，是一座没有屋顶的图书馆。星星像一本本小书，排在空中；每一本里，都藏着一个家的故事。",
       "next": "archive_002"
     },
     "archive_002": {
@@ -118,7 +118,7 @@
         "expression": "explain",
         "position": "right"
       },
-      "text": "你不能只看一眼就决定，你需要认真观察。",
+      "text": "你不能只看一眼就决定。重要的事，常常要多看一会儿。",
       "next": "archive_002_page_02"
     },
     "archive_002_page_02": {
@@ -130,7 +130,7 @@
         "expression": "explain",
         "position": "right"
       },
-      "text": "每一次靠近新的星星，都需要用到星尘，星尘可以通过观察星星收集，不够的时候也可以通过小游戏获得。",
+      "text": "每靠近一颗新的星星，都要带上一点星尘。星尘可以从观察里收集；不够的时候，也可以去玩一个小小的游戏。",
       "next": "archive_003"
     },
     "archive_003": {
@@ -142,7 +142,7 @@
         "expression": "normal",
         "position": "left"
       },
-      "text": "你可以告诉我哪个家最好吗？",
+      "text": "你能告诉我，哪一个家最好吗？",
       "next": "archive_004"
     },
     "archive_004": {
@@ -154,14 +154,14 @@
         "expression": "smile",
         "position": "right"
       },
-      "text": "不能。你不是来找最好的家。你是来找属于你的家。",
+      "text": "不能。你不是来寻找最好的家。你是在寻找那一个会认出你的家。",
       "next": "archive_reward"
     },
     "archive_reward": {
       "type": "reward",
       "background": "bg-starmap.svg",
       "speaker": "guardian",
-      "text": "这是第一点星尘。拿着它去观察一个星星吧，但不必急着作决定。",
+      "text": "这是第一点星尘。把它放在掌心里，去看一颗星星吧。可是别急，星星喜欢慢慢被看见。",
       "gain": {
         "stardust": 1
       },
@@ -177,13 +177,13 @@
       "type": "home_map",
       "background": "bg-starmap.svg",
       "title": "星星观察窗",
-      "subtitle": "选择一扇想观察的星星。探索新的家会消耗星尘；不够时，可以先收集星尘。",
+      "subtitle": "选一颗想靠近的星星。新的星星需要星尘；如果星尘不够，就先去把它一点点收回来。",
       "practiceNext": "practice_star_game",
       "homes": [
         {
           "id": "family01",
           "title": "便便之家",
-          "description": "这家的美食很多，大家都很喜欢吃美食，每次都吃得很多，所以都很喜欢拉便便。",
+          "description": "这家的餐桌总是很满，笑声也很满；只是吃得太多以后，会出现一些很诚实的便便。",
           "background": "bg-rainbow.svg",
           "node": "family01_001",
           "cost": 4,
@@ -192,7 +192,7 @@
         {
           "id": "family03",
           "title": "老师之家",
-          "description": "这家人的职业都是老师，家里很整洁，有很多规矩。",
+          "description": "这家人都像老师一样认真，屋子很整洁，规矩也像尺子一样摆得直直的。",
           "background": "bg-teacher.svg",
           "node": "family03_001",
           "cost": 12,
@@ -201,7 +201,7 @@
         {
           "id": "family04",
           "title": "富有之家",
-          "description": "这家人有很多很多钱，可是为了赚更多的钱，家里的人都很忙。",
+          "description": "这家有很多很多东西，可是为了得到更多东西，大人常常走得很远、回来得很晚。",
           "background": "bg-candy.svg",
           "node": "family04_001",
           "cost": 16,
@@ -210,7 +210,7 @@
         {
           "id": "dino",
           "title": "恐龙之家",
-          "description": "这是恐龙家族的家。",
+          "description": "这是恐龙家族的家，地板会轻轻发抖，问候也常常很大声。",
           "background": "bg-dino.svg",
           "node": "dino_001",
           "cost": 18,
@@ -219,7 +219,7 @@
         {
           "id": "warm",
           "title": "普通之家",
-          "description": "看起来只是一个普通的家，有点模糊，看不清楚。",
+          "description": "它看起来只是一个普通的家，像隔着雾；可是有些灯，正因为不刺眼，才让人想靠近。",
           "background": "bg-warm.svg",
           "node": "warm_001",
           "cost": 24,
@@ -234,7 +234,7 @@
         {
           "id": "gate",
           "title": "心愿之门",
-          "description": "所有星星都被观察以后，最后的选择会在门里打开。",
+          "description": "所有星星都被认真看过以后，最后的选择会在门里慢慢打开。",
           "background": "bg-gate.svg",
           "node": "gate_select",
           "cost": 0,
@@ -249,40 +249,40 @@
       "type": "wish_gate",
       "background": "bg-gate.svg",
       "title": "心愿之门",
-      "subtitle": "所有星星都已经被看见。现在，小天使要选择真正想去的那一颗。",
+      "subtitle": "所有星星都已经被认真看过。现在，小天使要把心交给其中一颗。",
       "options": [
         {
           "id": "family01",
           "title": "便便之家",
-          "description": "这颗星有一点臭臭的幽默感，天上会掉下奇怪的便便流星，但笑声也来得很直接。",
+          "description": "这颗星有一点臭臭的幽默感。天上会掉下奇怪的便便流星，笑声却来得很直接。",
           "resultTitle": "臭臭的星",
-          "resultText": "小天使走进了便便之家。这里的人很会把尴尬的事情变成笑话，连便便流星都像一场欢迎仪式。这个家很有趣，可她认真想了想：她还是想去一个不用天天躲便便的地方。"
+          "resultText": "小天使走进了便便之家。这里的人很会把尴尬的事变成笑话，连便便流星都像一场欢迎仪式。这个家很有趣，可她认真想了想：她还是想去一个不用天天躲便便的地方。"
         },
         {
           "id": "family03",
           "title": "老师之家",
-          "description": "这颗星很安静、很干净，桌上的尺子、书本和钟表都排得整整齐齐。",
+          "description": "这颗星很安静，也很干净。尺子、书本和钟表都排得整整齐齐，像在等一句正确答案。",
           "resultTitle": "整齐的星",
-          "resultText": "小天使走进了老师之家。那里有干净的桌面、准时响起的钟声，也有人认真教她把事情做好。可是每当她想多玩一会儿、慢一点说话、把积木摆成奇怪的样子时，规矩就像一条细细的线，把她轻轻拉回原处。她明白：整齐很好，但她还想找一个能抱住她小小任性的家。"
+          "resultText": "小天使走进了老师之家。那里有干净的桌面、准时响起的钟声，也有人认真教她把事情做好。可是每当她想多玩一会儿、慢一点说话、把积木摆成奇怪的样子，规矩就像一根细线，把她轻轻拉回原处。她明白：整齐很好，但她还想找一个能抱住她小小任性的家。"
         },
         {
           "id": "family04",
           "title": "富有之家",
-          "description": "这颗星有明亮的房间、漂亮的衣服和很多礼物，可门口的脚步声常常很晚才回来。",
+          "description": "这颗星有明亮的房间、漂亮的衣服和很多礼物；可是门口的脚步声，常常很晚才回来。",
           "resultTitle": "寂寞的星",
-          "resultText": "小天使走进了那座很大的房子。她拥有很多玩具、很多漂亮衣服，也有一个很大的房间。可是夜里灯亮着的时候，爸爸妈妈还在外面工作。她慢慢明白：礼物可以把房间填满，陪伴才会把心填满。"
+          "resultText": "小天使走进了那座很大的房子。她有很多玩具、很多漂亮衣服，也有一个很大的房间。可是夜里灯亮着的时候，爸爸妈妈还在外面工作。她慢慢明白：礼物可以把房间填满，陪伴才会把心填满。"
         },
         {
           "id": "dino",
           "title": "恐龙之家",
-          "description": "这颗星有恐龙蛋、轻轻震动的地板，还有一种很难小声说话的热闹。",
+          "description": "这颗星有恐龙蛋、会轻轻震动的地板，还有一种很难小声说话的热闹。",
           "resultTitle": "嗷呜的星",
-          "resultText": "小天使走进恐龙之家，发现自己出生以后可能会变成一只圆脸小恐龙。她也许会很会跑，很会嗷呜，这个家很有趣，可她认真想了想：她还是想先当一个可以被爸爸妈妈抱在怀里的小女孩。"
+          "resultText": "小天使走进恐龙之家，发现自己出生以后可能会变成一只圆脸小恐龙。她也许很会跑，也很会嗷呜。这个家很有趣，可她认真想了想：她还是想先当一个可以被爸爸妈妈抱在怀里的小女孩。"
         },
         {
           "id": "warm",
           "title": "普通之家",
-          "description": "这颗星看起来最普通，却藏着爸爸小时候和妈妈小时候的两张照片，还有他们一起等待未来孩子的痕迹。",
+          "description": "这颗星看起来最普通，却藏着爸爸小时候和妈妈小时候的两张照片，也藏着他们一起等待未来孩子的痕迹。",
           "correct": true,
           "next": "xingyu_001"
         }
@@ -298,7 +298,7 @@
       "type": "dialogue",
       "background": "bg-rainbow.svg",
       "speaker": "narrator",
-      "text": "这个星球里，是一间很热闹的客厅，餐桌上摆满了美食。",
+      "text": "这颗星星里，有一间很热闹的客厅。餐桌像一座小山，堆满了香喷喷的东西。",
       "next": "family01_001_extra_01"
     },
     "family01_002": {
@@ -310,7 +310,7 @@
         "expression": "smile",
         "position": "left"
       },
-      "text": "这里好多好吃的呀。如果来到这里，是不是每天都会吃得很饱。",
+      "text": "这里有好多好吃的呀。如果来到这里，我是不是每天都会把肚子吃得圆圆的？",
       "next": "family01_003"
     },
     "family01_003": {
@@ -322,7 +322,7 @@
         "expression": "explain",
         "position": "right"
       },
-      "text": "美食是一种幸福。但你要认真看看，这里有没有你真正想要的光。而且，在这个家里有时会突然出现……",
+      "text": "好吃的东西也是一种幸福。可是你还要看看，这里有没有你心里想要的那束光。还有，在这个家里，有时会忽然出现……",
       "next": "family01_game"
     },
     "family01_game": {
@@ -340,7 +340,7 @@
         "expression": "serious",
         "position": "left"
       },
-      "text": "我看见了。这里有很多笑声，也有很多便便。",
+      "text": "我看见了。这里的笑声很多，便便也很多。原来有些快乐，是带着一点味道的。",
       "choices": [
         {
           "text": "这里很开心，但我还想再看看。",
@@ -370,7 +370,7 @@
       "type": "dialogue",
       "background": "bg-teacher.svg",
       "speaker": "narrator",
-      "text": "在这个星球里，有一间非常整洁的屋子。书本按高矮排好，铅笔都削得一样尖，墙上的钟一格一格，走得很准。",
+      "text": "这颗星星里，有一间非常整洁的屋子。书本按高矮站好，铅笔尖尖地排队，墙上的钟一格一格，走得很认真。",
       "next": "family03_002"
     },
     "family03_002": {
@@ -382,7 +382,7 @@
         "expression": "smile",
         "position": "left"
       },
-      "text": "这里好干净呀。连小星星掉在桌上，都会不会被摆成一排？",
+      "text": "这里好干净呀。是不是连一颗小星星掉到桌上，也要先站成一排？",
       "next": "family03_003"
     },
     "family03_003": {
@@ -394,7 +394,7 @@
         "expression": "explain",
         "position": "right"
       },
-      "text": "这是老师的家。这里的人很认真，也很会遵守秩序。鞋子要放在鞋架上，故事要听完再提问，玩具玩好以后，要回到原来的盒子里。",
+      "text": "这是老师的家。这里的人很认真，也很相信秩序。鞋子要回鞋架，故事要先听完，玩具玩好了，也要回到自己的盒子里。",
       "next": "family03_game"
     },
     "family03_game": {
@@ -412,7 +412,7 @@
         "expression": "serious",
         "position": "left"
       },
-      "text": "我停在了规定的时间里。这里真的很厉害，什么都清清楚楚。可是我有一点点害怕，如果我哭得太久、吃饭太慢、画画画到线外面，会不会也算不够好？",
+      "text": "我停在了规定的时间里。这里什么都清清楚楚，像被尺子轻轻量过。可是我有一点害怕：如果我哭久了、吃慢了、画到线外面了，会不会就不够好？",
       "choices": [
         {
           "text": "整齐会让人安心。",
@@ -442,28 +442,28 @@
       "type": "dialogue",
       "background": "bg-candy.svg",
       "speaker": "narrator",
-      "text": "小天使观察这个星球时，光一下子变得很亮。",
+      "text": "小天使靠近这颗星星时，光一下子亮了起来，像有人打开了一整盒金色的蜡笔。",
       "next": "family04_001_page_02"
     },
     "family04_001_page_02": {
       "type": "dialogue",
       "background": "bg-candy.svg",
       "speaker": "narrator",
-      "text": "这一座很大的房子，地板像被月光洗过一样干净，衣柜里挂着一排漂亮裙子，玩具架一直排到墙边。",
+      "text": "那是一座很大的房子。地板像被月光洗过，衣柜里挂着一排漂亮裙子，玩具架一直排到墙边。",
       "next": "family04_001b"
     },
     "family04_001b": {
       "type": "dialogue",
       "background": "bg-candy.svg",
       "speaker": "narrator",
-      "text": "餐桌上总有新鲜的蛋糕，门口总有新的礼物盒。可是小天使看了很久，发现家里常常只有一个小小的影子。",
+      "text": "餐桌上常有新鲜蛋糕，门口常有新的礼物盒。可是小天使看了很久，发现那么大的房子里，常常只有一个小小的影子。",
       "next": "family04_001c"
     },
     "family04_001c": {
       "type": "dialogue",
       "background": "bg-candy.svg",
       "speaker": "narrator",
-      "text": "墙上的时钟走得很轻，爸爸妈妈的声音从很远的地方传来：等一下，宝贝，爸爸妈妈忙完就回家。",
+      "text": "墙上的钟走得很轻。爸爸妈妈的声音从很远的地方传来：等一下，宝贝，爸爸妈妈忙完就回家。",
       "next": "family04_002"
     },
     "family04_002": {
@@ -475,7 +475,7 @@
         "expression": "smile",
         "position": "left"
       },
-      "text": "这里什么都有。可是为什么那个小朋友坐在那么大的房间里，看起来还是有一点点孤单呢？",
+      "text": "这里什么都有。可是为什么那个小朋友坐在那么大的房间里，还是像少了一颗很小很小的星星？",
       "next": "family04_003"
     },
     "family04_003": {
@@ -487,7 +487,7 @@
         "expression": "explain",
         "position": "right"
       },
-      "text": "有些家会给孩子很多很多东西，却没有很多很多时间。你要分辨：闪闪发光的是礼物，还是陪在身边的那一小段时光。",
+      "text": "有些家能给孩子很多很多东西，却给不出很多很多时间。你要分辨：闪光的是礼物，还是陪在身边的那一小段时光。",
       "next": "family04_game"
     },
     "family04_game": {
@@ -500,7 +500,7 @@
       "type": "dialogue",
       "background": "bg-candy.svg",
       "speaker": "narrator",
-      "text": "小天使看见，孩子并不是不喜欢礼物。她喜欢漂亮的盒子，也喜欢闪亮的房间。只是当她抬头的时候，更希望有人正好也看着她。",
+      "text": "小天使看见，孩子不是不喜欢礼物。她喜欢漂亮盒子，也喜欢发亮的房间。只是她抬头的时候，更希望有一双眼睛也正在看她。",
       "next": "family04_003c"
     },
     "family04_003c": {
@@ -512,7 +512,7 @@
         "expression": "explain",
         "position": "right"
       },
-      "text": "富有不是错，忙碌也不是不爱。可是孩子的心很小，装不下太多解释。她最先记住的，常常是谁愿意停下来陪她一会儿。",
+      "text": "富有不是错，忙碌也不是不爱。可是孩子的心很小，装不下太多解释。她最先记住的，常常是谁愿意停下来，陪她一小会儿。",
       "next": "family04_004"
     },
     "family04_004": {
@@ -524,7 +524,7 @@
         "expression": "serious",
         "position": "left"
       },
-      "text": "我明白了。很大的房子可以放下很多礼物，可是如果没有人陪我一起笑，房子还是会空空的。",
+      "text": "我明白了。很大的房子可以放下很多礼物。可是如果没有人陪我一起笑，房子里还是会有回声。",
       "choices": [
         {
           "text": "礼物很好，可我还想要拥抱。",
@@ -554,7 +554,7 @@
       "type": "dialogue",
       "background": "bg-dino.svg",
       "speaker": "narrator",
-      "text": "这颗星星一亮，小天使耳边先传来“咚、咚、咚”的脚步声。云朵被震得抖了三下，像一碗差点洒出来的棉花糖。",
+      "text": "这颗星星刚一亮，小天使先听见“咚、咚、咚”的脚步声。云朵抖了三下，像一碗差点洒出来的棉花糖。",
       "next": "dino_002"
     },
     "dino_002": {
@@ -566,7 +566,7 @@
         "expression": "confused",
         "position": "left"
       },
-      "text": "这个家……是不是有一点点大声？刚才是门铃，还是谁的脚踩到了地球？",
+      "text": "这个家……是不是有一点点大声？刚才那是门铃，还是谁不小心踩到了地球？",
       "next": "dino_003"
     },
     "dino_003": {
@@ -578,7 +578,7 @@
         "expression": "explain",
         "position": "right"
       },
-      "text": "这是恐龙之家。如果小天使选择这里，出生以后不一定会先哭，也可能先很礼貌地“嗷呜”一声。",
+      "text": "这是恐龙之家。如果小天使选择这里，出生以后不一定先哭，也可能先很有礼貌地“嗷呜”一声。",
       "next": "dino_004"
     },
     "dino_004": {
@@ -590,21 +590,21 @@
         "expression": "confused",
         "position": "left"
       },
-      "text": "那我会变成恐龙吗？圆脸小恐龙可以穿小裙子吗？如果尾巴太长，坐小板凳会不会很尴尬？",
+      "text": "那我会变成恐龙吗？圆脸小恐龙可以穿小裙子吗？如果尾巴太长，坐小板凳会不会有一点尴尬？",
       "next": "dino_005"
     },
     "dino_005": {
       "type": "dialogue",
       "background": "bg-dino.svg",
       "speaker": "narrator",
-      "text": "恐龙之家里一个恐龙爸爸正在给小恐龙系围兜。",
+      "text": "恐龙之家里，一个恐龙爸爸正在给小恐龙系围兜。",
       "next": "dino_005_page_02"
     },
     "dino_005_page_02": {
       "type": "dialogue",
       "background": "bg-dino.svg",
       "speaker": "narrator",
-      "text": "围兜很漂亮，恐龙也很努力，结果围兜刚系好，小恐龙一低头，整张餐桌都往前挪了半厘米。",
+      "text": "围兜很漂亮，恐龙也很努力。可是围兜刚系好，小恐龙一低头，整张餐桌就悄悄往前挪了半厘米。",
       "next": "dino_006"
     },
     "dino_006": {
@@ -616,7 +616,7 @@
         "expression": "smile",
         "position": "right"
       },
-      "text": "这里的爱很直接。饿了就给一大盆青菜，开心了就把尾巴摇成扫帚，难过了就用很大的脑袋轻轻蹭一蹭。",
+      "text": "这里的爱很直接。饿了，就给一大盆青菜；开心了，就把尾巴摇成扫帚；难过了，就用很大的脑袋轻轻蹭一蹭。",
       "next": "dino_006_page_02"
     },
     "dino_006_page_02": {
@@ -628,7 +628,7 @@
         "expression": "smile",
         "position": "right"
       },
-      "text": "缺点是，轻轻蹭一蹭也可能把枕头蹭到隔壁房间。",
+      "text": "小小的缺点是：他们以为很轻的一蹭，也可能把枕头蹭到隔壁房间。",
       "next": "dino_007"
     },
     "dino_007": {
@@ -640,7 +640,7 @@
         "expression": "smile",
         "position": "left"
       },
-      "text": "听起来好像很热闹。可是如果我生气跺脚，大家会不会以为发生了小地震？",
+      "text": "听起来好热闹。可是如果我生气跺脚，大家会不会以为发生了一场很小的地震？",
       "next": "dino_home_preview"
     },
     "dino_home_preview": {
@@ -658,7 +658,7 @@
         "expression": "touched",
         "position": "left"
       },
-      "text": "这些小恐龙好可爱。它们连躲回蛋里的样子都很认真，好像在说：请尊重我的蛋壳隐私。",
+      "text": "这些小恐龙真可爱。它们连躲回蛋里的样子都很认真，好像在说：请尊重我的蛋壳隐私。",
       "next": "dino_009"
     },
     "dino_009": {
@@ -670,7 +670,7 @@
         "expression": "serious",
         "position": "left"
       },
-      "text": "恐龙之家很好玩。可是如果我真的出生在这里，可能每天都要先学会不要用尾巴扫掉杯子。",
+      "text": "恐龙之家很好玩。可是如果我真的出生在这里，也许每天都要先学会：不要用尾巴扫掉杯子。",
       "choices": [
         {
           "text": "变成小恐龙听起来也不错。",
@@ -700,7 +700,7 @@
       "type": "dialogue",
       "background": "bg-warm.svg",
       "speaker": "narrator",
-      "text": "这个星球的光有点模糊，像隔着一层很轻的雾，里面的东西似乎看得不是很清楚。",
+      "text": "这颗星星的光有一点模糊，像隔着一层很轻的雾。里面的东西不急着说清楚。",
       "next": "warm_001_extra_01"
     },
     "warm_002": {
@@ -712,7 +712,7 @@
         "expression": "confused",
         "position": "left"
       },
-      "text": "这里……好普通。可是我靠近的时候，心里突然安静了。好像有人把世界的声音放轻了，只留下这两张照片在等我看清。",
+      "text": "这里……好普通。可是我靠近的时候，心里忽然安静了。好像有人把世界的声音放轻，只留下两张照片，等我看清。",
       "next": "warm_003"
     },
     "warm_003": {
@@ -724,7 +724,7 @@
         "expression": "explain",
         "position": "right"
       },
-      "text": "那就仔细看。真正的提示，常常藏在最普通的地方。",
+      "text": "那就仔细看。真正的提示，常常不站在最亮的地方。",
       "next": "warm_003_page_02"
     },
     "warm_003_page_02": {
@@ -736,7 +736,7 @@
         "expression": "explain",
         "position": "right"
       },
-      "text": "有些星星不会一下子说出答案，只会先让你看见：他们还没有成为大人以前，是什么样子。",
+      "text": "有些星星不会一下子说出答案。它们会先让你看见：他们还没有成为大人以前，是什么样子。",
       "next": "warm_003b"
     },
     "warm_003b": {
@@ -744,7 +744,7 @@
       "background": "bg-warm.svg",
       "photoScene": "warm_family_photos",
       "speaker": "narrator",
-      "text": "左边相框里，是爸爸小时候的照片：那时的他还不是爸爸，只是一个小男孩，可能有点害羞，也可能正努力装得很勇敢。",
+      "text": "左边的相框里，是爸爸小时候的照片。那时他还不是爸爸，只是一个小男孩，可能有点害羞，也可能正在努力装得很勇敢。",
       "next": "warm_003b_extra_01"
     },
     "warm_003b2": {
@@ -752,7 +752,7 @@
       "background": "bg-warm.svg",
       "photoScene": "warm_family_photos",
       "speaker": "narrator",
-      "text": "右边相框里，是妈妈小时候的照片：那时的她也还不是妈妈，只是一个小女孩，眼睛亮亮的，像刚刚发现了什么好玩的事情。",
+      "text": "右边的相框里，是妈妈小时候的照片。那时她也还不是妈妈，只是一个小女孩，眼睛亮亮的，像刚刚发现了一件好玩的事。",
       "next": "warm_003c"
     },
     "warm_003c": {
@@ -791,7 +791,7 @@
         "expression": "smile",
         "position": "right"
       },
-      "text": "可是很久以前，他们也会摔跤，也会撒娇，也会因为一点小事开心很久。",
+      "text": "可是很久以前，他们也会摔跤，会撒娇，会因为一点小事开心很久。",
       "next": "warm_003d_extra_01"
     },
     "warm_003d2": {
@@ -804,7 +804,7 @@
         "expression": "smile",
         "position": "right"
       },
-      "text": "看见他们小时候的样子，你就知道：他们不是天生就会当爸爸妈妈，他们是带着自己的童年，一点点走来等你的。",
+      "text": "看见他们小时候的样子，你就知道：他们不是一出生就会当爸爸妈妈。他们也是带着自己的童年，一点点走来等你的。",
       "next": "warm_003e"
     },
     "warm_003e": {
@@ -812,7 +812,7 @@
       "background": "bg-warm.svg",
       "photoScene": "warm_family_photos",
       "speaker": "narrator",
-      "text": "两张照片一左一右，被小灯照得很柔和。照片里的他们都还那么小，却像已经从很远的童年出发，慢慢走到同一束灯光下面。",
+      "text": "两张照片一左一右，被小灯照得很柔和。照片里的他们都还那么小，却像已经从很远的童年出发，慢慢走到同一束灯光下。",
       "next": "warm_003e_page_02"
     },
     "warm_003e_page_02": {
@@ -820,7 +820,7 @@
       "background": "bg-warm.svg",
       "photoScene": "warm_family_photos",
       "speaker": "narrator",
-      "text": "那束光没有说话，只安静地把中间的位置留出来，像在等一个还没出生的孩子靠近。",
+      "text": "那束光没有说话，只安静地把中间的位置留出来，像在等一个还没有出生的孩子靠近。",
       "next": "warm_004"
     },
     "warm_004": {
@@ -833,7 +833,7 @@
         "expression": "touched",
         "position": "left"
       },
-      "text": "左边是爸爸小时候，右边是妈妈小时候，中间是一小片被灯光留出来的空白。",
+      "text": "左边是爸爸小时候，右边是妈妈小时候。中间那一小片空白，被灯光轻轻留着。",
       "next": "warm_004_page_02"
     },
     "warm_004_page_02": {
@@ -846,7 +846,7 @@
         "expression": "touched",
         "position": "left"
       },
-      "text": "原来他们还没见过我，可他们的小时候、现在和以后，好像已经慢慢排成了一条路。",
+      "text": "原来他们还没有见过我。可是他们的小时候、现在和以后，好像已经慢慢排成了一条路。",
       "next": "warm_005"
     },
     "warm_005": {
@@ -859,7 +859,7 @@
         "expression": "worried",
         "position": "left"
       },
-      "text": "普通之家没有最亮的房子，也没有最多的礼物。可我看见那两张照片的时候，忽然觉得：如果我去了那里，也许会被两个曾经也是小孩的人，好好抱住。",
+      "text": "普通之家没有最亮的房子，也没有最多的礼物。可是我看见那两张照片时，忽然觉得：如果我去了那里，也许会被两个曾经也是小孩的人，好好抱住。",
       "choices": [
         {
           "text": "我想再看看那两张照片。",
@@ -890,7 +890,7 @@
       "chapter": "中章 同一颗星星前",
       "background": "bg-warm.svg",
       "speaker": "narrator",
-      "text": "就在小天使想伸手触碰那颗星球的时候，另一只手，也轻轻碰到了同一片星光。",
+      "text": "就在小天使想伸手触碰那颗星星的时候，另一只手，也轻轻碰到了同一片星光。",
       "next": "xingyu_002"
     },
     "xingyu_002": {
@@ -926,7 +926,7 @@
         "expression": "sad",
         "position": "right"
       },
-      "text": "嗯。那里很温暖。如果我去了，他们也会爱我吗？",
+      "text": "嗯。那里很暖。如果我去了，他们也会爱我吗？",
       "next": "xingyu_choice"
     },
     "xingyu_choice": {
@@ -938,7 +938,7 @@
         "expression": "serious",
         "position": "left"
       },
-      "text": "小天使低头看着这一颗星星。它很暖，却也变得有点沉。",
+      "text": "小天使低头看着这颗星星。它还是那么暖，却忽然变得有一点重。",
       "choices": [
         {
           "text": "可是这是我先看到的。",
@@ -972,7 +972,7 @@
         "expression": "explain",
         "position": "right"
       },
-      "text": "星星不是用来抢夺的，它会听见真正相连的缘分。你们都可以听，都可以看，也可以回答一些只有到了这个家才会慢慢变清楚的问题。",
+      "text": "星星不是用来抢的。它会听见真正相连的缘分。你们都可以听，都可以看，也可以回答一些问题；这些问题，只有到了这个家，才会慢慢变清楚。",
       "next": "trial_wait_game"
     },
     "trial_wait_game": {
@@ -990,7 +990,7 @@
         "expression": "touched",
         "position": "left"
       },
-      "text": "我答对了吗...虽然我不知道问题的答案，但有一种很熟悉的感觉。",
+      "text": "我答对了吗……虽然我并不知道答案，可是有一种很熟悉的感觉，像从很远的地方飘过来。",
       "next": "trial_after_xingyu_001"
     },
     "trial_after_xingyu_001": {
@@ -1002,7 +1002,7 @@
         "expression": "sad",
         "position": "right"
       },
-      "text": "我好像听见了。那些答案也许不是最正确的答案，但那是这个家一点一点留下来的声音。",
+      "text": "我好像听见了。那些答案也许不是世界上最正确的答案，可那是这个家一点一点留下来的声音。",
       "next": "trial_after_angel_001"
     },
     "trial_after_angel_001": {
@@ -1014,7 +1014,7 @@
         "expression": "touched",
         "position": "left"
       },
-      "text": "小星羽，我也不知道为什么，可是看见那两张小时候的照片时，我心里像被轻轻叫了一下。不是很大声，但我听见了。",
+      "text": "小星羽，我也不知道为什么。可是看见那两张小时候的照片时，我心里像被轻轻叫了一下。声音不大，可我听见了。",
       "next": "trial_after_xingyu_002"
     },
     "trial_after_xingyu_002": {
@@ -1038,7 +1038,7 @@
         "expression": "smile",
         "position": "right"
       },
-      "text": "能承认羡慕，也能放开不属于自己的愿望，这也是很亮的星光。心愿之门不会让谁输掉，它只会把每个小天使送到真正等她的地方。",
+      "text": "能承认羡慕，也能放开不属于自己的愿望，这也是很亮的星光。心愿之门不会让谁输掉；它只会把每个小天使，送到真正等她的地方。",
       "next": "trial_after_angel_002"
     },
     "trial_after_angel_002": {
@@ -1050,7 +1050,7 @@
         "expression": "serious",
         "position": "left"
       },
-      "text": "我不是为了赢过谁，是因为我真的想去那里。",
+      "text": "我不是为了赢过谁。我只是，真的想去那里。",
       "next": "trial_response"
     },
     "trial_response": {
@@ -1062,7 +1062,7 @@
         "expression": "serious",
         "position": "left"
       },
-      "text": "我想认真地说出我的选择。",
+      "text": "我想把我的选择，认真地说出来。",
       "choices": [
         {
           "text": "我也选择了你们。",
@@ -1099,7 +1099,7 @@
         "expression": "touched",
         "position": "left"
       },
-      "text": "我也选择了你们。不是因为你们最耀眼，而是因为你们还没见到我，就已经把灯点亮了。",
+      "text": "我也选择了你们。不是因为你们最耀眼，而是因为你们还没有见到我，就已经把灯点亮了。",
       "next": "xingyu_bless"
     },
     "trial_final_b": {
@@ -1135,7 +1135,7 @@
         "expression": "smile",
         "position": "right"
       },
-      "text": "原来……有些光，是会叫名字的。它叫的是你。没关系，刚才我也听见了，在很远的另一边，也有一盏灯亮了起来。",
+      "text": "原来……有些光，是会叫名字的。它叫的是你。没关系，刚才我也听见了，在很远的另一边，也有一盏灯亮起来了。",
       "next": "ending_001"
     },
     "ending_001": {
@@ -1144,7 +1144,7 @@
       "background": "bg-warm.svg",
       "photoScene": "ending_family_room",
       "speaker": "narrator",
-      "text": "心愿之门缓缓打开。门后的房间终于变得清楚。两张童年照片悄悄消失，一张新的照片慢慢出现。",
+      "text": "心愿之门慢慢打开。门后的房间终于清楚了。两张童年照片轻轻退去，一张新的照片，像星光一样慢慢出现。",
       "next": "ending_002"
     },
     "ending_002": {
@@ -1157,7 +1157,7 @@
         "expression": "touched",
         "position": "left"
       },
-      "text": "原来是他们。原来一直等我的，是他们。",
+      "text": "原来是他们。原来一直等我的，就是他们。",
       "next": "ending_003"
     },
     "ending_003": {
@@ -1165,7 +1165,7 @@
       "background": "bg-warm.svg",
       "photoScene": "ending_family_room",
       "speaker": "narrator",
-      "text": "妈妈的声音轻轻传来：我希望她来到这个世界的时候，知道有人在等她。我们会慢慢学，不会一开始就什么都会，但会一直陪她长大。",
+      "text": "妈妈的声音轻轻传来：我希望她来到这个世界的时候，知道有人在等她。我们会慢慢学，不会一开始就什么都会，可是会一直陪她长大。",
       "next": "ending_004"
     },
     "ending_004": {
@@ -1181,7 +1181,7 @@
       "background": "bg-cover.svg",
       "photoScene": "birthday_family_photo",
       "speaker": "narrator",
-      "text": "很多年以后，那个小天使长到了八岁。她也许不记得星星档案馆和心愿之门，但那一天的选择，一直藏在她的睡梦里。",
+      "text": "很多年以后，那个小天使长到了八岁。她也许不记得星星图书馆和心愿之门，可那一天的选择，一直安静地睡在她的梦里。",
       "next": "birthday_002"
     },
     "birthday_002": {
@@ -1189,7 +1189,7 @@
       "background": "bg-cover.svg",
       "photoScene": "birthday_family_photo",
       "speaker": "narrator",
-      "text": "亲爱的宝贝，八岁生日快乐。你不是偶然来到这个家的。是很久以前，有一个小天使穿过星星，认真看过很多家的光，最后选择了我们。",
+      "text": "亲爱的宝贝，八岁生日快乐。你不是偶然来到这个家的。很久以前，有一个小天使穿过星星，认真看过很多家的光，最后选择了我们。",
       "next": "birthday_003"
     },
     "birthday_003": {
@@ -1204,21 +1204,21 @@
       "type": "final_card",
       "title": "这是爸爸妈妈送给你的，世界上独一无二的游戏。",
       "wishText": "祝宝贝八岁生日快乐。",
-      "subtitle": "愿你每一次想起它，都知道自己被认真地选择、认真地爱着。",
+      "subtitle": "愿你每一次想起它，都知道：你被认真地选择，也被认真地爱着。",
       "buttonText": "回到星空"
     },
     "world_003_extra_01": {
       "type": "dialogue",
       "background": "bg-heaven.svg",
       "speaker": "narrator",
-      "text": "每一颗星星都代表着一个家庭。小天使们要认真看过许多家的光，然后选择自己要出生的家庭。",
+      "text": "每一颗星星，都代表着一个家庭。小天使们要认真看过许多家的光，然后选择自己要出生的地方。",
       "next": "cloud_001"
     },
     "family01_001_extra_01": {
       "type": "dialogue",
       "background": "bg-rainbow.svg",
       "speaker": "narrator",
-      "text": "家里有很多个房间，每一个房间都有一个崭新的马桶。",
+      "text": "家里有很多个房间，每一个房间里，都有一个崭新的马桶，像一朵严肃的小白云。",
       "next": "family01_002"
     },
     "warm_003b_extra_01": {
@@ -1226,21 +1226,21 @@
       "background": "bg-warm.svg",
       "photoScene": "warm_family_photos",
       "speaker": "narrator",
-      "text": "右边相框里，是妈妈小时候的照片：那时的她也还不是妈妈，只是一个小女孩，眼睛亮亮的，像刚刚发现了什么好玩的事情。",
+      "text": "右边相框里，是妈妈小时候的照片。那时她也还不是妈妈，只是一个小女孩，眼睛亮亮的，像刚刚发现了一件好玩的事。",
       "next": "warm_003c"
     },
     "warm_001_extra_01": {
       "type": "dialogue",
       "background": "bg-warm.svg",
       "speaker": "narrator",
-      "text": "星球里没有城堡，也没有会唱歌的云，只是一间普通房间。",
+      "text": "星球里没有城堡，也没有会唱歌的云。这里只有一间普通房间。",
       "next": "warm_001_extra_01_page_02"
     },
     "warm_001_extra_01_page_02": {
       "type": "dialogue",
       "background": "bg-warm.svg",
       "speaker": "narrator",
-      "text": "桌边亮着一盏小灯，灯光里放着两只小相框，一左一右，像两颗还没完全醒来的星星。",
+      "text": "桌边亮着一盏小灯。灯光里放着两只小相框，一左一右，像两颗还没有完全醒来的星星。",
       "next": "warm_002"
     },
     "warm_003d_extra_01": {
@@ -1248,7 +1248,7 @@
       "background": "bg-warm.svg",
       "photoScene": "warm_family_photos",
       "speaker": "guardian",
-      "text": "看见他们小时候的样子，你就知道：他们不是天生就会当爸爸妈妈，他们是带着自己的童年，一点点走来等你的。",
+      "text": "看见他们小时候的样子，你就知道：他们不是天生就会当爸爸妈妈。他们是带着自己的童年，一点点走来等你的。",
       "next": "warm_003e",
       "sprite": {
         "character": "guardian",

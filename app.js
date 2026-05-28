@@ -4,7 +4,7 @@ const TEXT_OVERRIDES_KEY = "angel_vn_text_overrides_v1";
 const ADDED_NODES_KEY = "angel_vn_added_nodes_v1";
 const NODE_REWIRES_KEY = "angel_vn_node_rewires_v1";
 const ASSET_ROOT = "./assets";
-const ASSET_VERSION = "vn119";
+const ASSET_VERSION = "vn132";
 const BGM_FILES = [
   "audio/kikujiro-summer-piano.mp3",
   "audio/bgm.mp3"
@@ -246,6 +246,7 @@ function setBackground(name) {
   if (!name) return;
   const url = asset(`images/${name}`);
   els.background.style.backgroundImage = `url("${url}")`;
+  els.screen.dataset.background = name;
 }
 
 function showChapter(title) {
@@ -362,6 +363,7 @@ function clearTransientUi() {
   game.birthGate = null;
   els.screen.classList.remove("map-screen");
   els.screen.classList.remove("chapter-mode");
+  els.screen.classList.remove("birth-transition-mode");
   els.chapterCard.classList.add("hidden");
   els.titleMenu.classList.add("hidden");
   els.titleMenu.classList.remove("map-mode");
@@ -550,9 +552,9 @@ function drawGift(node, pool, button) {
     <div class="card-reveal rarity-${tier}">
       <span class="modal-kicker">${tierLabel}</span>
       <div class="drawn-card" aria-label="${tierLabel}卡片">
-        <div class="card-stars">${Array.from({ length: Math.min(12, Math.max(3, card.amount)) }, (_, index) => `<span style="--i:${index}">✦</span>`).join("")}</div>
+        <div class="card-stars">${Array.from({ length: Math.min(12, Math.max(3, card.amount)) }, (_, index) => `<span style="--i:${index}"></span>`).join("")}</div>
         <div class="card-medal">${card.amount >= 10 ? "SSR" : card.amount >= 8 ? "SR" : card.amount >= 5 ? "R" : "N"}</div>
-        <div class="card-icon">✦</div>
+        <div class="card-icon" aria-hidden="true"></div>
         <strong>${game.resources[card.resource].name} x${card.amount}</strong>
       </div>
       <h2>${card.name}</h2>
@@ -711,8 +713,7 @@ function renderHomeStar(home, index, revealHomeId = "") {
   if (done) status = "已探索";
   else if (lockedByStory) status = "暂未出现";
   else if (!affordable) status = `还差 ${cost - current} 星尘`;
-  else status = `可以探索 · 消耗 ${cost}`;
-  const marker = done ? "✓" : lockedByStory ? "…" : affordable ? "✦" : "○";
+  else status = `可以探索，消耗 ${cost}`;
   const title = `${home.title}，${status}`;
   const revealClass = home.id === revealHomeId ? "newly-revealed" : "";
   return `
@@ -728,7 +729,6 @@ function renderHomeStar(home, index, revealHomeId = "") {
         <span class="star-spark spark-b"></span>
         <span class="star-spark spark-c"></span>
       </span>
-      <span class="star-status" aria-hidden="true">${marker}</span>
       <span class="star-label" aria-hidden="true">${home.title}</span>
     </button>
   `;
@@ -770,7 +770,7 @@ function showStarInfo(home, node) {
       <span class="modal-kicker">OBSERVATION STAR</span>
       <h2>${home.title}</h2>
       <p>${home.description}</p>
-      <div class="star-requirement"><span>${stateText}</span><strong>✦ ${cost}</strong></div>
+      <div class="star-requirement"><span>${stateText}</span><strong><i aria-hidden="true"></i>${cost}</strong></div>
       <div class="star-info-actions">
         <button data-action="confirm-star" type="button" ${canEnter ? "" : "disabled"}>${canEnter ? "确认观察" : done ? "已完成" : "星尘不足"}</button>
       </div>
@@ -1253,7 +1253,7 @@ function renderBusyHome(node, config) {
       size: 7 + Math.random() * 2,
       vx: (index % 2 ? -0.12 : 0.12) * (1 + index * 0.12),
       vy: (index % 3 ? 0.1 : -0.1) * (1 + index * 0.08),
-      icon: ["☁", "💼", "📋", "✦"][index % 4]
+      icon: ["cloud", "case", "paper", "star"][index % 4]
     }));
     els.dialogueText.textContent = round.narration;
     els.modal.innerHTML = `
@@ -1272,7 +1272,7 @@ function renderBusyHome(node, config) {
           <button data-dir="down" type="button" aria-label="向下"></button>
           <button data-dir="right" type="button" aria-label="向右"></button>
         </div>
-        <div id="busyMeter" class="mini-meter">第 ${state.round + 1} / ${rounds.length} 关 · 把星光送过去</div>
+      <div id="busyMeter" class="mini-meter">第 ${state.round + 1} / ${rounds.length} 关，把星光送过去</div>
       </div>
     `;
     setupBusyHomeControls(state, drawRound);
@@ -1347,13 +1347,12 @@ function renderBusyHome(node, config) {
     arena.querySelectorAll(".busy-blocker").forEach((item) => item.remove());
     state.blockers.forEach((blocker) => {
       const item = document.createElement("span");
-      item.className = "busy-blocker";
-      item.textContent = blocker.icon;
+      item.className = `busy-blocker blocker-${blocker.icon}`;
       item.style.left = `${blocker.x}%`;
       item.style.top = `${blocker.y}%`;
       arena.appendChild(item);
     });
-    meter.textContent = `第 ${state.round + 1} / ${rounds.length} 关 · 剩余 ${remaining} 秒 · 被打断 ${state.hits} 次`;
+    meter.textContent = `第 ${state.round + 1} / ${rounds.length} 关，剩余 ${remaining} 秒，被打断 ${state.hits} 次`;
 
     if (distance(state.player.x, state.player.y, state.target.x, state.target.y) < state.player.size + state.target.size) {
       cleanup();
@@ -1532,7 +1531,7 @@ function renderRichRunner(node, config) {
           <button id="runnerDuckBtn" data-dir="down" type="button" aria-label="低头"></button>
           <button data-runner-dir="right" data-dir="right" type="button" aria-label="向右"></button>
         </div>
-        <div id="richRunnerMeter" class="mini-meter">目标：坚持 ${round.duration || 15} 秒 · 碰撞 0 / ${maxHits}</div>
+        <div id="richRunnerMeter" class="mini-meter">目标：坚持 ${round.duration || 15} 秒，碰撞 0 / ${maxHits}</div>
       </div>
     `;
     const arena = els.modal.querySelector("#richRunnerArena");
@@ -1667,7 +1666,7 @@ function renderRichRunner(node, config) {
       arena.appendChild(el);
     });
     const remaining = Math.max(0, Math.ceil(duration - elapsed));
-    meter.textContent = `目标：坚持 ${duration} 秒 · 剩余 ${remaining} 秒 · 碰撞 ${state.hits} / ${maxHits} · 陪伴 ${state.score}`;
+    meter.textContent = `目标：坚持 ${duration} 秒，剩余 ${remaining} 秒，碰撞 ${state.hits} / ${maxHits}，陪伴 ${state.score}`;
 
     if (elapsed >= duration) {
       state.round += 1;
@@ -1767,12 +1766,12 @@ function miniAngelMarkup() {
 
 function runnerItemMarkup(item) {
   if (item.type === "collect") {
-    return '<span class="runner-item-icon collect-icon" aria-hidden="true">✦</span><span>陪伴</span>';
+    return '<span class="runner-item-icon collect-icon" aria-hidden="true"></span><span>陪伴</span>';
   }
   if (item.kind === "call") {
-    return '<span class="runner-item-icon phone-icon" aria-hidden="true">♪</span><span>电话</span>';
+    return '<span class="runner-item-icon phone-icon" aria-hidden="true"></span><span>电话</span>';
   }
-  return '<span class="runner-item-icon case-icon" aria-hidden="true">!</span><span>会议</span>';
+  return '<span class="runner-item-icon case-icon" aria-hidden="true"></span><span>会议</span>';
 }
 
 function dinoCardArt(card) {
@@ -2101,7 +2100,7 @@ function renderDinoMemory(node, config) {
             `;
           }).join("")}
         </div>
-        <div class="mini-meter">${message} 已配对 ${state.matched.size / 2} / ${cards.length / 2} 组 · 翻蛋 ${state.moves} 次</div>
+        <div class="mini-meter">${message} 已配对 ${state.matched.size / 2} / ${cards.length / 2} 组，翻蛋 ${state.moves} 次</div>
       </div>
     `;
     els.modal.querySelectorAll(".dino-egg").forEach((button) => {
@@ -2192,7 +2191,7 @@ function renderFamilyQuiz(node, config) {
             <button class="family-quiz-option" data-id="${option.id}" type="button">${option.text}</button>
           `).join("")}
         </div>
-        <div class="mini-meter">${message || `第 ${state.index + 1} / ${questions.length} 题 · 选择一个答案`}</div>
+        <div class="mini-meter">${message || `第 ${state.index + 1} / ${questions.length} 题，选择一个答案`}</div>
       </div>
     `;
     els.modal.querySelectorAll(".family-quiz-option").forEach((button) => {
@@ -2304,6 +2303,7 @@ function renderStageVisuals(node) {
     return;
   }
   if (node.photoScene === "birth_gate_transition") {
+    els.screen.classList.add("birth-transition-mode");
     els.stage.innerHTML = `
       <div class="birth-gate-scene" aria-label="心愿之门被强光慢慢打开">
         <div class="birth-gate" aria-hidden="true">
@@ -2399,7 +2399,7 @@ function setupBirthGateTransition() {
       game.birthGate.ready = true;
       game.birthGate.phase = "ready";
       els.stage.querySelector(".birth-gate-scene")?.classList.add("is-ready");
-    }, 3200),
+    }, 5400),
     photoTimer: null
   };
 }
@@ -2429,6 +2429,16 @@ function handleBirthGateAdvance(node) {
     return true;
   }
   if (gate.phase === "photo") return true;
+  if (gate.phase === "done") {
+    gate.phase = "fading";
+    scene.classList.add("fade-out");
+    gate.photoTimer = window.setTimeout(() => {
+      if (!game.birthGate || game.birthGate.nodeId !== game.nodeId || game.birthGate.phase !== "fading") return;
+      if (node.next) showNode(node.next);
+    }, 1900);
+    return true;
+  }
+  if (gate.phase === "fading") return true;
   return false;
 }
 
@@ -2530,8 +2540,8 @@ function renderResourceBar() {
   if (!game.resources) return;
   const visible = Object.entries(game.inventory).filter(([, value]) => value > 0);
   els.resourceBar.innerHTML = visible.length
-    ? visible.map(([key, value]) => `<span><i>✦</i>${game.resources[key].name} ${value}</span>`).join("")
-    : `<span><i>✦</i>星尘 0</span>`;
+    ? visible.map(([key, value]) => `<span><i aria-hidden="true"></i>${game.resources[key].name} ${value}</span>`).join("")
+    : `<span><i aria-hidden="true"></i>星尘 0</span>`;
   const canPractice = game.currentNode?.type === "home_map";
   els.resourceBar.classList.toggle("can-practice", canPractice);
   els.resourceBar.title = canPractice ? "点击收集星尘" : "";
@@ -2685,7 +2695,11 @@ async function startMusic() {
   game.music = true;
   updateMusicButton();
   const fileStarted = await startFileMusic(requestId);
-  if (!fileStarted && isCurrentMusicRequest(requestId)) startSynthMusic(requestId);
+  if (!fileStarted && isCurrentMusicRequest(requestId)) {
+    game.music = false;
+    game.audio = null;
+    updateMusicButton();
+  }
   if (isCurrentMusicRequest(requestId)) game.musicLoading = false;
 }
 
@@ -2828,6 +2842,6 @@ els.resourceBar.addEventListener("keydown", (event) => {
 
 boot().catch((error) => {
   console.error(error);
-  els.stage.innerHTML = `<div class="error">鍔犺浇澶辫触锛?{error.message}</div>`;
+  els.stage.innerHTML = `<div class="error">加载失败：${error.message}</div>`;
 });
 

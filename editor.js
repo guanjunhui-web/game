@@ -1,7 +1,7 @@
 const TEXT_OVERRIDES_KEY = "angel_vn_text_overrides_v1";
 const ADDED_NODES_KEY = "angel_vn_added_nodes_v1";
 const NODE_REWIRES_KEY = "angel_vn_node_rewires_v1";
-const EDITOR_VERSION = "vn119";
+const EDITOR_VERSION = "vn132";
 
 const CANONICAL_CHAPTER_TITLES = {
   "story.nodes.world_001.chapter": "序章 星星图书馆",
