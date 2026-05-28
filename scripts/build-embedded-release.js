@@ -3,9 +3,11 @@ const path = require("path");
 const { execFileSync } = require("child_process");
 
 const root = process.cwd();
-const version = "vn132";
-const outDir = path.join(root, "dist", `embedded-${version}`);
-const zipPath = path.join(root, "dist", `angel-game-embedded-${version}.zip`);
+const version = process.env.RELEASE_VERSION || "vn132";
+const releaseName = process.env.RELEASE_NAME || `embedded-${version}`;
+const inlinePhotos = process.env.INLINE_PHOTOS === "1";
+const outDir = path.join(root, "dist", releaseName);
+const zipPath = path.join(root, "dist", `angel-game-${releaseName}.zip`);
 
 function findFfmpeg() {
   const candidates = [
@@ -84,6 +86,21 @@ function collectJsonData() {
     "data/gacha.json": JSON.parse(readText("data/gacha.json")),
     "data/minigames.json": JSON.parse(readText("data/minigames.json"))
   };
+}
+
+function collectInlineAssets() {
+  const assets = {};
+  if (!inlinePhotos) return assets;
+  const imageDir = path.join(root, "assets", "images");
+  if (!fs.existsSync(imageDir)) return assets;
+  for (const file of walk(imageDir)) {
+    const name = path.basename(file);
+    if (!/^photo-.*\.(jpg|jpeg|png|webp)$/i.test(name)) continue;
+    const key = path.relative(path.join(root, "assets"), file).replace(/\\/g, "/");
+    const data = fs.readFileSync(file).toString("base64");
+    assets[key] = `data:${mimeFor(file)};base64,${data}`;
+  }
+  return assets;
 }
 
 function prepareMusicFile() {
@@ -193,6 +210,7 @@ function copyReleaseAssets() {
     if (!fs.existsSync(sourceDir)) continue;
     for (const file of walk(sourceDir)) {
       if (!pattern.test(file)) continue;
+      if (inlinePhotos && /^photo-.*\.(jpg|jpeg|png|webp)$/i.test(path.basename(file))) continue;
       const relative = path.relative(root, file);
       writeBinary(relative, fs.readFileSync(file));
     }
@@ -264,6 +282,7 @@ remove(outDir);
 fs.mkdirSync(outDir, { recursive: true });
 
 const data = collectJsonData();
+const inlineAssets = collectInlineAssets();
 copyReleaseAssets();
 copyPwaIcons();
 const fontsSubset = subsetReleaseFonts(data);
@@ -271,7 +290,7 @@ const musicFile = prepareMusicFile();
 
 writeText("index.html", buildHtml());
 writeText("styles.css", buildCss());
-writeText("app.js", buildApp(data, {}, musicFile));
+writeText("app.js", buildApp(data, inlineAssets, musicFile));
 writeText("service-worker.js", buildServiceWorker());
 writeText("manifest.webmanifest", JSON.stringify({
   name: data["data/story.json"].nodes.title.title,
@@ -359,6 +378,8 @@ console.log(JSON.stringify({
   outDir,
   zipPath,
   jsonFiles: Object.keys(data).length,
+  inlinePhotos,
+  inlineAssetFiles: Object.keys(inlineAssets).length,
   fontsSubset,
   releaseFiles: walk(outDir).length,
   audioFiles: fs.existsSync(path.join(outDir, "assets", "audio"))
